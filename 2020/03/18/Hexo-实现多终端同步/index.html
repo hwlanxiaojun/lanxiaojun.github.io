@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Hexo 实现多终端同步</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/03/17/hello-world/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/18/Hexo-%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/&title=Hexo 实现多终端同步" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/18/Hexo-%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/&title=Hexo 实现多终端同步" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/18/Hexo-%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/&text=Hexo 实现多终端同步" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hexo 实现多终端同步&body=Check out this article: http://yoursite.com/2020/03/18/Hexo-%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#相关概念"><span class="toc-number">1.1.</span> <span class="toc-text">相关概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方案原理分析"><span class="toc-number">1.2.</span> <span class="toc-text">方案原理分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.3.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#补充内容"><span class="toc-number">1.4.</span> <span class="toc-text">补充内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文章中插入图片"><span class="toc-number">1.4.1.</span> <span class="toc-text">文章中插入图片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文章加密"><span class="toc-number">1.4.2.</span> <span class="toc-text">文章加密</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Hexo 实现多终端同步
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-17T16:34:25.000Z" itemprop="datePublished">2020-03-18</time>
+        
+        (Updated: <time datetime="2020-03-17T17:21:51.754Z" itemprop="dateModified">2020-03-18</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Hexo/" rel="tag">Hexo</a>, <a class="tag-link" href="/tags/%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5/" rel="tag">多端同步</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前习惯使用学校机房写笔记，又不舍得放下自己电脑的笔记，查阅了网上资料后，就有了这一篇文章</p>
+<p>博客主题采用了修改版本cactus主题：<a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank" rel="noopener">https://github.com/xuthus5/hexo-theme-cactus</a></p>
+<h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><p>hexo项目的目录结构如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">HEXO</span><br><span class="line">├──.deploy_git/</span><br><span class="line">├──node_modules/</span><br><span class="line">├──public/</span><br><span class="line">├──scaffolds/</span><br><span class="line">├──<span class="built_in">source</span>/</span><br><span class="line">├──themes/</span><br><span class="line">├──_config.yml</span><br><span class="line">├──.gitignore</span><br><span class="line">├──db.json</span><br><span class="line">├──debug.log</span><br><span class="line">└──package.json</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其中.deploy_git、public两个文件夹下存放的是博客文章的静态页面，通过对比github上博客仓库的master分支可以看到master分支下面的文件结构和.deploy_git文件夹下的文件是一致的，这个应该可以判断通过hexo g -d发布到github的内容就是.deploy_git文件夹下面的文件。其余的文件夹和文件即是Hexo的主题文件、原始的博客文件等，刚在上文提到的hexo分支，存的即时这些文件。</p>
+</blockquote>
+<h3 id="方案原理分析"><a href="#方案原理分析" class="headerlink" title="方案原理分析"></a>方案原理分析</h3><blockquote>
+<p>方案主要是通过维护两条git分支来实现，第一个分支是gihub上默认的master分支，用于存放发布的博文的静态页面；另外再新建一个分支，比如命名为hexo，通过此分支存放主题、原始的博客文件等等，这些文件才是不同电脑需要同步的文件；当每次修改主题或者新增博文后，先将修改的主题文件（在themes文件夹下）或者新增博客（在source文件夹下），同步到远程的hexo分支，然后在通过hexo g -d命令发布博文，也就是将新增的博文的静态页面同步到master分支。这样通过不同的分支管理不同的文件，实现了多台电脑同步更新博文的功能。</p>
+</blockquote>
+<p>技术方案如下：</p>
+<p><img src="/2020/03/18/Hexo-%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/1.png" alt></p>
+<h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><ul>
+<li><p>创建分支（在github上操作）</p>
+<p><strong>在Github远程创建 hexo branch</strong>，并将新的<strong>hexo</strong> branch <strong>设置成 Default branch</strong>，替代原本的默认分支: master branch</p>
+</li>
+<li><p>初始化分支（PC1上面操作）</p>
+<ul>
+<li>github上切换到hexo分支，<code>git clone</code>仓库到本地。</li>
+<li>此时本地会多出一个<code>username.github.io</code>文件夹，命令行<code>cd</code>进去，删除除<code>.git</code>文件夹（如果你看不到这个文件夹，说明是隐藏了。4</li>
+<li>命令行<code>git add -A</code>把工作区的变化（包括已删除的文件）提交到暂存区（ps:<code>git add .</code>提交的变化不包括已删除的文件）。</li>
+<li>命令行<code>git commint -m &quot;some description&quot;</code>提交。</li>
+<li>命令行<code>git push origin hexo</code>推送到远程hexo分支。此时刷下github，如果正常操作，hexo分支应该已经被清空了。</li>
+<li>复制本地<code>username.github.io</code>文件夹中的<code>.git</code>文件夹到hexo项目根目录下。此时，hexo项目已经变成了和远程hexo分支关联的本地仓库了。而<code>username.github.io</code>文件夹的使命到此为止，你可以把它删掉，因为我们只是把它作为一个“中转站”的角色。以后每次发布新文章或修改网站样式文件时，<code>git add . &amp; git commit -m &quot;some description&quot; &amp; git push origin hexo -f</code>即可把环境文件推送到hexo分支。然后再<code>hexo g -d</code>发布网站并推送静态文件到master分支。</li>
+</ul>
+</li>
+<li><p>同步分支（PC2上面操作）</p>
+<ul>
+<li>安装hexo：<code>npm install -g hexo-cli</code></li>
+<li>clone远程仓库到本地 <code>git clone git@github.com:username/username.github.io.git</code></li>
+<li>根据<code>packge.json</code>安装依赖<code>npm install &amp;&amp; npm install hexo-deployer-git</code></li>
+<li>此时通过命令git g、git s即可在本地开启同步下来的博客静态页面，并通过 <a href="https://links.jianshu.com/go?to=http%3A%2F%2Flocalhost%3A4000%2F" target="_blank" rel="noopener">http://localhost:4000/</a> 访问</li>
+</ul>
+</li>
+<li><p>发布博文（PC1或者PC2）</p>
+<ul>
+<li><code>git pull</code>从远程hexo分支拉取最新的环境文件到本地，可以理解为svn的更新操作。比如在公司写了博客，回家在电脑上也要写需要先执行这一步操作。</li>
+<li>文章写完，要发布时，需要先提交环境文件，再发布文章。按以下顺序执行命令<code>it add . &amp; git commit -m &quot;some description&quot; &amp; git push origin hexo -f</code>,最后执行<code>hexo g -d</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="补充内容"><a href="#补充内容" class="headerlink" title="补充内容"></a>补充内容</h3><h4 id="文章中插入图片"><a href="#文章中插入图片" class="headerlink" title="文章中插入图片"></a>文章中插入图片</h4><ol>
+<li>设置站点配置<code>_config.yml:</code>将<code>post_asset_folder: false</code>改为<code>post_asset_folder: true</code></li>
+<li>安装插件:<code>npm install https://github.com/CodeFalling/hexo-asset-image -- save</code></li>
+<li>运行<code>hexo n &quot;XXXXXX&quot;</code>,生成XXXXX.md博文时就会在<code>/source/_posts</code>目录下生成XXXXXX的文件夹，将你想在XXXXX博文中插入的照片放置到这个同名文件夹中即可，图片的命名随意。</li>
+<li>添加图片:在想添加的位置写入<code>![](图片名字.图片格式)</code>,例如<code>![](1.png)</code></li>
+</ol>
+<h4 id="文章加密"><a href="#文章加密" class="headerlink" title="文章加密"></a>文章加密</h4><ol>
+<li>安装<code>npm install --save hexo-blog-encrypt</code></li>
+<li>首先在 <strong>站点配置文件</strong> 中启用该插件:</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">encrypt:</span><br><span class="line">    <span class="built_in">enable</span>: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>然后在你的文章的头部添加上对应的字段，如 password, abstract, message</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">---</span></span><br><span class="line"><span class="selector-tag">title</span>: 文章加密</span><br><span class="line"><span class="selector-tag">date</span>: 2019<span class="selector-tag">-01-04T22</span><span class="selector-pseudo">:20</span><span class="selector-pseudo">:13.000Z</span></span><br><span class="line"><span class="selector-tag">category</span>: 教程</span><br><span class="line"><span class="selector-tag">tags</span>:</span><br><span class="line">  <span class="selector-tag">-</span> 博客</span><br><span class="line">  <span class="selector-tag">-</span> <span class="selector-tag">Hexo</span></span><br><span class="line"><span class="selector-tag">keywords</span>: 博客文章密码</span><br><span class="line"><span class="selector-tag">password</span>: <span class="selector-tag">TloveY</span></span><br><span class="line"><span class="selector-tag">abstract</span>: 密码：<span class="selector-tag">TloveY</span></span><br><span class="line"><span class="selector-tag">message</span>:  输入密码，查看文章</span><br><span class="line"><span class="selector-tag">---</span></span><br></pre></td></tr></table></figure>
+
+<p>参考资料</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/Fitz1318/article/details/86548129" target="_blank" rel="noopener">https://blog.csdn.net/Fitz1318/article/details/86548129</a></p>
+<p><a href="https://www.jianshu.com/p/44e211829447" target="_blank" rel="noopener">https://www.jianshu.com/p/44e211829447</a></p>
+<p><a href="https://www.jianshu.com/p/fceaf373d797" target="_blank" rel="noopener">https://www.jianshu.com/p/fceaf373d797</a></p>
+<p><a href="https://www.dazhuanlan.com/2019/11/16/5dd00ffcb4f27/" target="_blank" rel="noopener">https://www.dazhuanlan.com/2019/11/16/5dd00ffcb4f27/</a></p>
+<p><a href="https://www.jianshu.com/p/937bda9123da" target="_blank" rel="noopener">https://www.jianshu.com/p/937bda9123da</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#相关概念"><span class="toc-number">1.1.</span> <span class="toc-text">相关概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方案原理分析"><span class="toc-number">1.2.</span> <span class="toc-text">方案原理分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现步骤"><span class="toc-number">1.3.</span> <span class="toc-text">实现步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#补充内容"><span class="toc-number">1.4.</span> <span class="toc-text">补充内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文章中插入图片"><span class="toc-number">1.4.1.</span> <span class="toc-text">文章中插入图片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文章加密"><span class="toc-number">1.4.2.</span> <span class="toc-text">文章加密</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/18/Hexo-%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/&title=Hexo 实现多终端同步" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/18/Hexo-%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/&title=Hexo 实现多终端同步" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/18/Hexo-%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/&text=Hexo 实现多终端同步" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hexo 实现多终端同步&body=Check out this article: http://yoursite.com/2020/03/18/Hexo-%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BB%88%E7%AB%AF%E5%90%8C%E6%AD%A5/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
