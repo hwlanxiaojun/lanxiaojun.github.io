@@ -4,6 +4,38 @@
   
     
     <entry>
+      <title>Git配置代理</title>
+      <link href="/2020/03/19/Git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/"/>
+      <url>/2020/03/19/Git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/</url>
+      
+        <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>由于本地git clone下载速度慢，配置一下git代理后，速度下载快了很多。</p><h3 id="步骤过程"><a href="#步骤过程" class="headerlink" title="步骤过程"></a>步骤过程</h3><ol><li>本地代理工具的端口是10808，在 <code>Git</code> 命令行输入以下配置全局代理：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//127.0.0.1指的是本地，10808指的是代理工具设置的端口</span><br><span class="line">git config --global http.proxy socks5://127.0.0.1:10808</span><br></pre></td></tr></table></figure><ol start="2"><li>使用以下命令查看是否配置好</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global -e</span><br></pre></td></tr></table></figure><p>打开后有如图所示，即配置成功。</p><p><img src="/2020/03/19/Git%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86/image-20200319101136987.png" alt></p><ol start="3"><li>取消代理使用命令</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> git代理 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>BUUOJ-web刷题（二）</title>
+      <link href="/2020/03/18/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
+      <url>/2020/03/18/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>BUUOJ-web刷题（一）</title>
       <link href="/2020/03/18/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%B8%80%EF%BC%89/"/>
       <url>/2020/03/18/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%B8%80%EF%BC%89/</url>
