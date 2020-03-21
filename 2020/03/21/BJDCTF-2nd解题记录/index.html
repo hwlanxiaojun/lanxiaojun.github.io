@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>BJDCTF-2nd解题记录</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/20/ROP-Ret2Syscall%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/&title=BJDCTF-2nd解题记录" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/&title=BJDCTF-2nd解题记录" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/&text=BJDCTF-2nd解题记录" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=BJDCTF-2nd解题记录&body=Check out this article: http://yoursite.com/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Crypto"><span class="toc-number">1.</span> <span class="toc-text">Crypto</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-签到"><span class="toc-number">1.1.</span> <span class="toc-text">0x 01 签到</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-燕言燕语"><span class="toc-number">1.2.</span> <span class="toc-text">0x 02 燕言燕语</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-Y1nglish"><span class="toc-number">1.3.</span> <span class="toc-text">0x 03 Y1nglish</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-04-老文盲了"><span class="toc-number">1.4.</span> <span class="toc-text">0x 04 老文盲了</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-05-cat-flag"><span class="toc-number">1.5.</span> <span class="toc-text">0x 05 cat_flag</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-06-灵能精通"><span class="toc-number">1.6.</span> <span class="toc-text">0x 06 灵能精通</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MISC"><span class="toc-number">2.</span> <span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-Real-EasyBaBa"><span class="toc-number">2.1.</span> <span class="toc-text">0x 01 Real_EasyBaBa</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-最简单的misc"><span class="toc-number">2.2.</span> <span class="toc-text">0x 02 最简单的misc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-A-Beautiful-Picture"><span class="toc-number">2.3.</span> <span class="toc-text">0x 03 A_Beautiful_Picture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-04-圣火昭昭"><span class="toc-number">2.4.</span> <span class="toc-text">0x 04 圣火昭昭</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-05-TARGZ"><span class="toc-number">2.5.</span> <span class="toc-text">0x 05 TARGZ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-06-miku"><span class="toc-number">2.6.</span> <span class="toc-text">0x 06 miku</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WEB"><span class="toc-number">3.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-fake-google"><span class="toc-number">3.1.</span> <span class="toc-text">0x 01 fake google</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-old-hack"><span class="toc-number">3.2.</span> <span class="toc-text">0x 02 old-hack</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03"><span class="toc-number">3.3.</span> <span class="toc-text">0x 03</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        BJDCTF-2nd解题记录
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-21T03:00:28.000Z" itemprop="datePublished">2020-03-21</time>
+        
+        (Updated: <time datetime="2020-03-21T13:13:38.807Z" itemprop="dateModified">2020-03-21</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h3><h4 id="0x-01-签到"><a href="#0x-01-签到" class="headerlink" title="0x 01 签到"></a>0x 01 签到</h4><p>base64解码，得到flag：<code>BJD{W3lc0me_T0_BJDCTF}</code></p>
+<h4 id="0x-02-燕言燕语"><a href="#0x-02-燕言燕语" class="headerlink" title="0x 02 燕言燕语"></a>0x 02 燕言燕语</h4><p>十六进制ascii解码得到<code>yanzi ZJQ{xilzv_iqssuhoc_suzjg}</code>,有秘钥和密文，使用维吉尼亚解密得到flag：<code>BJD{yanzi_jiushige_shabi}</code></p>
+<h4 id="0x-03-Y1nglish"><a href="#0x-03-Y1nglish" class="headerlink" title="0x 03 Y1nglish"></a>0x 03 Y1nglish</h4><p>BJD{pyth0n_Brut3_f0rc3_oR_quipquip_AI_Cr4ck}</p>
+<h4 id="0x-04-老文盲了"><a href="#0x-04-老文盲了" class="headerlink" title="0x 04 老文盲了"></a>0x 04 老文盲了</h4><p>前三个读音谐音是bjd,加上括号得到flag:<code>BJD{淛匶襫黼瀬鎶軄鶛驕鳓哵}</code></p>
+<h4 id="0x-05-cat-flag"><a href="#0x-05-cat-flag" class="headerlink" title="0x 05 cat_flag"></a>0x 05 cat_flag</h4><p><code>BJD{M!a0~}</code></p>
+<h4 id="0x-06-灵能精通"><a href="#0x-06-灵能精通" class="headerlink" title="0x 06 灵能精通"></a>0x 06 灵能精通</h4><p><code>flag{imknightstemplar}</code></p>
+<h3 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h3><h4 id="0x-01-Real-EasyBaBa"><a href="#0x-01-Real-EasyBaBa" class="headerlink" title="0x 01 Real_EasyBaBa"></a>0x 01 Real_EasyBaBa</h4><p>使用十六进制打开，图形化flag：<code>BJD{572154976}</code></p>
+<p><img src="/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/image-20200321111737691.png" alt></p>
+<h4 id="0x-02-最简单的misc"><a href="#0x-02-最简单的misc" class="headerlink" title="0x 02 最简单的misc"></a>0x 02 最简单的misc</h4><p><code>BJD{y1ngzuishuai}</code></p>
+<h4 id="0x-03-A-Beautiful-Picture"><a href="#0x-03-A-Beautiful-Picture" class="headerlink" title="0x 03 A_Beautiful_Picture"></a>0x 03 A_Beautiful_Picture</h4><p><code>BJD{PnG_He1ghT_1s_WR0ng}</code></p>
+<h4 id="0x-04-圣火昭昭"><a href="#0x-04-圣火昭昭" class="headerlink" title="0x 04 圣火昭昭"></a>0x 04 圣火昭昭</h4><p><img src="/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/image-20200321120107247.png" alt></p>
+<p>提示新佛曰，使用<a href="http://hi.pcmoe.net/buddha.html解密，得到gemlovecom" target="_blank" rel="noopener">http://hi.pcmoe.net/buddha.html解密，得到gemlovecom</a></p>
+<p>根据题目提示猜测是outguess隐写，使用相应打的解密工具解密得到</p>
+<p><img src="/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/image-20200321130141007.png" alt></p>
+<p>BJD{wdnmd_misc_1s_so_Fuck1ng_e@sy}</p>
+<h4 id="0x-05-TARGZ"><a href="#0x-05-TARGZ" class="headerlink" title="0x 05 TARGZ"></a>0x 05 TARGZ</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-    </span><br><span class="line">import os</span><br><span class="line">key &#x3D; &quot;&quot;</span><br><span class="line">filename &#x3D; &quot;&quot;</span><br><span class="line">while True:</span><br><span class="line">	datanames &#x3D; os.listdir(&quot;.&#x2F;&quot;)</span><br><span class="line">	for dataname in datanames:</span><br><span class="line">	    if dataname.find(&quot;.tar.gz&quot;)!&#x3D;-1:</span><br><span class="line">		key &#x3D; dataname.replace(&quot;.tar.gz&quot;,&quot;&quot;)</span><br><span class="line">		filename &#x3D; dataname</span><br><span class="line">		uncmd &#x3D; &quot;unzip -q -P &quot; + key + &quot; &quot; + filename</span><br><span class="line">		os.system(uncmd)</span><br><span class="line">		rmcmd &#x3D; &quot;rm -f &quot; + filename</span><br><span class="line">		os.system(rmcmd)</span><br></pre></td></tr></table></figure>
+
+<p>文件名是解压密码，写了一个python脚本一直解压就行了，最后flag是<code>BJD{wow_you_can_rea11y_dance}</code></p>
+<h4 id="0x-06-miku"><a href="#0x-06-miku" class="headerlink" title="0x 06 miku"></a>0x 06 miku</h4><p><code>BJD{MIKUTAP3313313}</code></p>
+<h3 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h3><h4 id="0x-01-fake-google"><a href="#0x-01-fake-google" class="headerlink" title="0x 01 fake google"></a>0x 01 fake google</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;().__class__.__mro__[-1]&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;().__class__.__mro__[-1].__subclasses__()&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;().__class__.__mro__[-1].__subclasses__()[169]&#125;&#125;</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;blog.csdn.net&#x2F;u011377996&#x2F;article&#x2F;details&#x2F;86776181</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://github.com/epinna/tplmap" target="_blank" rel="noopener">https://github.com/epinna/tplmap</a>  ssti一把梭。。。</p>
+<p><img src="/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/image-20200321211250734.png" alt></p>
+<h4 id="0x-02-old-hack"><a href="#0x-02-old-hack" class="headerlink" title="0x 02 old-hack"></a>0x 02 old-hack</h4><p>使用TP-SCan一把梭，发现是tp5rce</p>
+<h4 id="0x-03"><a href="#0x-03" class="headerlink" title="0x 03"></a>0x 03</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;give me a girl&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;center&gt;&lt;h1&gt;珍爱网&lt;&#x2F;h1&gt;&lt;&#x2F;center&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">echo &quot;how can i give you source code? .swp?!&quot;.&quot;&lt;br&gt;&quot;;</span><br><span class="line">if (!isset($_POST[&#39;girl_friend&#39;])) &#123;</span><br><span class="line">    die(&quot;where is P3rh4ps&#39;s girl friend ???&quot;);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    $girl &#x3D; $_POST[&#39;girl_friend&#39;];</span><br><span class="line">    if (preg_match(&#39;&#x2F;\&gt;|\\\&#x2F;&#39;, $girl)) &#123;</span><br><span class="line">        die(&#39;just girl&#39;);</span><br><span class="line">    &#125; else if (preg_match(&#39;&#x2F;ls|phpinfo|cat|\%|\^|\~|base64|xxd|echo|\$&#x2F;i&#39;, $girl)) &#123;</span><br><span class="line">        echo &quot;&lt;img src&#x3D;&#39;img&#x2F;p3_need_beautiful_gf.png&#39;&gt; &lt;!-- He is p3 --&gt;&quot;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        &#x2F;&#x2F;duangShell~~~~</span><br><span class="line">        exec($girl);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Crypto"><span class="toc-number">1.</span> <span class="toc-text">Crypto</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-签到"><span class="toc-number">1.1.</span> <span class="toc-text">0x 01 签到</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-燕言燕语"><span class="toc-number">1.2.</span> <span class="toc-text">0x 02 燕言燕语</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-Y1nglish"><span class="toc-number">1.3.</span> <span class="toc-text">0x 03 Y1nglish</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-04-老文盲了"><span class="toc-number">1.4.</span> <span class="toc-text">0x 04 老文盲了</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-05-cat-flag"><span class="toc-number">1.5.</span> <span class="toc-text">0x 05 cat_flag</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-06-灵能精通"><span class="toc-number">1.6.</span> <span class="toc-text">0x 06 灵能精通</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MISC"><span class="toc-number">2.</span> <span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-Real-EasyBaBa"><span class="toc-number">2.1.</span> <span class="toc-text">0x 01 Real_EasyBaBa</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-最简单的misc"><span class="toc-number">2.2.</span> <span class="toc-text">0x 02 最简单的misc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-A-Beautiful-Picture"><span class="toc-number">2.3.</span> <span class="toc-text">0x 03 A_Beautiful_Picture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-04-圣火昭昭"><span class="toc-number">2.4.</span> <span class="toc-text">0x 04 圣火昭昭</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-05-TARGZ"><span class="toc-number">2.5.</span> <span class="toc-text">0x 05 TARGZ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-06-miku"><span class="toc-number">2.6.</span> <span class="toc-text">0x 06 miku</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WEB"><span class="toc-number">3.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-fake-google"><span class="toc-number">3.1.</span> <span class="toc-text">0x 01 fake google</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-old-hack"><span class="toc-number">3.2.</span> <span class="toc-text">0x 02 old-hack</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03"><span class="toc-number">3.3.</span> <span class="toc-text">0x 03</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/&title=BJDCTF-2nd解题记录" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/&title=BJDCTF-2nd解题记录" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/&text=BJDCTF-2nd解题记录" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=BJDCTF-2nd解题记录&body=Check out this article: http://yoursite.com/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>

