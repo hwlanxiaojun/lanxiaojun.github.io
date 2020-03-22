@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>docker学习笔记</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/22/dockerfile%E7%BC%96%E5%86%99%E5%AD%A6%E4%B9%A0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/22/MySQL%E6%97%A0%E5%88%97%E5%90%8D%E6%B3%A8%E5%85%A5/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=docker学习笔记" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=docker学习笔记" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=docker学习笔记" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=docker学习笔记&body=Check out this article: http://yoursite.com/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker简介"><span class="toc-number">1.</span> <span class="toc-text">docker简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#镜像和容器"><span class="toc-number">2.</span> <span class="toc-text">镜像和容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker的使用"><span class="toc-number">3.</span> <span class="toc-text">Docker的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#启动和放入启动项"><span class="toc-number">3.1.</span> <span class="toc-text">启动和放入启动项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#image相关操作"><span class="toc-number">3.2.</span> <span class="toc-text">image相关操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#容器相关操作"><span class="toc-number">3.3.</span> <span class="toc-text">容器相关操作</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        docker学习笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-22T07:43:39.000Z" itemprop="datePublished">2020-03-22</time>
+        
+        (Updated: <time datetime="2020-03-22T08:07:52.562Z" itemprop="dateModified">2020-03-22</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/docker/" rel="tag">docker</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="docker简介"><a href="#docker简介" class="headerlink" title="docker简介"></a>docker简介</h3><ul>
+<li>Docker是一个新的容器化的技术，容器有效的将单个操作系统管理的资源划分到孤立的组中，以便更好的在孤立的组之间平衡有冲突的资源使用需求。</li>
+<li>Docker 容器本质上是宿主机上的一个进程。Docker 通过 namespace 实现了资源隔离，通过 cgroups 实现了资源的限制，通过写时复制机制（copy-on-write）实现了高效的文件操作。 </li>
+<li>Docker有五个命名空间：进程、网络、挂载、宿主和共享内存，为了隔离有问题的应用，Docker运用Namespace将进程隔离，为进程或进程组创建已隔离的运行空间，为进程提供不同的命名空间视图。这样，每一个隔离出来的进程组，对外就表现为一个container(容器)。</li>
+</ul>
+<h3 id="镜像和容器"><a href="#镜像和容器" class="headerlink" title="镜像和容器"></a>镜像和容器</h3><ul>
+<li><p>Image: 镜像是一种轻量级、可执行的独立软件包，它包含运行某个软件所需的所有内容，包括代码、运行时、库、环境变量和配置文件。</p>
+</li>
+<li><p>Container:容器是镜像的运行时实例 - 实际执行时镜像会在内存中变成什么。默认情况下，它完全独立于主机环境运行，仅在配置为访问主机文件和端口的情况下才执行此操作。</p>
+</li>
+<li><p><code>容器 = 镜像 + 读写层</code></p>
+<p>容器可以获取本机访问，每个容器都在独立进程中运行，占用的内存不超过任何其他可执行文件。</p>
+</li>
+</ul>
+<p><img src="/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200322154938724.png" alt="image-20200322154938724"></p>
+<p><img src="/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20200322155027373.png" alt="image-20200322155027373"></p>
+<h3 id="Docker的使用"><a href="#Docker的使用" class="headerlink" title="Docker的使用"></a>Docker的使用</h3><h4 id="启动和放入启动项"><a href="#启动和放入启动项" class="headerlink" title="启动和放入启动项"></a>启动和放入启动项</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#centos7.0版本</span><br><span class="line">systemctl start docker </span><br><span class="line">systemctl enable docker</span><br><span class="line"></span><br><span class="line">#兼容老版本</span><br><span class="line">service docker start</span><br><span class="line">chkconfig docker on</span><br></pre></td></tr></table></figure>
+
+<h4 id="image相关操作"><a href="#image相关操作" class="headerlink" title="image相关操作"></a>image相关操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">docker search [镜像]      #搜索镜像</span><br><span class="line">docker pull [镜像]        #下载镜像</span><br><span class="line">docker run -p 4000:80 username&#x2F;repository:tag #从远程镜像仓库中拉取并运行镜像</span><br><span class="line"></span><br><span class="line">sudo docker pull ubuntu:12.04 等同于</span><br><span class="line">docker pull registry.hub.docker.com&#x2F;ubuntu:12.04 </span><br><span class="line"></span><br><span class="line">docker push [镜像]            #发布镜像</span><br><span class="line">docker rmi [镜像]             #删除镜像</span><br><span class="line">docker images                 #查看本地镜像(列目录)</span><br><span class="line">docker images    -q           #只显示镜像ID</span><br><span class="line">docker history [镜像]         #历史镜像</span><br><span class="line">docker tag [镜像] username&#x2F;repository:tag #标记镜像</span><br><span class="line"></span><br><span class="line">docker rmi $(docker images -q)      #删除所有停止的镜像</span><br><span class="line">docker rmi -f $(docker images -q)   #强制删除所有的镜像</span><br></pre></td></tr></table></figure>
+
+<h4 id="容器相关操作"><a href="#容器相关操作" class="headerlink" title="容器相关操作"></a>容器相关操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#创建容器</span><br><span class="line">docker run [镜像] &#x2F;bin&#x2F;echo hello world       #输出hello world</span><br><span class="line">docker run -i -t [镜像] &#x2F;bin&#x2F;bash             #交互式进入容器 #-i: 以交互模式运行容器  -t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</span><br><span class="line">docker run [镜像]  apt-get install -y app_name    #在容器安装新的程序</span><br><span class="line"></span><br><span class="line">docker exec -it kali &#x2F;bin&#x2F;bash          #进入容器</span><br><span class="line">docker run -it -d kali                  #启动容器，后台运行 #-d: 后台运行容器，并返回容器ID；</span><br><span class="line">docker run -it -p 53:53 kali            #启动容器的时候可以映射端口 #-p: 端口映射，格式为：主机(宿主)端口:容器端口</span><br><span class="line"></span><br><span class="line">#进入交互式界面</span><br><span class="line">进入容器：</span><br><span class="line">sudo docker ps -a</span><br><span class="line">sudo docker exec -it [容器ID] &#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">#查看容器</span><br><span class="line">docker ps                   #列出当前运行的容器</span><br><span class="line">docker ps -a                #列出所有的容器</span><br><span class="line">docker ps -l                #列出最近一次启动的容器</span><br><span class="line">docker ps -a -q             #查看所有的容器ID</span><br><span class="line"></span><br><span class="line">#容器操作</span><br><span class="line">docker inspect [容器名字]&#x2F;ID        #显示容器信息</span><br><span class="line">docker start [容器名字]&#x2F;ID      #启动容器</span><br><span class="line">docker stop [容器名字]&#x2F;ID       #停止容器</span><br><span class="line">docker kill [容器名字]&#x2F;ID       #杀死容器</span><br><span class="line">docker restart [容器名字]&#x2F;ID        #重新启动容器</span><br><span class="line">docker attach [容器名字]&#x2F;ID     #进入容器</span><br><span class="line">docker logs [容器名字]&#x2F;ID       #查看容器日志</span><br><span class="line">docker diff [容器名字]&#x2F;ID       #查看容器修改操作</span><br><span class="line">docker top [容器名字]&#x2F;ID            #显示容器进程信息</span><br><span class="line">docker cp ID:&#x2F;path to_path      #从容器中拷贝数据到本地</span><br><span class="line">docker cp [容器名字]:&#x2F;path to_path  #从容器中拷贝数据到本地</span><br><span class="line"></span><br><span class="line">#删除容器</span><br><span class="line">docker rm [容器]&#x2F;ID       #删除容器</span><br><span class="line">docker rm $(docker ps -a -q)    #删除所有停止的容器</span><br><span class="line">docker rm -f $(docker ps -a -q) #强制删除所有的容器</span><br></pre></td></tr></table></figure>
+
+<p>参考链接：</p>
+<blockquote>
+<p><a href="https://www.smi1e.top/docker-%e7%ac%94%e8%ae%b0/" target="_blank" rel="noopener">https://www.smi1e.top/docker-%e7%ac%94%e8%ae%b0/</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker简介"><span class="toc-number">1.</span> <span class="toc-text">docker简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#镜像和容器"><span class="toc-number">2.</span> <span class="toc-text">镜像和容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker的使用"><span class="toc-number">3.</span> <span class="toc-text">Docker的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#启动和放入启动项"><span class="toc-number">3.1.</span> <span class="toc-text">启动和放入启动项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#image相关操作"><span class="toc-number">3.2.</span> <span class="toc-text">image相关操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#容器相关操作"><span class="toc-number">3.3.</span> <span class="toc-text">容器相关操作</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=docker学习笔记" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&title=docker学习笔记" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/&text=docker学习笔记" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=docker学习笔记&body=Check out this article: http://yoursite.com/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>

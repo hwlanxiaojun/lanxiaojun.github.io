@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>dockerfile编写学习</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/03/22/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/22/dockerfile%E7%BC%96%E5%86%99%E5%AD%A6%E4%B9%A0/&title=dockerfile编写学习" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/22/dockerfile%E7%BC%96%E5%86%99%E5%AD%A6%E4%B9%A0/&title=dockerfile编写学习" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/22/dockerfile%E7%BC%96%E5%86%99%E5%AD%A6%E4%B9%A0/&text=dockerfile编写学习" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=dockerfile编写学习&body=Check out this article: http://yoursite.com/2020/03/22/dockerfile%E7%BC%96%E5%86%99%E5%AD%A6%E4%B9%A0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-前言"><span class="toc-number">1.</span> <span class="toc-text">0x 01 前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-Dockerfile-常用参数"><span class="toc-number">2.</span> <span class="toc-text">0x 02 Dockerfile 常用参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#FROM"><span class="toc-number">2.1.</span> <span class="toc-text">FROM</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RUN"><span class="toc-number">3.</span> <span class="toc-text">RUN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#COPY"><span class="toc-number">3.1.</span> <span class="toc-text">COPY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CMD"><span class="toc-number">3.2.</span> <span class="toc-text">CMD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#EXPOSE"><span class="toc-number">3.3.</span> <span class="toc-text">EXPOSE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WORKDIR"><span class="toc-number">3.4.</span> <span class="toc-text">WORKDIR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LABEL"><span class="toc-number">3.5.</span> <span class="toc-text">LABEL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ENV"><span class="toc-number">3.6.</span> <span class="toc-text">ENV</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-构建镜像"><span class="toc-number">4.</span> <span class="toc-text">0x 03 构建镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-04-动态flag编写"><span class="toc-number">4.1.</span> <span class="toc-text">0x 04 动态flag编写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文件"><span class="toc-number">4.2.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#readflag"><span class="toc-number">4.3.</span> <span class="toc-text">readflag</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库"><span class="toc-number">4.4.</span> <span class="toc-text">数据库</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-打包镜像到Docker-Hub"><span class="toc-number">5.</span> <span class="toc-text">0x 05 打包镜像到Docker Hub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-ctfd平台部署"><span class="toc-number">6.</span> <span class="toc-text">0x 06 ctfd平台部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-docker-compose"><span class="toc-number">7.</span> <span class="toc-text">0x 07 docker-compose</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        dockerfile编写学习
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-22T08:25:07.000Z" itemprop="datePublished">2020-03-22</time>
+        
+        (Updated: <time datetime="2020-03-22T14:47:34.344Z" itemprop="dateModified">2020-03-22</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/dockerfile%E7%BC%96%E5%86%99/" rel="tag">dockerfile编写</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="0x-01-前言"><a href="#0x-01-前言" class="headerlink" title="0x 01 前言"></a>0x 01 前言</h3><p>​        镜像的定制实际上就是定制每一层所添加的配置文件，如果我们可以把每一层的修改、安装、构建、操作的命令都写入一个脚本，然后用这个脚本来构建、定制镜像，那么镜像构建透明性的问题、体积的问题就会得到解决，这个脚本就是 Dockerfile; Dockerfile  是一个文本文件，其内包含了一条条的指令，每一条指令构建一层，每一层指令的内容，就是描述该层应该如何构建，然后通过 commit 构成新的镜像。</p>
+<h3 id="0x-02-Dockerfile-常用参数"><a href="#0x-02-Dockerfile-常用参数" class="headerlink" title="0x 02 Dockerfile 常用参数"></a>0x 02 Dockerfile 常用参数</h3><h4 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h4><p>FROM：指定基础镜像，必须是第一条指令,格式为<code>FROM image</code>或<code>FROM image:tag</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 定制 nginx 镜像的 Dockerfile</span><br><span class="line"></span><br><span class="line">FROM nginx</span><br><span class="line">RUN echo &#39;&lt;h1&gt;Hello,Docker!&lt;&#x2F;h1&gt;&#39; &gt; &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html&#x2F;index.html</span><br></pre></td></tr></table></figure>
+
+<p>注： Docker Hub 上有很多高质量的服务类的官方镜像可以拿来直接使用，比如：nginx 、redis 、mysql 、php 、mongo \ tomcat 等，可以在其中找最符合的一个进行定制</p>
+<h3 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h3><p>RUN ：用来执行命令行命令，格式有两种：</p>
+<ol>
+<li><p>shell 格式： <code>RUN &lt;命令&gt;</code>，就像直接在命令行中输入的命令一样</p>
+</li>
+<li><p>exec 格式：<code>RUN [&quot;可执行文件&quot;，“参数1”，“参数2”]</code>，更像是函数调用中的格式</p>
+</li>
+</ol>
+<p>warning:每一个RUN命令都会在 docker镜像中新建一层，所以应该尽量少用 RUN 命令，而且要在RUN 的最后要做必要的清除工作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 一层构建，并在最后清理压缩包等缓存文件</span><br><span class="line">FROM debian:stretch</span><br><span class="line"></span><br><span class="line">RUN buildDeps&#x3D;&#39;gcc libc6-dev make wget&#39; \</span><br><span class="line">&amp;&amp; apt-get update \</span><br><span class="line">&amp;&amp; apt-get install -y $buildDeps \</span><br><span class="line">&amp;&amp; wget -O redis.tar.gz &quot;http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-5.0.3.tar.gz&quot; \</span><br><span class="line">&amp;&amp; mkdir -p &#x2F;usr&#x2F;src&#x2F;redis \</span><br><span class="line">&amp;&amp; tar -xzf redis.tar.gz -C &#x2F;usr&#x2F;src&#x2F;redis --strip-components&#x3D;1 \</span><br><span class="line">&amp;&amp; make -C &#x2F;usr&#x2F;src&#x2F;redis \</span><br><span class="line">&amp;&amp; make -C &#x2F;usr&#x2F;src&#x2F;redis install \</span><br><span class="line">&amp;&amp; rm -rf &#x2F;var&#x2F;lib&#x2F;apt&#x2F;lists&#x2F;* \</span><br><span class="line">&amp;&amp; rm redis.tar.gz \</span><br><span class="line">&amp;&amp; rm -r &#x2F;usr&#x2F;src&#x2F;redis \</span><br><span class="line">&amp;&amp; apt-get purge -y --auto-remove $buildDeps</span><br></pre></td></tr></table></figure>
+
+<h4 id="COPY"><a href="#COPY" class="headerlink" title="COPY"></a>COPY</h4><p> COPY : 用来从构建上下文目录中&lt;原路径&gt;的文件/目录复制到新一层镜像内的 &lt;目标路径&gt;位置，格式有两种：</p>
+<p>  1，shell 格式：<code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] &lt;原路径&gt;...&lt;目标路径&gt;</code></p>
+<p>  2，exec 合适：<code>COPY[--chown=&lt;user&gt;:&lt;group&gt;] [&quot;原路径1&quot;，... &quot;&lt;目标路径&gt;&quot;]</code></p>
+<p>原路径：可以是多个，甚至可以是通配符</p>
+<p>目标路径：可以是容器内的绝对路径，也可以是相对于工作目录的相对路径(工作目录可以用 WORKDIR 指令来指定，不需要事先创建，会自动创建)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 利用 通配符 进行复制</span><br><span class="line">COPY hom* &#x2F;mydir&#x2F;</span><br><span class="line">COPY hom?.txt &#x2F;mydir&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>note : COPY 会将原文件的各种数据都保留，比如 读、写、执行权限，可以通过 –chown=<user>:<group> 选项来改变文件的所属用户及所属组。</group></user></p>
+<h4 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CMD [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;], 推荐使用该方式</span><br><span class="line"></span><br><span class="line">CMD [&quot;param1&quot;, &quot;param2&quot;]，为ENTRYPOINT指令提供预设参数</span><br><span class="line"></span><br><span class="line">CMD command param1 param2 在SHELL中执行</span><br></pre></td></tr></table></figure>
+
+<p>CMD指令的主要目的是为执行容器提供默认值，每个Dockerfile只有一个CMD命令，如果指定了多个CMD命令，也只会有一条执行，如果启动容器的时候指定了运行的命令，则会覆盖掉CMD指定的命令。</p>
+<h4 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h4><p>语法：<code>EXPOSE &lt;端口1&gt; [&lt;端口2&gt;...]</code></p>
+<p>　　该条指令是声明运行时容器提供的服务端口，这只是一个声明，在运行时并不会因为这个声明应用就会开启这个端口的服务。这样声明带来两个好处：</p>
+<p>　　1，帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射</p>
+<p>　　2，在运行时使用随机端口映射，也就是 docker run -P 时，会自动随机映射 EXPOSE 的端口</p>
+<p>note: 要将 EXPOSE 和在运行时使用 -p  &lt;宿主端口&gt;:&lt;容器端口&gt; 区分开来。-p 是映射宿主端口和容器端口，就是将容器的对应端口服务公开给外界访问，而  EXPOSE 仅仅是声明容器打算使用什么端口而已，并不会在宿主进行端口映射。</p>
+<h4 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h4><p>格式为：<code>WORKDIR /path/to/workdir</code></p>
+<p>切换⽬录指令，类似于cd命令，对RUN、CMD、ENTRYPOINT⽣效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WORKDIR &#x2F;var&#x2F;www&#x2F;html</span><br></pre></td></tr></table></figure>
+
+<h4 id="LABEL"><a href="#LABEL" class="headerlink" title="LABEL"></a>LABEL</h4><p>使用<a href="https://docs.docker.com/engine/reference/builder/#label" target="_blank" rel="noopener">LABEL</a>指令，可以为镜像设置元数据，例如<strong>镜像创建者</strong>或者<strong>镜像说明</strong>。旧版的 Dockerfile 语法使用<a href="https://docs.docker.com/engine/reference/builder/#maintainer-deprecated" target="_blank" rel="noopener">MAINTAINER</a>指令指定镜像创建者，但是它已经被弃用了。有时，一些外部程序需要用到镜像的元数据，例如<a href="https://github.com/NVIDIA/nvidia-docker" target="_blank" rel="noopener">nvidia-docker</a>需要用到<code>com.nvidia.volumes.needed</code>。示例如下:</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> node:<span class="number">7</span>-alpine</span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> maintainer <span class="string">"jakub.skalecki@example.com"</span></span></span><br><span class="line">或者</span><br><span class="line"><span class="keyword">LABEL</span><span class="bash"> Author=<span class="string">"hwlanxiaojun"</span> Blog=<span class="string">"https://hwlanxiaojun.github.io"</span></span></span><br></pre></td></tr></table></figure>
+
+<h4 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h4><p>ENV : 用来设置环境变量，格式有两种：</p>
+<p>　　1，ENV <key> <value></value></key></p>
+<p>　　2，ENV <key1>=<value1> <key2>=<value2>…</value2></key2></value1></key1></p>
+<p>在设置了环境变量之后，无论是后面的其它指令，如 RUN ，还是运行时的应用，都可以直接使用这里定义的环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 定义环境变量</span><br><span class="line">ENV VERSION&#x3D;1.0 DEBUG&#x3D;ON \</span><br><span class="line">    NAME&#x3D;&quot;Happy Feet&quot;</span><br><span class="line"></span><br><span class="line"># 官方 node 镜像 Dockerfile 中：</span><br><span class="line">ENV NODE_VERSION 7.2.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-03-构建镜像"><a href="#0x-03-构建镜像" class="headerlink" title="0x 03 构建镜像"></a>0x 03 构建镜像</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build -t webprac .</span><br><span class="line">&#x2F;&#x2F;其中.表示当前路径，构建的时候要保证jar包和Dockerfile文件在同一个文件夹下，-t: 镜像的名字及标签，webprac是标签名</span><br><span class="line">ocker run -dit -p 8080:80 webprac</span><br></pre></td></tr></table></figure>
+
+<h4 id="0x-04-动态flag编写"><a href="#0x-04-动态flag编写" class="headerlink" title="0x 04 动态flag编写"></a>0x 04 动态flag编写</h4><p>动态flag的存在形式一般有以下三种：文件中、执行readflag、数据库中</p>
+<h4 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h4><p>linux下，<code>sed</code>命令可以将file中每行的字符串进行替换：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i &#39;s&#x2F;原字符串&#x2F;新字符串&#x2F;&#39; file</span><br></pre></td></tr></table></figure>
+
+<p><code>export</code>命令可以查看、设置环境变量</p>
+<p>那么在<code>docker-php-entrypoint</code>文件中写入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;sh</span><br><span class="line"></span><br><span class="line">sed -i &quot;s&#x2F;flag_here&#x2F;$FLAG&#x2F;&quot; flag.php</span><br><span class="line">export FLAG&#x3D;not_flag</span><br><span class="line">FLAG&#x3D;not_flag</span><br></pre></td></tr></table></figure>
+
+<p>就会根据当前环境变量的<code>FLAG</code>值来替换掉<code>flag.php</code>中的<code>flag_here</code>，因此还需要在<code>flag.php</code>中设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$flag &#x3D; flag_here</span><br></pre></td></tr></table></figure>
+
+<p>这样，在Dockerfile目录执行<code>docker build -t test .</code>将Dockerfile文件打包为镜像<code>test</code>，使用安装了动态靶机插件的CTFd平台部署后，该插件在启动靶机时会自动生成flag并应用到环境变量中，这样便实现了生成动态flag。</p>
+<h4 id="readflag"><a href="#readflag" class="headerlink" title="readflag"></a>readflag</h4><p>先来看下写法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env bash</span><br><span class="line"></span><br><span class="line">echo $FLAG &gt; &#x2F;flag</span><br><span class="line">chmod u+s &#x2F;readflag</span><br><span class="line">chmod 400 &#x2F;flag</span><br><span class="line"></span><br><span class="line">export FLAG&#x3D;not_flag</span><br><span class="line">FLAG&#x3D;not_flag</span><br></pre></td></tr></table></figure>
+
+<p>首先将环境变量<code>$FLAG</code>写入到<code>/flag</code>中，之后进行权限配置：</p>
+<p>1.chmod u+s /readflag ： 为<code>/readflag</code>文件加上setuid标志，设置使文件在执行阶段具有文件所有者的权限</p>
+<p>2.chmod 400 /flag ：将<code>flag</code>文件权限设为文件拥有者只读，群组和其他用户没有任何权限</p>
+<p>那么执行<code>./readflag</code>时，就会拥有文件所有者的权限，可以读取<code>/flag</code>了</p>
+<h4 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h4><p>flag.sh：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line"># 修改数据库中的 FLAG</span><br><span class="line">mysql -e &quot;CREATE DATABASE IF NOT EXISTS supersqli;USE supersqli; CREATE TABLE IF NOT EXISTS \&#96;1919810931114514\&#96; (\&#96;flag\&#96; varchar(100) NOT NULL) ENGINE&#x3D;MyISAM  DEFAULT CHARSET&#x3D;utf8;INSERT INTO \&#96;1919810931114514\&#96; VALUES (&#39;$FLAG&#39;);&quot; -uroot -proot</span><br><span class="line"></span><br><span class="line">export FLAG&#x3D;not_flag</span><br><span class="line">FLAG&#x3D;not_flag</span><br><span class="line"></span><br><span class="line">rm -f &#x2F;flag.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-05-打包镜像到Docker-Hub"><a href="#0x-05-打包镜像到Docker-Hub" class="headerlink" title="0x 05 打包镜像到Docker Hub"></a>0x 05 打包镜像到Docker Hub</h3><p>为了方便搜索和下载自己编写的镜像，可以通过以下步骤来实现：</p>
+<p>1.到<code>https://hub.docker.com/</code>注册一个账号</p>
+<p>2.登录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker login -u 用户名 -p 密码</span><br></pre></td></tr></table></figure>
+
+<p>3.更改镜像标签，格式为<code>用户名/标签名</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker tag test 用户名&#x2F;镜像名</span><br></pre></td></tr></table></figure>
+
+<p>4.推送：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push 用户名&#x2F;镜像名</span><br></pre></td></tr></table></figure>
+
+<p>5.登出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logout</span><br></pre></td></tr></table></figure>
+
+<p>这时就可以在Docker Hub上找到刚上传的镜像了，将其添加描述后就能使用<code>docker search</code>搜索到自己的镜像</p>
+<h3 id="0x-06-ctfd平台部署"><a href="#0x-06-ctfd平台部署" class="headerlink" title="0x 06 ctfd平台部署"></a>0x 06 ctfd平台部署</h3><p>参考这几篇文章：</p>
+<p><a href="https://www.zhaoj.in/read-6333.html" target="_blank" rel="noopener">https://www.zhaoj.in/read-6333.html</a></p>
+<p><a href="https://blog.csdn.net/fjh1997/article/details/100850756" target="_blank" rel="noopener">https://blog.csdn.net/fjh1997/article/details/100850756</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzA3NjE0Mzk2OA==&amp;mid=2648922692&amp;idx=1&amp;sn=6f27333cf2f12008d62bfd94bc1d2f6a&amp;chksm=8772364bb005bf5d8d377a575fe4730f35235ff43ab597f8e5f17603da4801fab74e402a8916&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1570805873725&amp;sharer_shareid=7fa312c2aff8bd738bf9d331ff765678#rd" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzA3NjE0Mzk2OA==&amp;mid=2648922692&amp;idx=1&amp;sn=6f27333cf2f12008d62bfd94bc1d2f6a&amp;chksm=8772364bb005bf5d8d377a575fe4730f35235ff43ab597f8e5f17603da4801fab74e402a8916&amp;mpshare=1&amp;scene=23&amp;srcid=&amp;sharer_sharetime=1570805873725&amp;sharer_shareid=7fa312c2aff8bd738bf9d331ff765678#rd</a></p>
+<h3 id="0x-07-docker-compose"><a href="#0x-07-docker-compose" class="headerlink" title="0x 07 docker-compose"></a>0x 07 docker-compose</h3><p>docker-compose.yml：告诉docker-compose该怎么编排一组服务</p>
+<p><img src="/2020/03/22/dockerfile%E7%BC%96%E5%86%99%E5%AD%A6%E4%B9%A0/image-20200322224722173.png" alt></p>
+<p>参考链接：</p>
+<blockquote>
+<p><a href="https://www.cnblogs.com/zpcoding/p/11450686.html" target="_blank" rel="noopener">https://www.cnblogs.com/zpcoding/p/11450686.html</a></p>
+<p><a href="https://www.cnblogs.com/fundebug/p/write-excellent-dockerfile.html" target="_blank" rel="noopener">https://www.cnblogs.com/fundebug/p/write-excellent-dockerfile.html</a></p>
+<p><a href="http://www.gtfly.top/2020/03/12/2019-09-27-CTFd%E5%8A%A8%E6%80%81docker%E9%95%9C%E5%83%8F%E7%BC%96%E5%86%99/" target="_blank" rel="noopener">http://www.gtfly.top/2020/03/12/2019-09-27-CTFd%E5%8A%A8%E6%80%81docker%E9%95%9C%E5%83%8F%E7%BC%96%E5%86%99/</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-前言"><span class="toc-number">1.</span> <span class="toc-text">0x 01 前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-Dockerfile-常用参数"><span class="toc-number">2.</span> <span class="toc-text">0x 02 Dockerfile 常用参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#FROM"><span class="toc-number">2.1.</span> <span class="toc-text">FROM</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RUN"><span class="toc-number">3.</span> <span class="toc-text">RUN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#COPY"><span class="toc-number">3.1.</span> <span class="toc-text">COPY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CMD"><span class="toc-number">3.2.</span> <span class="toc-text">CMD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#EXPOSE"><span class="toc-number">3.3.</span> <span class="toc-text">EXPOSE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WORKDIR"><span class="toc-number">3.4.</span> <span class="toc-text">WORKDIR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LABEL"><span class="toc-number">3.5.</span> <span class="toc-text">LABEL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ENV"><span class="toc-number">3.6.</span> <span class="toc-text">ENV</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-构建镜像"><span class="toc-number">4.</span> <span class="toc-text">0x 03 构建镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-04-动态flag编写"><span class="toc-number">4.1.</span> <span class="toc-text">0x 04 动态flag编写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#文件"><span class="toc-number">4.2.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#readflag"><span class="toc-number">4.3.</span> <span class="toc-text">readflag</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库"><span class="toc-number">4.4.</span> <span class="toc-text">数据库</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-打包镜像到Docker-Hub"><span class="toc-number">5.</span> <span class="toc-text">0x 05 打包镜像到Docker Hub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-ctfd平台部署"><span class="toc-number">6.</span> <span class="toc-text">0x 06 ctfd平台部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-docker-compose"><span class="toc-number">7.</span> <span class="toc-text">0x 07 docker-compose</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/22/dockerfile%E7%BC%96%E5%86%99%E5%AD%A6%E4%B9%A0/&title=dockerfile编写学习" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/22/dockerfile%E7%BC%96%E5%86%99%E5%AD%A6%E4%B9%A0/&title=dockerfile编写学习" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/22/dockerfile%E7%BC%96%E5%86%99%E5%AD%A6%E4%B9%A0/&text=dockerfile编写学习" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=dockerfile编写学习&body=Check out this article: http://yoursite.com/2020/03/22/dockerfile%E7%BC%96%E5%86%99%E5%AD%A6%E4%B9%A0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
