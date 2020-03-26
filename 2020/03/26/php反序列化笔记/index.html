@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>php反序列化笔记</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/03/25/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%B8%89%EF%BC%89/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/26/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%AC%94%E8%AE%B0/&title=php反序列化笔记" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/26/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%AC%94%E8%AE%B0/&title=php反序列化笔记" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/26/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%AC%94%E8%AE%B0/&text=php反序列化笔记" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=php反序列化笔记&body=Check out this article: http://yoursite.com/2020/03/26/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%AC%94%E8%AE%B0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        php反序列化笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-26T02:03:23.000Z" itemprop="datePublished">2020-03-26</time>
+        
+        (Updated: <time datetime="2020-03-26T07:48:41.709Z" itemprop="dateModified">2020-03-26</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <div class="hbe-input-container">
+  <input type="password" id="hbePass" placeholder="" />
+    <label for="hbePass">输入密码，查看文章</label>
+    <div class="bottom-line"></div>
+  </div>
+  <script id="hbeData" type="hbeData" data-hmacdigest="c9134ea72c60128701d2ce8f96f3776445ab3f63afa2070ce24f1aa8728c0830">69d9c72eaa9dc2ef5a7cca7638440efb410a752a87c7f0be4f48f7f81e4830d3772313dc771b019b249def7848b1cbda0879a12477a14fa29bb7a29dac44202d6a7b78d405229c2c68750236b5ad8d5ae76eeaf29995708acd785ec0229f04b053f937370c50a4a6d7a7a9b5b6fe108c31a584f7a20b075c9def1dbbadd858297e34fb886ede4e35bccfd43d7bfb34d0ba4932df1ca39a18a2eb710e879c10d266329d155f2cc63f81943230bc80fe0b041bf546e30d5fced70dfc469abe248298f42870000319a61d8fe1e8c5705cc46a1ff4e8bc535a887d8dc490b708c8fafbf1f3a2b0d3d7eec0e9e6d3d00bb1727ef2c4fe1550dd531c3bdeedae49582fd2251e6fd62d994ed617ca76a03f0cd372a1df3184e36dd525088115e22fc7f55c142b53c7940931f890f803f35604beda27e0e913b74586337d59cd4693389b900d98dee20e8cf4a93ad1536922ee5406016a3d71f94287d2dd59fac937903d1d1884f463d14b387a0615dbf085731d9554e3808cb9e553eb2ceaec0980e0b582be00c1d60334a4a6d79f8d90824e62afa2b6e89d82b64d3b3e82cad9062f7b168acce0d0ff3947905643bd8aaf21848d42822a9082f3853c7f8d5c4aa5e78223f0258791df970be6e9984acbe7d6b2fff2067686525a874ad97acb21724760b3fa79a3fbf2d5451278448dd2d1805f95aa81099c192b59772404147574167261fb42043c58a39e6e91b4718aad516d735aba1b3b2b8c9e15960a1de30f80876e7562f5aaa0ac1261cd201c31198988e7ca9faa10789c870f8089a551392354c926ddb52e6339797cff285a212c87629eb505c8ca0b73b1d23b9f3cfc5f45d4e8587e3a1f849c61ed7ab62c0cf44c6c6011cd4b06fd019cab3d04984c4908a2e13a66d1e9288fb3d7b08b2661cd5b07a3e21a2a8a75f8ba63cebb842d7b88c1d59fe5b601d888a542a8187508f5834e54dcf0488e000b92ca8babeac0635721039b1c2f48c086bf3b7c74e4d4a0517adaf0782dc89d4a510e42bc7558dded455d26c29c21436997ffc168b3346413f513d24ed2be30aad5a855c65b0d4a6bc8ca3343530c0017b6c71d8aa44552fed20f6424149d69912cd86f6fde4658afe03d9307d8251702a0021a0a5e6b1a4a24ee6c638038bad5c5aa61f2a88aefaab60f3b0fbc71edb0340e0589b87efefde282cd4ef75ff655403fec5dbe7388394dd32f88c24ddef89bdb95e84c5b1fa964b5cf5c4f3e7fdebea448137192bfbf154878c5831b66f3db60c867dd5e7bc7d81ede48700804b0957a45f3f11bb0ace970290767b49d4e73bc18dad472a15ad0ab53adfd88054a3330e983643c37a8bd48eac58ad0c76f6c1f02088d0030d69df2d079ef9bc5855bb76d63f8e2a414b87391a353e90c05f25f2e6b9d629d1eda897d389242fe0d6f2e1ac88b14fc74a4b1225c276d61d451143678fac8bbb0417e9bd70fe69ff688d5c0d7d347a6a0ebdf2d09a7746280987be52a6f44723eacb12a82fe32d1d5bc1dd61ab5d61e8990bc882fc02efdbda0d9a9525e8f317f5f66126178c959768cb0433a5dd9ba327ad318ba9e2a293854f18d31c71dc8046cec79b796e597584d6b84bff7a458d0c1236a2c151fadd2878dbc03bb521bc0610dd1a25653539d0f01cb040a0a64fdf205a754a551802e952823b59d1cb7299a576730039bc028a4f2a52d8434554986b1b60500167e8ad30f62c0f0188a5ba0c6e0004e642d582b7c7259e001ab3a6a2ea07f367a9497baa435669d9a471a4f29c1afc5576535bdf05e0cca9206e8f02be40674cc66bf6156375b58eaccfa64298df22fed605a8612f5ebc56f2531494af711e0b2c6ec65408314a5bd73e45dcff23bc7217104148400f568e5c110d12afd3d4ec2581710cd5bd18e7a4c64753a99a930e29e5c64fcff7928de65f61f49912c1ec1821e3d434feac2750cd0986865d8e55e18fe2dd56ee9ff4440551685f8123440b1aa3d51361be5df0579671d959cd486e4de9bbe380926e85c3f9eff57a6b66432c4ebd120b6a005998af97250f74ed654a1ce691a4885ff2bed60f17cea25cef71d7b129c4c75940066b0c5b03d0de8339ba4e7abeacf555dddc2d3d836136ef5cef9e83f8957b0ea76033d11c56d330f64615ef87606677397664362b36044696f1f6a2ea50b97ceee08d47b2c01e2930e5826f1186043bc756e0a342b0bde280d3b52e8f296dcb7081d0689d97bd2ba0310e4374252dd872bd01b91f647acaa21a632f679590e116860e618aa32a527e043a4ac24f670fde79e1a8bac4f857886f71b68df6b40c5835422413f886a7d31b508cfdbef022a02e16c40d0e47fed0d876c31fb479bb173888ab4eefed72e44c3accf15af90427e91c0f01d77f006a6e97f8768050e1d56a56d61fde23edbc47930405678c0f3a6c7897b349c99d2abf91d3efa556c5796795a362449528554b21364bd8c6b23c9bdb29751857015ffde4693be4597aa6fb1fa660d0d78ab2a330275aad380a15756b9700b18e8f3fad68bc3a84b7dd0ef8a742aab67971df225a14c1ba13b9bf1882d62ed242296c1b92e67fba930924e62a428dff843ac7aaac466d9e88d714b0439cd16002a5f1c2f3575e0b5dbadf7593c8faa250e82e385cf9c95f2d946d06b6be98e6b090080fce268d479ab087ab6b300bb2f8023b8bb9a17f2eae98d82478dd745f61dada042901de2b82008c55b5dab464cf3a8556e7f4586c58a5cb20a0989313588e9e8d901c778e7e3cab9ef6da3ec0f3af2d869eb884ed18193e071543650a4b3c539b41bb91b648fe9cd7eaeeb3515120908b56baa61a888eb91be8ad77ec90b7c0c43b95fe9fb85412dd04e16f3806e00c2add9040926d4c15e62b7135298b3bed96db37e40e073f80b96fe2c02b72d6d6efc169b3cdced4743f2fe2c5e8e1c9a8ecb584f11982412958a852038581a8ed045b311c9a2a391b0762b1f73dccb0414b5a080bb4c3548cfe6008103e43a3c661c29b01d6efb1a70a344c75522595d4e19e3af213d4b456eafbb37244a0ae10d93b6f19f6b5c66c175f15cbe750d0e35c8592dca8773b954992db316ad48727eab16f61a276666f735d8945f774d23e5e37d4414bbbdbf4f89a56cfcc4b666a1a501410d44aeb2cee82e675e2b9f1b05993264e7c041ea3e409f50ad9edf2e749f857df24274741407bce9729498228b5b7b022744da6575c49103553f6a347ad6190f6af0524907c702b924d14596d7e0aabfe0020b4df7f1e93ec465dbb019582ede72bc36d3f16de2b321541d32b6d2e6ba9d1f926cc5305ecfed76f0c9661ce934f0d02ec74379c36ab9fa4c3bb704c0c3a4f622d64661366baa7ae707df50404b1140213455d4f774bb6bb55fa6d39eadc30c61b2a7c6e98c6a81fca83fae33a6bcc1b0e971a1577e80df35b89407de685bc27faeccfe54dbbef07f36b7b6d2e1f97981d5baaa7a4daaef2f00d4995c4e0293bed5df7949c12b636284e57b49b2ac019cba371703782bff7097ef67458353ba30e9916fadcc121a614ca11555d2f1e800ee0f134bebe3b24f9ddc60b0dd132faf2e8c4e16b7d02ec50f7d1baae0cf429b9f42ede0b438ccd3b142601a2848908c22462959aee8c87bcc8968e5d8c856c2e2c728ee6fc01dcc0b82898443cfffc0ea315799c612626e6bc23f0ca3c448b0015eaaecd20bba5542b13cf70ec9c6f07ee2b6ad48431e69d8e5aa719e1dec3a471f3f545c16764bf114d6ae0a202c1cb81cdc6e6578aef0017c1ded5c627f76932acdb7d2c72b4fd8d9e35efe4f337c3450d1082459a5e20992853951fbd2d0c4fcb6e60573280d6622959676c3057f23e6e93b9bd990653c2ac2144f568bf69bef4f997553b09dbdd9a8cd2cace52d9b613e22616e2c695d1fb878de6776a8d6e09322761cd5bb51b582226dd07dd59cf33fa4962d8459ba02cb270835205a3ca9f16e6ef886e2d0ec865635e987a643561a8bcad07acf416035de934211ddbcdadfe28996bb18386930baeddb585ef659a809bdfda08166b934962ad9d29e4355bd855b12c2c8f72e43a7702899be5010da81da61338b8a77326965468488691ef5e45a68cf433878ecea5fd327c4d2fb53d70a26ad7b8cc3a51da875c0a3168c211b82c9da56384b0ff4399ca410644950e8e2267f570318ae46200e4e934b50a6744dd3d46e852785749d2960120d6e2dc8ed2593312e1de972fa9ba0cbf7b485e0d7a617b16fa20a510ca53eabf2d5472f38036e825f2be7f3b4abed3fe1b5281162fe69e02acf908fe2e0bcd0aa871f6acfecd202541d9f998548eca135632d3b2c9faf92926b017a431770c393da5f322c216965d060d743aa4c6321443f64d66c2556ca2c54fa0cdb665d21cf11bc59293482e3c638caa59d6e132f0ab86087566be1a8bcf8f2592841f954d7408b2bc2aadbcebc9efe49fa19d01a80be197988cad8356a7740639ba4c467e87edaa26083455e3a1072f885f817976ebcf8b688ddbba63022b5d257653b20a2b4b1c4bcf67f221d066d2f7c1c8300d9cb3536b4c57630d68097ce42ef000e923a3e8ac2e27685d77fdbbf49015879b1b6205926d6635fa94958ef7c46660de9383d76599a37805b936da1958e7e744e4013e37966b36b9fa2f0fb8c6f9c29566995be7bfa9d213f9f27d009e1fa0cd2d7a5031cfea852086789a334e2bec188005ca3393d5da3139283d9559f021a9309660180c20ccd8ccf66ff6d7edcf8178cc9d7b98169645e689689608f4d948d8ad25b962dfe304c9ed4e7f6dc794be7393d4a93f2897cf3ce7167a40ae645cd913307c63b795cbaa1aa9dc71bd09840441428ef95839e8c84963db6406a1ec7d3351412500f8a79063b39ed36622fff29574cd29ec104a6ae4816b01d1198face08324ea083f36d506ae5a1eb86004d7b38444105e0e0657acbccea8214292683887a03a689b0275b7ace8bfd890a06e763659d31d3f06f453a81b962ad33e58a2802c1efd49d5a2e3e89335dc41b7a972fc57338eb3f12314f1ebd171f1729592a9ee846864d311dd58b7bbafc570cfbb6cf2530e627ab0efaac3b36beeebca316c893a7f3fa29baac16f87dbbd282dfc39f9e6f511df1bbd7a24262c6b7f97e361cec880592177f8890622907b74504771568f4013ea7f774c2f9d7c88f1d663e5d3d686bf662542a827ec1d2e3b48d0776d1ef1c4c506b509d68becc50d415009b3ff917a6509e656983cad143256b99b39dbfdbfdc9e33ea6d54851cb5434a88d231c5a34fc3345cf0899ad182725e4a321ee17c0de7f30fcc8fef23bf308c6976b08d23440845a143adb0b315573d6</script>
+</div>
+<script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/26/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%AC%94%E8%AE%B0/&title=php反序列化笔记" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/26/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%AC%94%E8%AE%B0/&title=php反序列化笔记" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/26/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%AC%94%E8%AE%B0/&text=php反序列化笔记" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=php反序列化笔记&body=Check out this article: http://yoursite.com/2020/03/26/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%AC%94%E8%AE%B0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
