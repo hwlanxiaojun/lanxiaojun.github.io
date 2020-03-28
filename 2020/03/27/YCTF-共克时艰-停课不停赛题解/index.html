@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>YCTF-共克时艰.停课不停赛题解</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/03/27/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/26/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/27/YCTF-%E5%85%B1%E5%85%8B%E6%97%B6%E8%89%B0-%E5%81%9C%E8%AF%BE%E4%B8%8D%E5%81%9C%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=YCTF-共克时艰.停课不停赛题解" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/27/YCTF-%E5%85%B1%E5%85%8B%E6%97%B6%E8%89%B0-%E5%81%9C%E8%AF%BE%E4%B8%8D%E5%81%9C%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=YCTF-共克时艰.停课不停赛题解" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/27/YCTF-%E5%85%B1%E5%85%8B%E6%97%B6%E8%89%B0-%E5%81%9C%E8%AF%BE%E4%B8%8D%E5%81%9C%E8%B5%9B%E9%A2%98%E8%A7%A3/&text=YCTF-共克时艰.停课不停赛题解" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=YCTF-共克时艰.停课不停赛题解&body=Check out this article: http://yoursite.com/2020/03/27/YCTF-%E5%85%B1%E5%85%8B%E6%97%B6%E8%89%B0-%E5%81%9C%E8%AF%BE%E4%B8%8D%E5%81%9C%E8%B5%9B%E9%A2%98%E8%A7%A3/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-rce-nopar"><span class="toc-number">1.1.</span> <span class="toc-text">0x 01 rce nopar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-SSRF"><span class="toc-number">1.2.</span> <span class="toc-text">0x 02 SSRF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-WEB3-SQLI"><span class="toc-number">1.3.</span> <span class="toc-text">0x 03 WEB3-SQLI</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-XXE"><span class="toc-number">2.</span> <span class="toc-text">0x 04 XXE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MISC"><span class="toc-number">3.</span> <span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-XOR"><span class="toc-number">3.1.</span> <span class="toc-text">0x 01 XOR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-Misc2"><span class="toc-number">3.2.</span> <span class="toc-text">0x 02 Misc2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-Keyboard"><span class="toc-number">3.3.</span> <span class="toc-text">0x 03 Keyboard</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CRYPTO"><span class="toc-number">4.</span> <span class="toc-text">CRYPTO</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-签到"><span class="toc-number">4.1.</span> <span class="toc-text">0x 01 签到</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-CRC32"><span class="toc-number">4.2.</span> <span class="toc-text">0x 02 CRC32</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-RSABackDoor"><span class="toc-number">4.3.</span> <span class="toc-text">0x 03 RSABackDoor</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        YCTF-共克时艰.停课不停赛题解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-27T13:15:56.000Z" itemprop="datePublished">2020-03-27</time>
+        
+        (Updated: <time datetime="2020-03-27T14:02:12.187Z" itemprop="dateModified">2020-03-27</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/ctfwp/">ctfwp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/YCTF/" rel="tag">YCTF</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h3><h4 id="0x-01-rce-nopar"><a href="#0x-01-rce-nopar" class="headerlink" title="0x 01 rce nopar"></a>0x 01 rce nopar</h4><ul>
+<li><p>考点</p>
+<p>无参数rce</p>
+</li>
+<li><p>解题步骤</p>
+</li>
+</ul>
+<p>根据代码审计得知是无参数rce，用session读文件</p>
+<p>​        <img src="https://uploader.shimo.im/f/5MzRLiUyqO0eMMsW.png!thumbnail" alt="img">      </p>
+<h4 id="0x-02-SSRF"><a href="#0x-02-SSRF" class="headerlink" title="0x 02 SSRF"></a>0x 02 SSRF</h4><ul>
+<li><p>考点</p>
+<p>SSRF</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>首先用base64二次编码读源码      <img src="https://uploader.shimo.im/f/zDj6k19gpNgYKm92.png!thumbnail" alt="img">      </li>
+</ol>
+<p>index.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(E_ALL || ~E_NOTICE);</span><br><span class="line"></span><br><span class="line">header(&#39;content-type:text&#x2F;html;charset&#x3D;utf-8&#39;);</span><br><span class="line">if(! isset($_GET[&#39;file&#39;]))</span><br><span class="line">    header(&#39;Refresh:0;url&#x3D;.&#x2F;index.php?file&#x3D;WTNSbWFXMWhaMlV1YW5Cbg&#x3D;&#x3D;&#39;);</span><br><span class="line">$file &#x3D; base64_decode(base64_decode($_GET[&#39;file&#39;]));</span><br><span class="line">echo &#39;&lt;title&gt;&#39;.$_GET[&#39;file&#39;].&#39;&lt;&#x2F;title&gt;&#39;;</span><br><span class="line">$file &#x3D; preg_replace(&quot;&#x2F;[^a-zA-Z0-9.]+&#x2F;&quot;,&quot;&quot;, $file);</span><br><span class="line">echo &#39;input_filename:   &#39;. $file.&#39;&lt;&#x2F;br&gt;&#39;;</span><br><span class="line">$file &#x3D; str_replace(&quot;ctf&quot;,&quot;flag&quot;, $file);</span><br><span class="line">echo &#39;real_filename:   &#39;.$file.&#39;&lt;&#x2F;br&gt;&#39;;</span><br><span class="line">$txt &#x3D; base64_encode(file_get_contents($file));</span><br><span class="line"> </span><br><span class="line">echo &quot;&lt;img src&#x3D;&#39;data:image&#x2F;gif;base64,&quot;.$txt.&quot;&#39;&gt;&lt;&#x2F;img&gt;&quot;;</span><br><span class="line">&#x2F;*</span><br><span class="line"> * Can you find the flag file?</span><br><span class="line"> *</span><br><span class="line"> * Hint: hal0flagi5here.php</span><br><span class="line"> *&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>读取hal0flagi5here.php代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$argv[1]&#x3D;$_GET[&#39;url&#39;];</span><br><span class="line">if(filter_var($argv[1],FILTER_VALIDATE_URL))</span><br><span class="line">&#123;</span><br><span class="line">	$r &#x3D; parse_url($argv[1]);</span><br><span class="line">	print_r($r);</span><br><span class="line">	if(preg_match(&#39;&#x2F;happyctf\.com$&#x2F;&#39;,$r[&#39;host&#39;]))</span><br><span class="line">	&#123;</span><br><span class="line">		$url&#x3D;file_get_contents($argv[1]);</span><br><span class="line">		echo($url);</span><br><span class="line">	&#125;else</span><br><span class="line">	&#123;</span><br><span class="line">		echo(&quot;error&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;else</span><br><span class="line">&#123;</span><br><span class="line">	echo &quot;403 Forbidden&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>利用0://绕过filter_var($argv[1],FILTER_VALIDATE_URL)然后目录穿越即可        <img src="https://uploader.shimo.im/f/G7Qe2Bk3DI4WI1ui.png!thumbnail" alt="img">               <img src="https://uploader.shimo.im/f/6CT03lROCWoVlN3F.png!thumbnail" alt="img">      </p>
+<h4 id="0x-03-WEB3-SQLI"><a href="#0x-03-WEB3-SQLI" class="headerlink" title="0x 03 WEB3-SQLI"></a>0x 03 WEB3-SQLI</h4><ul>
+<li><p>考点</p>
+<p>二次注入+报错注入</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>注册这边邮箱存在waf,不能存在@符号，直接置空就行</p>
+<p>paylod：<code>test&quot;||(updatexml(1,concat(0x3a,(select(group_concat(table_name))from(information_schema.tables)where(table_schema=database()))),1))#</code></p>
+<p>得到数据表</p>
+<p><img src="https://uploader.shimo.im/f/JIfGTqEETasaqGhS.png!thumbnail" alt="img"></p>
+<p>查询flag表的flag字段（TABLENAME:flag   columnname:flag）      <img src="https://uploader.shimo.im/f/DA0O3EtilM4Z101y.png!thumbnail" alt="img">      </p>
+<h3 id="0x-04-XXE"><a href="#0x-04-XXE" class="headerlink" title="0x 04 XXE"></a>0x 04 XXE</h3><ul>
+<li><p>考点</p>
+<p>xxe</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>1.下载泄露的文件得到源代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">if(isset($_POST[&quot;submit&quot;])) &#123;</span><br><span class="line">    $target_file &#x3D; getcwd().&quot;&#x2F;upload&#x2F;&quot;.md5($_FILES[&quot;file&quot;][&quot;tmp_name&quot;]);</span><br><span class="line">    if (move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;], $target_file)) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            $result &#x3D; @file_get_contents(&quot;zip:&#x2F;&#x2F;&quot;.$target_file.&quot;#docProps&#x2F;core.xml&quot;);</span><br><span class="line">            $xml &#x3D; new SimpleXMLElement($result, LIBXML_NOENT);</span><br><span class="line">            $xml-&gt;registerXPathNamespace(&quot;dc&quot;, &quot;http:&#x2F;&#x2F;purl.org&#x2F;dc&#x2F;elements&#x2F;1.1&#x2F;&quot;);</span><br><span class="line">            foreach($xml-&gt;xpath(&#39;&#x2F;&#x2F;dc:title&#39;) as $title)&#123;</span><br><span class="line">                echo &quot;Title &#39;&quot;.$title . &quot;&#39; has been added.&lt;br&#x2F;&gt;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception $e)&#123;</span><br><span class="line">            echo $e;</span><br><span class="line">            echo &quot;上传文件不是一个docx文档.&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        echo &quot;上传失败.&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解法参考：<a href="https://www.jianshu.com/p/40d6d0e7117f" target="_blank" rel="noopener">https://www.jianshu.com/p/40d6d0e7117f</a></p>
+<p>将sample,docx解压，修改docProps/core.xml然后再压缩改后缀上传得到flag</p>
+<h3 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h3><h4 id="0x-01-XOR"><a href="#0x-01-XOR" class="headerlink" title="0x 01 XOR"></a>0x 01 XOR</h4><p>赛后群里的师傅给了博客参考：</p>
+<p><a href="https://shawroot.hatenablog.com/entry/2019/11/04/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Ccrypto%3Acr2-many-time-secrets" target="_blank" rel="noopener">https://shawroot.hatenablog.com/entry/2019/11/04/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8Ccrypto%3Acr2-many-time-secrets</a></p>
+<h4 id="0x-02-Misc2"><a href="#0x-02-Misc2" class="headerlink" title="0x 02 Misc2"></a>0x 02 <strong>Misc2</strong></h4><p>题目给了一个disk3，用file查一下，是Linux etx3，我们创个文件夹挂载        <img src="https://uploader.shimo.im/f/6uoNXvttnOI2XrtW.png!thumbnail" alt="img">      里面有一个readme和一个压缩包，里面有加密的flag.pngreadme说密码被删除了        <img src="https://uploader.shimo.im/f/aOrCmKlkEgA9xLV8.png!thumbnail" alt="img">      </p>
+<p>用DiskGenius工具恢复一下文件得到压缩包密码don0tgu355p@sswd，最后这个png文件改一下高度，得到flag</p>
+<p><img src="/2020/03/27/YCTF-%E5%85%B1%E5%85%8B%E6%97%B6%E8%89%B0-%E5%81%9C%E8%AF%BE%E4%B8%8D%E5%81%9C%E8%B5%9B%E9%A2%98%E8%A7%A3/E:%5CHexo-Blog%5Csource_posts%5CYCTF-%E5%85%B1%E5%85%8B%E6%97%B6%E8%89%B0-%E5%81%9C%E8%AF%BE%E4%B8%8D%E5%81%9C%E8%B5%9B%E9%A2%98%E8%A7%A3%5Cimage-20200327215149221.png" alt="image-20200327215149221"></p>
+<h4 id="0x-03-Keyboard"><a href="#0x-03-Keyboard" class="headerlink" title="0x 03 Keyboard"></a>0x 03 Keyboard</h4><p>参考：<a href="https://www.cnblogs.com/cnnnnnn/p/11939107.html原题" target="_blank" rel="noopener">https://www.cnblogs.com/cnnnnnn/p/11939107.html原题</a></p>
+<h3 id="CRYPTO"><a href="#CRYPTO" class="headerlink" title="CRYPTO"></a>CRYPTO</h3><h4 id="0x-01-签到"><a href="#0x-01-签到" class="headerlink" title="0x 01 签到"></a>0x 01 签到</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl rsautl -decrypt -in flag.en -inkey rsa_private_key.pem -out flag.txt</span><br><span class="line">flag&#123;We1c0meCtf3r_elab&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="0x-02-CRC32"><a href="#0x-02-CRC32" class="headerlink" title="0x 02 CRC32"></a>0x 02 CRC32</h4><p>CRC32爆破</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import binascii</span><br><span class="line">crcs &#x3D; set([0x308E1D5B,0x5194C2D0,0x5C48F6CA])</span><br><span class="line"></span><br><span class="line">def crackfour():</span><br><span class="line">    r &#x3D; xrange(32, 127)</span><br><span class="line">    for a in r:</span><br><span class="line">        for b in r:</span><br><span class="line">         for c in r:</span><br><span class="line">            for d in r:</span><br><span class="line">               txt &#x3D; chr(a)+chr(b)+chr(c)+chr(d)</span><br><span class="line">               crc &#x3D; binascii.crc32(txt)</span><br><span class="line">               if (crc &amp; 0xFFFFFFFF) in crcs:</span><br><span class="line">                  print txt</span><br><span class="line">crackfour()</span><br></pre></td></tr></table></figure>
+
+<p>得到压缩包密码是64p2@sworD20，解压得到flag</p>
+<h4 id="0x-03-RSABackDoor"><a href="#0x-03-RSABackDoor" class="headerlink" title="0x 03 RSABackDoor"></a>0x 03 RSABackDoor</h4><p>原题，参考<a href="https://xz.aliyun.com/t/6703" target="_blank" rel="noopener">https://xz.aliyun.com/t/6703</a></p>
+<p>得到flag{4e8954396d69c8daaf849655cee3dc9bd6486a0e}</p>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-rce-nopar"><span class="toc-number">1.1.</span> <span class="toc-text">0x 01 rce nopar</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-SSRF"><span class="toc-number">1.2.</span> <span class="toc-text">0x 02 SSRF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-WEB3-SQLI"><span class="toc-number">1.3.</span> <span class="toc-text">0x 03 WEB3-SQLI</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-XXE"><span class="toc-number">2.</span> <span class="toc-text">0x 04 XXE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MISC"><span class="toc-number">3.</span> <span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-XOR"><span class="toc-number">3.1.</span> <span class="toc-text">0x 01 XOR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-Misc2"><span class="toc-number">3.2.</span> <span class="toc-text">0x 02 Misc2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-Keyboard"><span class="toc-number">3.3.</span> <span class="toc-text">0x 03 Keyboard</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CRYPTO"><span class="toc-number">4.</span> <span class="toc-text">CRYPTO</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-签到"><span class="toc-number">4.1.</span> <span class="toc-text">0x 01 签到</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-CRC32"><span class="toc-number">4.2.</span> <span class="toc-text">0x 02 CRC32</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-RSABackDoor"><span class="toc-number">4.3.</span> <span class="toc-text">0x 03 RSABackDoor</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/27/YCTF-%E5%85%B1%E5%85%8B%E6%97%B6%E8%89%B0-%E5%81%9C%E8%AF%BE%E4%B8%8D%E5%81%9C%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=YCTF-共克时艰.停课不停赛题解" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/27/YCTF-%E5%85%B1%E5%85%8B%E6%97%B6%E8%89%B0-%E5%81%9C%E8%AF%BE%E4%B8%8D%E5%81%9C%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=YCTF-共克时艰.停课不停赛题解" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/27/YCTF-%E5%85%B1%E5%85%8B%E6%97%B6%E8%89%B0-%E5%81%9C%E8%AF%BE%E4%B8%8D%E5%81%9C%E8%B5%9B%E9%A2%98%E8%A7%A3/&text=YCTF-共克时艰.停课不停赛题解" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=YCTF-共克时艰.停课不停赛题解&body=Check out this article: http://yoursite.com/2020/03/27/YCTF-%E5%85%B1%E5%85%8B%E6%97%B6%E8%89%B0-%E5%81%9C%E8%AF%BE%E4%B8%8D%E5%81%9C%E8%B5%9B%E9%A2%98%E8%A7%A3/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
